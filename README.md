@@ -24,35 +24,24 @@ git clone https://github.com/mao716/freemarket-app.git
 cd freemarket-app
 ```
 
-### 2. 環境変数ファイルの作成（ディレクトリ直下）
-
-`.env.example` をコピーして `.env` ファイルを作成します。\
-Mac / Win 両対応のため、UID / GID を設定してください。
-
-``` bash
-cp .env.example .env
-```
-
-`.env` ファイルの内容例：
-
-``` env
-UID=1000
-GID=1000
-```
-
-### 3. Docker コンテナの起動
+### ２. Docker コンテナの起動
 
 ``` bash
 docker compose up -d --build
 ```
 
-### 4. Laravel のインストール（初回のみ）
+### ３. Laravel の依存関係インストール（初回のみ）
+すでに `src/` ディレクトリにLaravel本体は含まれています。
+クローン後は以下のコマンドで依存関係（vendor/）をインストールしてください。
 
 ``` bash
-composer create-project laravel/laravel src
+docker compose exec php bash
+cd /var/www
+composer install
+exit
 ```
 
-### 5. Laravel の環境変数設定
+### ４. Laravel の環境変数設定
 
 Laravelをインストールすると、`src/.env` が自動生成されます。\
 以下のように編集し、DockerのMySQLコンテナに接続できるように設定してください。
@@ -64,6 +53,9 @@ DB_PORT=3306
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
+
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
 ```
 
 ### 6. Laravel の初期設定

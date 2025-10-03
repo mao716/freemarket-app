@@ -11,8 +11,5 @@
 # Docker関連
 docker/mysql/data/
 
-# 環境変数（ルート用）
-.env
-
 # 履歴ファイル（不要 & セキュリティ的に危険）
 .bash_history

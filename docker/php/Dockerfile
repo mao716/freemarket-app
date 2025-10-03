@@ -4,10 +4,8 @@ COPY php.ini /usr/local/etc/php/
 
 RUN apt-get update \
 	&& apt-get install -y \
-	libzip-dev \
-	zlib1g-dev \
-	libonig-dev \
-	pkg-config \
+	git unzip pkg-config \
+	libonig-dev libzip-dev zlib1g-dev \
 	&& docker-php-ext-install pdo_mysql mbstring bcmath zip \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
