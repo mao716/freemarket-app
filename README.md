@@ -90,23 +90,8 @@ exit
 
 ------------------------------------------------------------------------
 
-## ディレクトリ構成（主要部）
+## ER図
 
-    freemarket-app/
-    ├─ docker/
-    │  ├─ nginx/
-    │  │   └─ default.conf
-    │  ├─ php/
-    │  │   ├─ Dockerfile
-    │  │   └─ php.ini
-    │  └─ mysql/
-    │      ├─ data/          # MySQLデータ保存用（自動生成）
-    │      └─ my.cnf
-    ├─ src/                  # Laravel本体（未インストール時は空）
-    ├─ docker-compose.yml
-    ├─ .env.example
-    ├─ .env   # ← コピー後に作成
-    └─ README.md
 
 ------------------------------------------------------------------------
 
