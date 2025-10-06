@@ -1,0 +1,60 @@
+.c-header {
+	border-bottom: 1px solid #eee;
+}
+
+.c-header__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 12px 16px;
+}
+
+.c-header__logoImage {
+	height: 28px;
+	display: block;
+}
+
+.c-header__nav {
+	display: flex;
+	gap: 12px;
+}
+
+.c-header__link,
+.c-header__button {
+	text-decoration: none;
+}
+
+.c-button--primary {
+	padding: 10px 16px;
+	border-radius: 8px;
+	border: 1px solid #ddd;
+}
+
+.p-auth {
+	max-width: 480px;
+	margin: 40px auto;
+	padding: 0 16px;
+}
+
+.c-form__row {
+	display: block;
+	margin: 12px 0;
+}
+
+.c-input {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+}
+
+.c-alert--danger {
+	color: #b00020;
+}
+
+.c-error {
+	color: #b00020;
+	font-size: 12px;
+	margin-top: 4px;
+}
