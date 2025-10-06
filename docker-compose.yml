@@ -37,7 +37,7 @@ services:
       retries: 20
 
   phpmyadmin:
-    image: lscr.io/linuxserver/phpmyadmin:latest   # ← linuxserver版でマルチアーキ安定
+    image: lscr.io/linuxserver/phpmyadmin:latest
     container_name: phpmyadmin
     environment:
       - PUID=1000        # Mac/Linuxなら id -u で確認。Winならとりあえず1000でOK

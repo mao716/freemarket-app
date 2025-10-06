@@ -43,8 +43,14 @@ exit
 
 ### ４. Laravel の環境変数設定
 
-Laravelをインストールすると、`src/.env` が自動生成されます。\
-以下のように編集し、DockerのMySQLコンテナに接続できるように設定してください。
+Laravelをインストールすると、`src/.env.example` が自動生成されます。
+以下のコマンドで `.env` を作成してください。
+
+```bash
+cp src/.env.example src/.env
+```
+
+その後、 `.env` の該当箇所を以下のように編集し、DockerのMySQLコンテナに接続できるように設定してください。
 
 ``` env
 DB_CONNECTION=mysql
