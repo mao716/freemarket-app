@@ -1,49 +1,53 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 @section('title', '会員登録')
 
 @section('content')
-<section class="p-auth">
-	<h1 class="p-auth__title">会員登録</h1>
+<section class="page-section">
+	<h1 class="page-title">会員登録</h1>
 
-	@if ($errors->any())
-	<div class="c-alert c-alert--danger">
-		<ul class="c-list c-list--disc">
-			@foreach ($errors->all() as $error)
-			<li>{{ $error }}</li>
-			@endforeach
-		</ul>
-	</div>
-	@endif
-
-	<form method="POST" action="{{ route('register') }}" class="c-form">
+	<form method="POST" action="{{ route('register') }}" class="form">
 		@csrf
 
-		<label class="c-form__row">
-			<span class="c-form__label">ユーザー名</span>
-			<input id="name" type="text" name="name" value="{{ old('name') }}" required maxlength="20" class="c-input">
-			@error('name') <p class="c-error">{{ $message }}</p> @enderror
-		</label>
+		<div class="form-row">
+			<label for="name" class="form-label">
+				<span>ユーザー名</span>
+			</label>
+			<input id="name" type="text" name="name" value="{{ old('name') }}" required maxlength="20" class="input">
+			@error('name') <p class="error">{{ $message }}</p> @enderror
+		</div>
 
-		<label class="c-form__row">
-			<span class="c-form__label">メールアドレス</span>
-			<input id="email" type="email" name="email" value="{{ old('email') }}" required class="c-input">
-			@error('email') <p class="c-error">{{ $message }}</p> @enderror
-		</label>
+		<div class="form-row">
+			<label for="email" class="form-label">
+				<span>メールアドレス</span>
+			</label>
+			<input id="email" type="email" name="email" value="{{ old('email') }}" required class="input">
+			@error('email') <p class="error">{{ $message }}</p> @enderror
+		</div>
 
-		<label class="c-form__row">
-			<span class="c-form__label">パスワード（8文字以上）</span>
-			<input id="password" type="password" name="password" required minlength="8" autocomplete="new-password" class="c-input">
-			@error('password') <p class="c-error">{{ $message }}</p> @enderror
-		</label>
+		<div class="form-row">
+			<label for="password" class="form-label">
+				<span>パスワード</span>
+			</label>
+			<input id="password" type="password" name="password" required minlength="8" autocomplete="new-password" class="input">
+			@error('password') <p class="error">{{ $message }}</p> @enderror
+		</div>
 
-		<label class="c-form__row">
-			<span class="c-form__label">確認用パスワード</span>
-			<input id="password_confirmation" type="password" name="password_confirmation" required minlength="8" autocomplete="new-password" class="c-input">
-		</label>
+		<div class="form-row">
+			<label for="password_confirmation" class="form-label">
+				<span>確認用パスワード</span>
+			</label>
+			<input id="password_confirmation" type="password" name="password_confirmation" required minlength="8" autocomplete="new-password" class="input">
+		</div>
 
-		<button type="submit" class="c-button c-button--primary">登録する</button>
+		<div class="form-row form-row--actions">
+			<button type="submit" class="button button-primary button-full">登録する</button>
+		</div>
 	</form>
 
-	<p class="p-auth__switch">ログインは <a href="{{ route('login') }}">こちら</a></p>
+
+	<p class="page-note">
+		<a class="page-note-link" href="{{ route('login') }}">ログインはこちら</a>
+	</p>
+
 </section>
 @endsection

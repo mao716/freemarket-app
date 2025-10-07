@@ -18,9 +18,9 @@ class FortifyServiceProvider extends ServiceProvider
 		// 登録処理クラス
 		Fortify::createUsersUsing(\App\Actions\Fortify\CreateNewUser::class);
 
-		// 🔸ログイン認証はデフォルトに任せる
+		// ログイン認証はデフォルトに任せる
 
-		// 🔸登録直後はプロフィール設定へ（メール認証を使わない場合）
+		// 登録直後はプロフィール設定へ（メール認証を使わない場合）
 		Fortify::redirects('register', '/mypage/profile');
 
 		// （応用：メール認証を使う時は verifyEmailView と features を別途設定）

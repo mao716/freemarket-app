@@ -9,8 +9,8 @@
 </head>
 
 <body>
-	<x-site-header type="global" />
-	<main class="layout-main">@yield('content')</main>
+	<x-site-header type="simple" />
+	<main class="layout-narrow">@yield('content')</main>
 </body>
 
 </html>

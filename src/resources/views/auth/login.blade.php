@@ -1,37 +1,36 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 @section('title', 'ログイン')
 
 @section('content')
-<section class="p-auth">
-	<h1 class="p-auth__title">ログイン</h1>
+<section class="page-section">
+	<h1 class="page-title">ログイン</h1>
 
-	@if ($errors->any())
-	<div class="c-alert c-alert--danger">
-		<ul class="c-list c-list--disc">
-			@foreach ($errors->all() as $error)
-			<li>{{ $error }}</li>
-			@endforeach
-		</ul>
-	</div>
-	@endif
-
-	<form method="POST" action="{{ route('login') }}" class="c-form">
+	<form method="POST" action="{{ route('login') }}" class="form">
 		@csrf
-		<label class="c-form__row">
-			<span class="c-form__label">メールアドレス</span>
-			<input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="c-input">
-			@error('email') <p class="c-error">{{ $message }}</p> @enderror
-		</label>
 
-		<label class="c-form__row">
-			<span class="c-form__label">パスワード</span>
-			<input id="password" type="password" name="password" required autocomplete="current-password" class="c-input">
-			@error('password') <p class="c-error">{{ $message }}</p> @enderror
-		</label>
+		<div class="form-row">
+			<label for="email" class="form-label">
+				<span>メールアドレス</span>
+			</label>
+			<input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="input">
+			@error('email') <p class="error">{{ $message }}</p> @enderror
+		</div>
 
-		<button type="submit" class="c-button c-button--primary">ログインする</button>
+		<div class="form-row">
+			<label for="password" class="form-label">
+				<span>パスワード</span>
+			</label>
+			<input id="password" type="password" name="password" required autocomplete="current-password" class="input">
+			@error('password') <p class="error">{{ $message }}</p> @enderror
+		</div>
+
+		<div class="form-row form-row--actions">
+			<button type="submit" class="button button-primary button-full">ログインする</button>
+		</div>
 	</form>
 
-	<p class="p-auth__switch">会員登録は <a href="{{ route('register') }}">こちら</a></p>
+	<p class="page-note">
+		<a class="page-note-link" href="{{ route('register') }}">会員登録はこちら</a>
+	</p>
 </section>
 @endsection
