@@ -6,44 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+	// users（認証用＋プロフィール統合）
+	public function up(): void
+	{
+		Schema::create('users', function (Blueprint $table) {
+			$table->id(); // 主キー（primary key）
+			$table->string('name'); // 表示名
+			$table->string('email')->unique(); // メール（重複不可）
+			$table->timestamp('email_verified_at')->nullable(); // メール認証日時
+			$table->string('password'); // ハッシュ化パスワード
+			$table->rememberToken();
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
+			// ↓ ここから profiles を統合（プロフィール情報）
+			$table->string('postal_code', 8);  // 郵便番号（例: 123-4567）
+			$table->string('address', 255); // 住所
+			$table->string('building', 255)->nullable(); // 建物名
+			$table->string('avatar_path', 255)->nullable(); // プロフ画像パス（storageやURL）
 
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
-        });
-    }
+			$table->timestamps();
+		});
+	}
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
-    }
+	public function down(): void
+	{
+		Schema::dropIfExists('users');
+	}
 };
