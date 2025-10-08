@@ -64,28 +64,7 @@ SESSION_DRIVER=file
 SESSION_LIFETIME=120
 ```
 
-### ５. Laravel Fortify の導入
-
-本アプリの会員登録およびログイン機能には、Laravel公式の認証パッケージ **Fortify** を使用しています。
-以下のコマンドを実行して Fortify をインストールしてください。
-
-```bash
-docker compose exec php bash
-cd /var/www
-composer require laravel/fortify
-php artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider"
-exit
-```
-※ Fortify の設定ファイルは src/config/fortify.php に生成されます。
-また、アプリケーション起動時に bootstrap/app.php に以下の記述を追加しています。
-```php
-->withProviders([
-    App\Providers\FortifyServiceProvider::class,
-])
-```
-Fortify のルートを利用して /login および /register ページを表示します。
-
-### 6. Laravel の初期設定
+### ５. Laravel の初期設定
 
 ``` bash
 docker compose exec php bash
@@ -124,7 +103,6 @@ exit
 
 ## 今後のTODO
 
--   Fortify を導入し、会員登録/ログイン機能を追加
 -   モデル・コントローラ・ビューの実装
 -   バリデーション、Seederの実装
 -   最終的に基本設計書・テーブル仕様書との整合性を確認

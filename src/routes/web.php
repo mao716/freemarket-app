@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\{
 	AddressController,
 	CommentController,
@@ -8,7 +9,8 @@ use App\Http\Controllers\{
 	ItemController,
 	LikeController,
 	PurchaseController,
-	UserController
+	UserController,
+	StripeWebhookController,
 };
 
 // =================== 認証不要（誰でも閲覧OK） ===================
@@ -36,6 +38,11 @@ Route::middleware($protected)->group(function () {
 	// 住所変更（購入画面から遷移）
 	Route::get('/purchase/address/{item}',  [AddressController::class, 'showAddressForm'])->name('address.show');
 	Route::post('/purchase/address/{item}', [AddressController::class, 'saveAddress'])->name('address.save');
+
+	// Stripe Webhook（CSRF除外）ルート
+	Route::post('/stripe/webhook', [\App\Http\Controllers\StripeWebhookController::class, 'handleWebhook'])
+		->withoutMiddleware([VerifyCsrfToken::class])
+		->name('stripe.webhook');
 
 	// 出品（表示→登録）
 	Route::get('/sell',  [ExhibitionController::class, 'showSellForm'])->name('sell.show');
