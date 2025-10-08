@@ -12,10 +12,15 @@ class User extends Authenticatable
 {
 	use HasFactory, Notifiable;
 
-	public function profile()
-	{  // 1対1（hasOne：1ユーザーに1プロフィール）
-		return $this->hasOne(Profile::class);
-	}
+	protected $fillable = [
+		'name',
+		'email',
+		'password',
+		'postal_code',
+		'address',
+		'building',
+		'avatar_path',
+	];
 
 	public function items()
 	{  // 1対多（hasMany：1ユーザーが複数商品を出品）

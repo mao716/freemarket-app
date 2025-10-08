@@ -21,19 +21,14 @@ class Item extends Model
 		'brand',
 		'description',
 		'price',
-		'condition'
+		'condition',
+		'image_path',
 	];
 
 	// 出品者
 	public function user()
 	{
 		return $this->belongsTo(User::class);
-	}
-
-	// 画像（1対多）
-	public function images()
-	{
-		return $this->hasMany(ItemImage::class);
 	}
 
 	// カテゴリ（多対多）

@@ -11,12 +11,19 @@ class Order extends Model
 {
 	use HasFactory;
 
+	const PAYMENT_CARD = 'card';
+	const PAYMENT_KONBINI = 'konbini';
+
+	const STATUS_PENDING  = 'pending';
+	const STATUS_PAID     = 'paid';
+	const STATUS_CANCELED = 'canceled';
+
 	protected $fillable = [
 		'user_id',
 		'item_id',
-		'address_snapshot',
-		'payment_method',
-		'status'
+		'address',
+		'payment',
+		'status',
 	];
 
 	public function user()
