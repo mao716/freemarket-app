@@ -84,8 +84,6 @@ class StripeWebhookController extends Controller
 				'status'  => \App\Models\Order::STATUS_PENDING, // 必要に応じて確定ステータスへ
 			]);
 
-			// ここで在庫更新や通知メールなどがあれば実行
-			// $item->update(['is_sold' => true]); など
 		}
 
 		return response('ok', 200);
