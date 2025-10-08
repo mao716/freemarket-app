@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\ItemImage;
 use App\Models\Category;
 use App\Models\Like;
 use App\Models\Comment;
@@ -23,6 +22,13 @@ class Item extends Model
 		'price',
 		'condition',
 		'image_path',
+	];
+
+	public const CONDITION = [
+		1 => '良好',
+		2 => '目立った傷や汚れなし',
+		3 => 'やや傷や汚れあり',
+		4 => '状態が悪い',
 	];
 
 	// 出品者

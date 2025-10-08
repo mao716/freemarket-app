@@ -11,7 +11,7 @@ class PurchaseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,16 @@ class PurchaseRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+		return [
+			'payment' => ['required', 'in:card,konbini'],
+		];
     }
+
+	public function messages(): array
+	{
+		return [
+			'payment.required' => '支払い方法を選択してください',
+			'payment.in'       => '支払い方法を選択してください',
+		];
+	}
 }
