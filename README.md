@@ -2,39 +2,40 @@
 
 Laravel 11 + Docker
 
-------------------------------------------------------------------------
+---
 
 ## 動作環境
 
--   PHP 8.2 (php-fpm)
--   Laravel 11
--   Nginx 1.21
--   MySQL 8.0
--   phpMyAdmin
--   Docker / Docker Compose
+- PHP 8.2 (php-fpm)
+- Laravel 11
+- Nginx 1.21
+- MySQL 8.0
+- phpMyAdmin
+- Docker / Docker Compose
 
-------------------------------------------------------------------------
+---
 
 ## 環境構築手順
 
 ### 1. リポジトリのクローン
 
-``` bash
+```bash
 git clone https://github.com/mao716/freemarket-app.git
 cd freemarket-app
 ```
 
 ### ２. Docker コンテナの起動
 
-``` bash
+```bash
 docker compose up -d --build
 ```
 
 ### ３. Laravel の依存関係インストール（初回のみ）
-すでに `src/` ディレクトリにLaravel本体は含まれています。
+
+すでに `src/` ディレクトリに Laravel 本体は含まれています。
 クローン後は以下のコマンドで依存関係（vendor/）をインストールしてください。
 
-``` bash
+```bash
 docker compose exec php bash
 cd /var/www
 composer install
@@ -43,16 +44,16 @@ exit
 
 ### ４. Laravel の環境変数設定
 
-Laravelをインストールすると、`src/.env.example` が自動生成されます。
+Laravel をインストールすると、`src/.env.example` が自動生成されます。
 以下のコマンドで `.env` を作成してください。
 
 ```bash
 cp src/.env.example src/.env
 ```
 
-その後、 `.env` の該当箇所を以下のように編集し、DockerのMySQLコンテナに接続できるように設定してください。
+その後、 `.env` の該当箇所を以下のように編集し、Docker の MySQL コンテナに接続できるように設定してください。
 
-``` env
+```env
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
@@ -66,7 +67,7 @@ SESSION_LIFETIME=120
 
 ### 5. Laravel の初期設定
 
-``` bash
+```bash
 docker compose exec php bash
 cd /var/www
 
@@ -85,25 +86,23 @@ php artisan db:seed
 exit
 ```
 
-------------------------------------------------------------------------
+---
 
 ## アクセス方法
 
--   アプリケーション: <http://localhost>
--   phpMyAdmin: <http://localhost:8080>
-    -   ユーザー: `laravel_user`\
-    -   パスワード: `laravel_pass`
+- アプリケーション: <http://localhost>
+- phpMyAdmin: <http://localhost:8080>
+  - ユーザー: `laravel_user`\
+  - パスワード: `laravel_pass`
 
-------------------------------------------------------------------------
+---
 
-## ER図
+## ER 図
 
+---
 
-------------------------------------------------------------------------
+## 今後の TODO
 
-## 今後のTODO
-
--   Fortify を導入し、会員登録/ログイン機能を追加
--   モデル・コントローラ・ビューの実装
--   バリデーション、Seederの実装
--   最終的に基本設計書・テーブル仕様書との整合性を確認
+- モデル・コントローラ・ビューの実装
+- バリデーション、Seeder の実装
+- 最終的に基本設計書・テーブル仕様書との整合性を確認
