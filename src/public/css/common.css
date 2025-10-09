@@ -36,8 +36,37 @@
 
 .header-logo {
 	display: inline-flex;
-	align-items: center;
-	padding-left: 7px;
+	line-height: 0; /* 行の余白をゼロにする（画像下の隙間防止） */
+	flex: 0 1 auto; /* Flexの伸縮設定（要素が必要に応じて縮む） */
+	min-width: 0; /* 極小画面でのはみ出し防止 */
+}
+
+.header-logo img {
+	/* ロゴの高さを画面幅に応じて自動調整（clamp＝最小/理想/最大の3段階指定） */
+	height: clamp(20px, 4.8vw, 32px);
+	/* 最小20px、理想は画面幅の4.8%、最大32px */
+	width: auto;
+	/* アスペクト比を維持して横幅を自動 */
+	display: block;
+	/* 画像の下にできる隙間対策（インライン要素の挙動回避） */
+}
+
+@media (max-width: 480px) {
+	.header--global .header-inner {
+		gap: 12px;
+	}
+
+	/* 要素間の余白（ギャップ）調整 */
+	.header-nav {
+		gap: 12px;
+	}
+
+	/* ナビの余白調整 */
+	.search-input {
+		padding: 8px 10px;
+	}
+
+	/* 入力の内側余白（パディング）微調整 */
 }
 
 .header-search {
