@@ -13,3 +13,7 @@ docker/mysql/data/
 
 # 履歴ファイル（不要 & セキュリティ的に危険）
 .bash_history
+
+/_ide_helper.php
+/_ide_helper_models.php
+/.phpstorm.meta.php
