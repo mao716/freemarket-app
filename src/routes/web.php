@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\{
+	AuthLoginController,
+	AuthRegisterController,
 	AddressController,
 	CommentController,
 	ExhibitionController,
@@ -13,6 +15,7 @@ use App\Http\Controllers\{
 	StripeWebhookController,
 };
 
+
 // =================== 認証不要（誰でも閲覧OK） ===================
 
 // トップ（商品一覧）: /
@@ -21,6 +24,28 @@ Route::get('/', [ItemController::class, 'index'])->name('items.index');
 
 // 商品詳細: /item/{item}
 Route::get('/item/{item}', [ItemController::class, 'detail'])->name('items.detail');
+
+
+// =================== 認証：ログイン/ログアウト（自前実装） ===================
+
+// guest（= 未ログインの人だけ入れる）
+Route::middleware('guest')->group(function () {
+	// ログイン画面（GET）
+	Route::get('/login', [AuthLoginController::class, 'showLoginForm'])->name('login.show');
+	// ログイン処理（POST） throttle（= 一定時間内の回数制限）で総当たり対策
+	Route::post('/login', [AuthLoginController::class, 'authenticate'])
+		->middleware('throttle:6,1')
+		->name('login');
+
+	Route::get('/register', [AuthRegisterController::class, 'showRegisterForm'])
+		->name('register'); // ← Bladeの route('register') に合わせる
+});
+
+// auth（= ログイン済の人だけ入れる）
+Route::middleware('auth')->group(function () {
+	// ログアウト処理（POST）
+	Route::post('/logout', [AuthLoginController::class, 'logout'])->name('logout');
+});
 
 
 // =================== 認証必須（ログインが必要） ===================
@@ -54,11 +79,9 @@ Route::middleware($protected)->group(function () {
 	// いいね（トグル：追加/解除）
 	Route::post('/item/{item}/like',  [LikeController::class, 'like'])->name('like.add');
 	Route::delete('/item/{item}/like', [LikeController::class, 'unlike'])->name('like.remove');
-
-	// ※ /logout は Fortify が用意
 });
 
 // Stripe Webhook（CSRF除外）ルート
-Route::post('/stripe/webhook', [\App\Http\Controllers\StripeWebhookController::class, 'handleWebhook'])
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])
 	->withoutMiddleware([VerifyCsrfToken::class])
 	->name('stripe.webhook');

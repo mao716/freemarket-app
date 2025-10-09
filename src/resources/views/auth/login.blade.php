@@ -12,7 +12,7 @@
 			<label for="email" class="form-label">
 				<span>メールアドレス</span>
 			</label>
-			<input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="input">
+			<input id="email" type="email" name="email" value="{{ old('email') }}" class="input">
 			@error('email') <p class="error">{{ $message }}</p> @enderror
 		</div>
 
@@ -20,7 +20,7 @@
 			<label for="password" class="form-label">
 				<span>パスワード</span>
 			</label>
-			<input id="password" type="password" name="password" required autocomplete="current-password" class="input">
+			<input id="password" type="password" name="password" class="input">
 			@error('password') <p class="error">{{ $message }}</p> @enderror
 		</div>
 

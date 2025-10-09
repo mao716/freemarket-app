@@ -144,8 +144,6 @@ return [
     */
 
     'features' => [
-        Features::registration(),
-        Features::resetPasswords(),
 		// Features::emailVerification(),　（メール認証使う時にONにする）
 		// Features::updateProfileInformation(),
 		// Features::updatePasswords(),
