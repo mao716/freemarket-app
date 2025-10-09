@@ -99,6 +99,16 @@ exit
 
 ## ER 図
 
+![ER図](./er_diagram.png)
+
+---
+
+## 使用技術
+
+- fortify
+- form request
+- stripe
+
 ---
 
 ## 今後の TODO
