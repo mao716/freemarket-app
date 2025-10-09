@@ -74,20 +74,8 @@ Route::middleware($protected)->group(function () {
 	Route::post('/sell', [ExhibitionController::class, 'productRegister'])->name('sell.perform');
 
 	// マイページ（プロフィール表示／編集）
-	Route::get('/mypage',           [UserController::class, 'profile'])->name('mypage.profile');
-	Route::get('/mypage/profile', function () {
-		$user = auth()->user(); // ← ログイン中ユーザー（セッションから取得）
-
-		// 開発中の確認用の簡易表示（HTML直返し）
-		return <<<HTML
-	<div style="font-family:sans-serif;text-align:center;padding:40px">
-		<h1>登録完了 🎉</h1>
-		<p>ようこそ、{$user->name} さん！</p>
-		<p>メールアドレス：{$user->email}</p>
-		<p><a href="/">トップへ戻る</a></p>
-	</div>
-	HTML;
-	})->name('mypage.edit'); // ← ルート名は元と同じ（名前解決のまま動く）
+	Route::get('/mypage',  [UserController::class, 'profile'])->name('mypage.profile');
+	Route::get('/mypage/profile', [UserController::class, 'editForm'])->name('mypage.edit');
 	Route::post('/mypage/profile',  [UserController::class, 'saveProfile'])->name('mypage.save');
 
 	// コメント投稿（商品詳細内フォーム）
