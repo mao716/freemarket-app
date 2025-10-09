@@ -26,7 +26,7 @@ Route::get('/', [ItemController::class, 'index'])->name('items.index');
 Route::get('/item/{item}', [ItemController::class, 'detail'])->name('items.detail');
 
 
-// =================== 認証：ログイン/ログアウト（自前実装） ===================
+// =================== 認証：ログイン/ログアウト（自前実装） ＆ 会員登録 ===================
 
 // guest（= 未ログインの人だけ入れる）
 Route::middleware('guest')->group(function () {
@@ -37,8 +37,13 @@ Route::middleware('guest')->group(function () {
 		->middleware('throttle:6,1')
 		->name('login');
 
+	// 会員登録画面表示（GET）
 	Route::get('/register', [AuthRegisterController::class, 'showRegisterForm'])
-		->name('register'); // ← Bladeの route('register') に合わせる
+		->name('register');
+	// 登録（POST = フォーム送信）
+	Route::post('/register', [AuthRegisterController::class, 'register'])
+		->middleware('throttle:6,1') // （throttle=一定時間の回数制限）
+		->name('register.perform');
 });
 
 // auth（= ログイン済の人だけ入れる）
@@ -70,7 +75,19 @@ Route::middleware($protected)->group(function () {
 
 	// マイページ（プロフィール表示／編集）
 	Route::get('/mypage',           [UserController::class, 'profile'])->name('mypage.profile');
-	Route::get('/mypage/profile',   [UserController::class, 'editForm'])->name('mypage.edit');
+	Route::get('/mypage/profile', function () {
+		$user = auth()->user(); // ← ログイン中ユーザー（セッションから取得）
+
+		// 開発中の確認用の簡易表示（HTML直返し）
+		return <<<HTML
+	<div style="font-family:sans-serif;text-align:center;padding:40px">
+		<h1>登録完了 🎉</h1>
+		<p>ようこそ、{$user->name} さん！</p>
+		<p>メールアドレス：{$user->email}</p>
+		<p><a href="/">トップへ戻る</a></p>
+	</div>
+	HTML;
+	})->name('mypage.edit'); // ← ルート名は元と同じ（名前解決のまま動く）
 	Route::post('/mypage/profile',  [UserController::class, 'saveProfile'])->name('mypage.save');
 
 	// コメント投稿（商品詳細内フォーム）

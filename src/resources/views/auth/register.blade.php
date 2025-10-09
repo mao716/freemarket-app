@@ -12,7 +12,7 @@
 			<label for="name" class="form-label">
 				<span>ユーザー名</span>
 			</label>
-			<input id="name" type="text" name="name" value="{{ old('name') }}" required maxlength="20" class="input">
+			<input id="name" type="text" name="name" value="{{ old('name') }}" class="input">
 			@error('name') <p class="error">{{ $message }}</p> @enderror
 		</div>
 
@@ -20,7 +20,7 @@
 			<label for="email" class="form-label">
 				<span>メールアドレス</span>
 			</label>
-			<input id="email" type="email" name="email" value="{{ old('email') }}" required class="input">
+			<input id="email" type="email" name="email" value="{{ old('email') }}" class="input">
 			@error('email') <p class="error">{{ $message }}</p> @enderror
 		</div>
 
@@ -28,7 +28,7 @@
 			<label for="password" class="form-label">
 				<span>パスワード</span>
 			</label>
-			<input id="password" type="password" name="password" required minlength="8" autocomplete="new-password" class="input">
+			<input id="password" type="password" name="password" class="input">
 			@error('password') <p class="error">{{ $message }}</p> @enderror
 		</div>
 
@@ -36,7 +36,8 @@
 			<label for="password_confirmation" class="form-label">
 				<span>確認用パスワード</span>
 			</label>
-			<input id="password_confirmation" type="password" name="password_confirmation" required minlength="8" autocomplete="new-password" class="input">
+			<input id="password_confirmation" type="password" name="password_confirmation" class="input">
+			@error('password_confirmation') <p class="error">{{ $message }}</p> @enderror
 		</div>
 
 		<div class="form-row form-row--actions">

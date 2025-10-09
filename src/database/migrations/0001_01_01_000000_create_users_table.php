@@ -15,11 +15,10 @@ return new class extends Migration
 			$table->string('email')->unique(); // メール（重複不可）
 			$table->timestamp('email_verified_at')->nullable(); // メール認証日時
 			$table->string('password'); // ハッシュ化パスワード
-			$table->rememberToken();
 
 			// ↓ ここから profiles を統合（プロフィール情報）
-			$table->string('postal_code', 8);  // 郵便番号（例: 123-4567）
-			$table->string('address', 255); // 住所
+			$table->string('postal_code', 8)->nullable();  // 郵便番号（例: 123-4567）
+			$table->string('address', 255)->nullable(); // 住所
 			$table->string('building', 255)->nullable(); // 建物名
 			$table->string('avatar_path', 255)->nullable(); // プロフ画像パス（storageやURL）
 
