@@ -124,9 +124,7 @@
 	text-decoration: none;
 	cursor: pointer;
 	font: inherit;
-	/* 文字サイズなどをaタグに合わせる */
 	padding: 0;
-	/* aタグと同じように余白なしにする */
 }
 
 /* ===== フォーム ===== */
