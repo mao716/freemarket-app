@@ -22,6 +22,9 @@ class User extends Authenticatable
 		'avatar_path',
 	];
 
+
+	// ---- リレーション（＝テーブル間のつながり） ----
+
 	public function items()
 	{  // 1対多（hasMany：1ユーザーが複数商品を出品）
 		return $this->hasMany(Item::class);

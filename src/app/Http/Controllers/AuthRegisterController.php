@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest; // ← バリデーション（入力チェック）
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +30,6 @@ class AuthRegisterController extends Controller
 		// 登録直後に自動ログイン
 		Auth::login($user);
 
-		return redirect()->intended('/mypage/profile');
+		return redirect()->route('mypage.edit');
 	}
 }

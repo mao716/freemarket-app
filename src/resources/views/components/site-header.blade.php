@@ -17,7 +17,7 @@
 			@auth
 			<form action="{{ route('logout') }}" method="POST" class="inline-form">
 				@csrf
-				<button type="submit" class="header-link">ログアウト</button>
+				<button type="submit" class="header-link logout-link">ログアウト</button>
 			</form>
 			<a href="{{ route('mypage.profile') }}" class="header-link">マイページ</a>
 			<a href="{{ route('sell.show') }}" class="header-button">出品</a>
