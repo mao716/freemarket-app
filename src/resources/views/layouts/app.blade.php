@@ -7,11 +7,13 @@
 	<title>@yield('title', 'Freemarket')</title>
 	<link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/common.css') }}">
+	@stack('styles')
 </head>
 
 <body>
 	<x-site-header type="global" />
 	<main class="layout-main">@yield('content')</main>
+	@stack('scripts')
 </body>
 
 </html>

@@ -52,6 +52,6 @@ class UserController extends Controller
 		$user->save();
 
 		return redirect()
-			->route('mypage.edit');
+			->route('items.index');
 	}
 }

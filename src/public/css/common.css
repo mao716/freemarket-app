@@ -154,27 +154,7 @@
 	margin-top: 30px;
 }
 
-.button {
-	padding: 8px 16px;
-	border: 1px solid #ddd;
-	border-radius: 8px;
-	margin-top: 0;
-}
-
-.button-primary {
-	background: #ff5a5a;
-	border-color: #ff5a5a;
-	color: #fff;
-	font-size: 18px;
-	font-weight: 600;
-}
-
-.button-full {
-	display: block;
-	width: 100%;
-	box-sizing: border-box;
-}
-
+/* ===== エラー文 ===== */
 .error {
 	color: #d4062c;
 	font-size: 12px;
@@ -198,4 +178,39 @@
 
 .page-note-link:visited {
 	color: #1a73e8;
+}
+
+/* ===== 赤塗りボタンの見た目 ===== */
+.button {
+	padding: 8px 16px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	margin-top: 0;
+}
+
+.button-primary {
+	background: #ff5a5a;
+	border-color: #ff5a5a;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.button-full {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+
+/* ===== 赤枠ボタンの見た目 ===== */
+.button-outline {
+	background: none;
+	border: 1px solid #ff5a5a;
+	color: #ff5a5a;
+	padding: 6px 12px;
+	border-radius: 6px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background 0.2s;
 }
