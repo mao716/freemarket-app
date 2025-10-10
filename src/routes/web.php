@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\{
 	AuthLoginController,
@@ -24,6 +26,19 @@ Route::get('/', [ItemController::class, 'index'])->name('items.index');
 
 // 商品詳細: /item/{item}
 Route::get('/item/{item}', [ItemController::class, 'detail'])->name('items.detail');
+
+
+// =================== ローカル限定：開発用ログインショートカット ===================
+// URLを叩くだけで指定ユーザーでログイン（セッション=ログイン状態を保存）
+Route::get('/dev/login-as/{id}', function (Request $request, int $id) {
+	abort_unless(app()->isLocal(), 403); // ローカル以外は403で遮断（保険=安全装置）
+
+	Auth::shouldUse('web');              // ガード（認証方式）を明示
+	Auth::loginUsingId($id);             // 指定IDでログイン
+
+	// 直前のページに戻れれば戻る。無ければマイページへ
+	return back() ?: redirect()->route('mypage.profile');
+})->name('dev.loginAs');
 
 
 // =================== 認証：ログイン/ログアウト（自前実装） ＆ 会員登録 ===================
@@ -56,11 +71,7 @@ Route::middleware('auth')->group(function () {
 // =================== 認証必須（ログインが必要） ===================
 
 // ★ローカル開発だけ“自動ログイン→auth”の順で適用
-$protected = app()->isLocal() && config('dev.autologin')
-	? ['dev.autologin', 'auth']
-	: ['auth'];
-
-Route::middleware($protected)->group(function () {
+Route::middleware(['auth'])->group(function () {
 	// 購入フロー（確認→購入実行）
 	Route::get('/purchase/{item}',  [PurchaseController::class, 'confirm'])->name('purchase.confirm');
 	Route::post('/purchase/{item}', [PurchaseController::class, 'purchase'])->name('purchase.perform');
