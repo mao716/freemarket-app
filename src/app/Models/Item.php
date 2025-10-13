@@ -24,11 +24,18 @@ class Item extends Model
 		'image_path',
 	];
 
+	// 商品状態の「定数」追加（Seeder用）
+	public const COND_EXCELLENT  = 1; // 良好
+	public const COND_GOOD       = 2; // 目立った傷や汚れなし
+	public const COND_SCRATCH    = 3; // やや傷や汚れあり
+	public const COND_BAD        = 4; // 状態が悪い
+
+	// 表示用
 	public const CONDITION = [
-		1 => '良好',
-		2 => '目立った傷や汚れなし',
-		3 => 'やや傷や汚れあり',
-		4 => '状態が悪い',
+		self::COND_EXCELLENT  => '良好',
+		self::COND_GOOD       => '目立った傷や汚れなし',
+		self::COND_SCRATCH    => 'やや傷や汚れあり',
+		self::COND_BAD        => '状態が悪い',
 	];
 
 	// 出品者
