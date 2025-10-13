@@ -1,0 +1,126 @@
+/* =========================================================
+   items.css（商品一覧専用）
+   ・画像は4列で等間隔（1024pxで3列、640pxで2列）
+   ・「おすすめ / マイリスト」は左寄せ＋下線
+   ・カードの枠は無し、画像の下に商品名のみ
+   ========================================================= */
+
+/* --- タブ（おすすめ / マイリスト） --- */
+.items .page-tabs {
+	display: flex;
+	gap: 24px;
+	justify-content: flex-start;
+	/* 左寄せ */
+	border-bottom: 1px solid #ddd;
+	/* 区切り線 */
+	padding-bottom: 10px;
+	margin: 0 0 18px;
+}
+
+.items .page-tab {
+	background: transparent;
+	/* pillを解除 */
+	color: #666;
+	padding: 0;
+	/* 余白リセット */
+	border-radius: 0;
+	text-decoration: none;
+	position: relative;
+	transition: color .2s;
+}
+
+.items .page-tab:hover {
+	color: #000;
+}
+
+.items .page-tab.is-active {
+	color: #e53935;
+}
+
+.items .page-tab.is-active::after {
+	/* アクティブ下線 */
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -11px;
+	height: 2px;
+	background: #e53935;
+}
+
+/* --- グリッド（4列固定→可変） --- */
+.items .item-grid {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	/* 4列 */
+	gap: 24px;
+}
+
+@media (max-width:1024px) {
+	.items .item-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (max-width:640px) {
+	.items .item-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* --- カード（枠なし、画像＋商品名のみ） --- */
+.items .item-card {
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	/* 枠＆影なし */
+}
+
+.items .item-card-link {
+	display: block;
+	color: inherit;
+	text-decoration: none;
+}
+
+.items .item-thumb {
+	position: relative;
+	aspect-ratio: 1/1;
+	background: #eee;
+	overflow: hidden;
+}
+
+.items .item-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+/* SOLD（使う場合はそのまま表示。不要なら削ってOK） */
+.items .item-badge {
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	background: #ff5a5a;
+	color: #fff;
+	padding: 3px 7px;
+	border-radius: 6px;
+	font-weight: 700;
+	font-size: 11px;
+}
+
+.items .item-body {
+	border-top: 1px solid #eaeaea;
+	/* 画像との区切り */
+	padding-top: 10px;
+}
+
+.items .item-name {
+	margin: 6px 0 0;
+	font-size: 14px;
+	font-weight: 600;
+}
