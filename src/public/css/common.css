@@ -1,14 +1,4 @@
 /* ===== レイアウト ===== */
-html {
-	scrollbar-gutter: stable;
-	/* （スクロールバー用の溝）常に確保してズレ防止 */
-}
-
-/* 余白を両端で均等 */
-html {
-	scrollbar-gutter: stable both-edges;
-}
-
 .layout-main {
 	max-width: 1040px;
 	margin: 24px auto;
@@ -99,6 +89,11 @@ html {
 	line-height: 1;
 	display: inline-flex;
 	align-items: center;
+}
+
+.header-link {
+	color: #fff;
+	text-decoration: none;
 }
 
 .header-link:visited {
