@@ -1,4 +1,4 @@
-@props(['type' => 'global']) {{-- type: 'simple' or 'global' （プロップ＝引数） --}}
+@props(['type' => 'global'])
 
 <header class="header {{ $type === 'simple' ? 'header--simple' : 'header--global' }}">
 	<div class="header-inner">
@@ -14,17 +14,21 @@
 		</form>
 
 		<nav class="header-nav" aria-label="グローバル">
+			{{-- ① ログイン/ログアウト --}}
 			@auth
 			<form action="{{ route('logout') }}" method="POST" class="inline-form">
 				@csrf
 				<button type="submit" class="header-link logout-link">ログアウト</button>
 			</form>
-			<a href="{{ route('mypage.profile') }}" class="header-link">マイページ</a>
-			<a href="{{ route('sell.show') }}" class="header-button">出品</a>
 			@else
 			<a href="{{ route('login') }}" class="header-link">ログイン</a>
-			<a href="{{ route('register') }}" class="header-link">会員登録</a>
 			@endauth
+
+			{{-- ② マイページ（未ログインはログインへ） --}}
+			<a href="{{ auth()->check() ? route('mypage.profile') : route('login') }}" class="header-link">マイページ</a>
+
+			{{-- ③ 出品（未ログインはログインへ） --}}
+			<a href="{{ auth()->check() ? route('sell.show') : route('login') }}" class="header-button">出品</a>
 		</nav>
 		@endif
 	</div>

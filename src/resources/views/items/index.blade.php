@@ -11,14 +11,27 @@
 
 	{{-- タブ（おすすめ / マイリスト） --}}
 	<nav class="page-tabs" aria-label="表示切替">
+
+		{{-- おすすめタブ --}}
 		<a class="page-tab {{ $tab !== 'mylist' ? 'is-active' : '' }}"
 			href="{{ route('items.index', array_filter(['keyword' => $keyword ?: null])) }}">
 			おすすめ
 		</a>
+
+		{{-- マイリストタブ --}}
+		@auth
+		{{-- ログイン中ならマイリスト画面へ --}}
 		<a class="page-tab {{ $tab === 'mylist' ? 'is-active' : '' }}"
 			href="{{ route('items.index', array_filter(['tab' => 'mylist', 'keyword' => $keyword ?: null])) }}">
 			マイリスト
 		</a>
+		@else
+		{{-- ログインしてなければログイン画面へ --}}
+		<a class="page-tab" href="{{ route('login') }}">
+			マイリスト
+		</a>
+		@endauth
+
 	</nav>
 
 	{{-- 検索結果がない場合 --}}

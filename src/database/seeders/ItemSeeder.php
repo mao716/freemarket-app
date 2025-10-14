@@ -13,7 +13,8 @@ class ItemSeeder extends Seeder
      */
     public function run(): void
     {
-		$seller = User::where('email', 'seller@example.com')->firstOrFail();
+		// UserSeederで作ったユーザーを全部取得
+		$users = User::get();
 
 		$items = [
 			['name' => '腕時計', 'brand' => 'Rolax', 'description' => 'スタイリッシュなデザインのメンズ腕時計', 'price' => 15000, 'condition' => Item::COND_EXCELLENT, 'image_path' => 'armani-clock.jpg'],
@@ -28,8 +29,10 @@ class ItemSeeder extends Seeder
 			['name' => 'メイクセット', 'brand' => null, 'description' => '便利なメイクアップセット', 'price' => 2500, 'condition' => Item::COND_GOOD, 'image_path' => 'makeup-set.jpg'],
 		];
 
-		foreach ($items as $data) {
-			Item::create($data + ['user_id' => $seller->id]);
+		foreach ($items as $i => $data) {
+			Item::create($data + [
+				'user_id' => $users[$i % $users->count()]->id, // 3ユーザーに順番で割り振り
+			]);
 		}
     }
 }

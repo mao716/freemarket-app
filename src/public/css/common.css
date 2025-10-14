@@ -1,4 +1,14 @@
 /* ===== レイアウト ===== */
+html {
+	scrollbar-gutter: stable;
+	/* （スクロールバー用の溝）常に確保してズレ防止 */
+}
+
+/* 余白を両端で均等 */
+html {
+	scrollbar-gutter: stable both-edges;
+}
+
 .layout-main {
 	max-width: 1040px;
 	margin: 24px auto;
@@ -12,6 +22,18 @@
 }
 
 /* ===== ヘッダー (2種類) ===== */
+
+:root {
+	--header-h: 64px;
+	--search-max: 560px;
+}
+
+@media (max-width: 480px) {
+	:root {
+		--header-h: 56px;
+	}
+}
+
 .header {
 	background: #000;
 	color: #fff;
@@ -20,48 +42,45 @@
 .header-inner {
 	max-width: 1200px;
 	margin: 0 auto;
-	padding: 15px 16px;
-	display: flex;
+	height: var(--header-h);
+	padding: 0 16px;
+	display: grid;
+	grid-template-columns: 1fr minmax(0, var(--search-max)) 1fr;
 	align-items: center;
 	gap: 32px;
 }
 
 .header--simple .header-inner {
-	padding: 15px 10px;
-	align-items: center;
-}
-
-.header--global .header-inner {
-	justify-content: space-between;
-}
+		height: var(--header-h);
+		padding: 0 16px;
+	}
 
 .header-logo {
+	justify-self: start;
+	line-height: 0;
 	display: inline-flex;
-	line-height: 0; /* 行の余白をゼロにする（画像下の隙間防止） */
-	flex: 0 1 auto; /* Flexの伸縮設定（要素が必要に応じて縮む） */
-	min-width: 0; /* 極小画面でのはみ出し防止 */
-	margin-right: 20px;
+	min-width: 0;
 }
 
 .header-logo img {
-	/* ロゴの高さを画面幅に応じて自動調整（clamp＝最小/理想/最大の3段階指定） */
-	height: clamp(20px, 4.8vw, 32px);
+	height: 32px;
 	width: auto;
-	/* アスペクト比を維持して横幅を自動 */
 	display: block;
-	/* 画像の下にできる隙間対策（インライン要素の挙動回避） */
 }
 
 .header-search {
-	flex: 1.6;
+	justify-self: center;
+	width: 100%;
 	display: flex;
 	justify-content: center;
-	margin: 0 20px;
 }
 
 .search-input {
-	width: min(720px, 100%);
-	padding: 10px 12px;
+	width: 100%;
+	max-width: var(--search-max);
+	/* いつでも同じ長さ（ログイン前後で不変） */
+	height: 36px;
+	padding: 0 12px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	background: #fff;
@@ -69,15 +88,17 @@
 }
 
 .header-nav {
+	justify-self: end;
 	display: flex;
 	align-items: center;
 	gap: 16px;
-	margin-left: 20px;
 }
 
-.header-link {
-	color: #fff;
-	text-decoration: none;
+.header-link,
+.logout-link {
+	line-height: 1;
+	display: inline-flex;
+	align-items: center;
 }
 
 .header-link:visited {
@@ -89,6 +110,9 @@
 }
 
 .header-button {
+	display: inline-flex;
+	align-items: center;
+	line-height: 1;
 	background: #fff;
 	color: #000;
 	padding: 8px 14px;
