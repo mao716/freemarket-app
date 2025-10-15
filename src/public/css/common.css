@@ -15,7 +15,8 @@
 
 :root {
 	--header-h: 64px;
-	--search-max: 560px;
+	--search-max: 420px;
+	--header-gap: 80px;
 }
 
 @media (max-width: 480px) {
@@ -35,9 +36,14 @@
 	height: var(--header-h);
 	padding: 0 16px;
 	display: grid;
-	grid-template-columns: 1fr minmax(0, var(--search-max)) 1fr;
+	grid-template-columns:
+		auto /* ロゴ */
+		var(--header-gap) /* 左の空き */
+		minmax(0, var(--search-max)) /* 検索 */
+		var(--header-gap) /* 右の空き */
+		auto; /* 右ナビ */
 	align-items: center;
-	gap: 32px;
+	column-gap: 0; /* 空きはカラムで作るので gap は 0 */
 }
 
 .header--simple .header-inner {
@@ -46,10 +52,9 @@
 	}
 
 .header-logo {
-	justify-self: start;
+	grid-column: 1;
 	line-height: 0;
 	display: inline-flex;
-	min-width: 0;
 }
 
 .header-logo img {
@@ -59,16 +64,11 @@
 }
 
 .header-search {
-	justify-self: center;
-	width: 100%;
-	display: flex;
-	justify-content: center;
+	grid-column: 3;
 }
 
 .search-input {
 	width: 100%;
-	max-width: var(--search-max);
-	/* いつでも同じ長さ（ログイン前後で不変） */
 	height: 36px;
 	padding: 0 12px;
 	border: 1px solid #ccc;
@@ -78,26 +78,25 @@
 }
 
 .header-nav {
-	justify-self: end;
+	grid-column: 5;
 	display: flex;
 	align-items: center;
 	gap: 16px;
 }
 
 .header-link,
-.logout-link {
+.logout-link,
+.header-button {
 	line-height: 1;
 	display: inline-flex;
 	align-items: center;
-}
-
-.header-link {
-	color: #fff;
 	text-decoration: none;
 }
 
+.header-link,
 .header-link:visited {
 	color: #fff;
+	text-decoration: none;
 }
 
 .inline-form {
@@ -105,14 +104,10 @@
 }
 
 .header-button {
-	display: inline-flex;
-	align-items: center;
-	line-height: 1;
 	background: #fff;
 	color: #000;
 	padding: 8px 14px;
 	border-radius: 4px;
-	text-decoration: none;
 }
 
 /* リンク風ボタン */
@@ -129,6 +124,25 @@
 	cursor: pointer;
 	font: inherit;
 	padding: 0;
+}
+
+/* ===== スマホ（横幅が狭い時）は1列レイアウトに ===== */
+@media (max-width: 768px) {
+	.header-inner {
+		grid-template-columns: auto 1fr auto;
+		/* ロゴ | 検索 | 右ナビ */
+		column-gap: 12px;
+	}
+
+	.header-search {
+		grid-column: 2;
+	}
+
+	:root {
+		--header-gap: 40px;
+	}
+
+	/* 値は使われないが念のため縮小 */
 }
 
 /* ===== フォーム ===== */
