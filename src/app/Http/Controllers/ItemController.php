@@ -43,7 +43,25 @@ class ItemController extends Controller
 	// 商品詳細
 	public function detail(Item $item)
 	{
-		$item->load(['order'])->loadCount(['likes', 'comments']);
-		return view('items.show', compact('item'));
+		// 関連のまとめ取り（Eager Loading＝関連を一気に読む）
+		$item->load(['user', 'categories', 'comments.user', 'likes', 'order'])
+			->loadCount(['likes', 'comments']); // 件数は likes_count / comments_count で使える
+
+		// 画面制御用のフラグ（boolean＝真偽値）
+		$isLiked = Auth::check()
+			? $item->likes->contains('user_id', Auth::id())
+			: false;
+
+		$isSold = $item->order !== null;                 // 売却済み判定（ordersに1件あれば売却済み）
+		$isMine = Auth::id() === optional($item->user)->id; // 自分の出品かどうか
+
+		return view('items.show', [
+			'item'         => $item,
+			'isLiked'      => $isLiked,
+			'isSold'       => $isSold,
+			'isMine'       => $isMine,
+			'likeCount'    => $item->likes_count,     // loadCount の結果をそのまま渡す
+			'commentCount' => $item->comments_count,  // 同上
+		]);
 	}
 }

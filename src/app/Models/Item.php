@@ -60,7 +60,7 @@ class Item extends Model
 	// コメント（1対多）
 	public function comments()
 	{
-		return $this->hasMany(Comment::class);
+		return $this->hasMany(Comment::class)->latest();
 	}
 
 	// 売買（1対1：売れたら注文が一つ付く想定）
@@ -84,5 +84,21 @@ class Item extends Model
 	public function scopeSold($q)
 	{
 		return $q->has('order');
+	}
+
+	public function getImageUrlAttribute(): string
+	{
+		$p = $this->image_path;
+
+		if (blank($p)) {
+			return asset('images/image-placeholder.png'); // ダミー
+		}
+
+		if (preg_match('#^https?://#', $p)) {
+			return $p;
+		}
+
+		// それ以外は public/images/items にある前提
+		return asset('images/items/' . $p);
 	}
 }

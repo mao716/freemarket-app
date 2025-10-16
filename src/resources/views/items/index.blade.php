@@ -43,17 +43,14 @@
 		@foreach($items as $item)
 		<li class="item-card">
 			<a class="item-card-link" href="{{ route('items.detail', $item) }}">
-				<div class="item-thumb">
-					@php
-					$src = $item->image_path
-					? asset('images/items/' . $item->image_path)
-					: asset('images/placeholder.png');
-					@endphp
-					<img src="{{ $src }}" alt="{{ $item->name }}">
+
+			<div class="item-thumb">
+					<img src="{{ $item->image_url }}" alt="{{ $item->name }}">
 					@if ($item->order)
 					<span class="item-badge">SOLD</span>
 					@endif
 				</div>
+
 
 				<div class="item-body">
 					<h2 class="item-name">{{ $item->name }}</h2>

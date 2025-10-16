@@ -14,7 +14,7 @@
 			<div class="avatar">
 				<img id="avatarPreview"
 					class="avatar-img"
-					src="{{ old('avatar_path', $user->avatar_path ?? asset('images/avatar-placeholder.png')) }}"
+					src="{{ old('avatar_path', $user->avatar_path ?? asset('images/image-placeholder.png')) }}"
 					alt="プロフィール画像のプレビュー">
 			</div>
 

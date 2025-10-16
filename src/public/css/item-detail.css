@@ -1,0 +1,152 @@
+/* ===== 商品詳細ページ (Item Detail) ===== */
+
+/* --- レイアウト全体（2カラム） --- */
+.item-grid {
+	display: grid;
+	gap: 32px;
+	align-items: start;
+	max-width: 980px;
+	margin: 0 auto 40px;
+	padding: 0 16px;
+}
+
+@media (min-width: 992px) {
+	.item-grid {
+		grid-template-columns: 1fr 1fr;
+		/* 左:画像 / 右:情報 */
+		gap: 40px;
+	}
+}
+
+/* --- 左側（商品画像） --- */
+.item-media {
+	width: 100%;
+}
+
+.item-image {
+	width: 100%;
+	height: auto;
+	border: 1px solid #eee;
+	border-radius: 12px;
+	display: block;
+	background: #fafafa;
+}
+
+/* --- 右側（商品情報） --- */
+.item-summary {
+	display: grid;
+	row-gap: 12px;
+}
+
+.item-title {
+	font-size: 1.4rem;
+	font-weight: 700;
+	margin-bottom: 4px;
+}
+
+.item-brand {
+	font-size: 12px;
+	color: #777;
+	margin: 0;
+}
+
+.item-price {
+	font-size: 1.4rem;
+	font-weight: 700;
+}
+
+.item-meta {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 6px 0 8px;
+}
+
+.meta-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.meta-item .count {
+	font-size: 12px;
+	line-height: 1;
+}
+
+.item-summary .button-full {
+	width: 100%;
+}
+
+/* --- 商品情報ブロック --- */
+.block {
+	margin-top: 16px;
+}
+
+.block-title {
+	font-size: 1.2rem;
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+
+.info-list {
+	display: grid;
+	row-gap: 8px;
+	font-size: 14px;
+}
+
+.info-row {
+	display: grid;
+	grid-template-columns: 120px 1fr;
+	column-gap: 12px;
+	align-items: baseline;
+}
+
+.info-row dt {
+	color: #666;
+}
+
+.tag {
+	display: inline-block;
+	padding: 2px 8px;
+	border: 1px solid #ddd;
+	border-radius: 999px;
+	font-size: 12px;
+	margin: 0 6px 6px 0;
+}
+
+/* --- 商品説明 --- */
+.desc {
+	white-space: pre-wrap;
+	line-height: 1.8;
+}
+
+/* --- コメント関連 --- */
+.comment-list {
+	list-style: none;
+	padding: 0;
+	display: grid;
+	row-gap: 12px;
+}
+
+.comment {
+	border: 1px solid #eee;
+	border-radius: 8px;
+	padding: 12px;
+}
+
+.comment-author {
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.comment-body {
+	margin: 6px 0 0;
+}
+
+.comment--empty {
+	color: #777;
+}
+
+.item-comment-form {
+	margin: 16px 0 32px;
+}
