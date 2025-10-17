@@ -1,65 +1,86 @@
-/* ===== 商品詳細ページ (Item Detail) ===== */
+/* =========================
+	商品詳細ページ（左右均等2カラム）
+   ========================= */
 
-/* --- レイアウト全体（2カラム） --- */
+:root {
+	--detail-max: 980px;
+	/* ページ全体の最大幅 */
+	--col-gap: 48px;
+	/* カラム間の余白 */
+	--muted: #777;
+	/* 補助テキスト色 */
+	--line: #eee;
+	/* 枠線色 */
+}
+
+/* --- 2カラムレイアウト --- */
 .item-grid {
 	display: grid;
-	gap: 32px;
 	align-items: start;
 	max-width: 980px;
 	margin: 0 auto 40px;
 	padding: 0 16px;
+	row-gap: 24px;
+	column-gap: 0;
 }
 
-@media (min-width: 992px) {
+/* PC幅で2カラムにする */
+@media (min-width: 768px) {
 	.item-grid {
 		grid-template-columns: 1fr 1fr;
-		/* 左:画像 / 右:情報 */
-		gap: 40px;
+		column-gap: 48px;
+		row-gap: 0;
 	}
 }
 
-/* --- 左側（商品画像） --- */
+/* --- 左：商品画像 --- */
 .item-media {
 	width: 100%;
+	margin: 0;
+	align-self: start;
 }
 
 .item-image {
 	width: 100%;
 	height: auto;
-	border: 1px solid #eee;
-	border-radius: 12px;
+	border: 1px solid var(--line);
+	border-radius: 4px;
 	display: block;
 	background: #fafafa;
+	object-fit: contain;
 }
 
-/* --- 右側（商品情報） --- */
+/* --- 右：商品情報 --- */
 .item-summary {
 	display: grid;
 	row-gap: 12px;
 }
 
+/* タイトル・価格など */
 .item-title {
-	font-size: 1.4rem;
+	font-size: 2rem;
 	font-weight: 700;
-	margin-bottom: 4px;
+	margin-bottom: 2px;
 }
 
 .item-brand {
-	font-size: 12px;
-	color: #777;
+	font-size: 14px;
+	color: var(--muted);
 	margin: 0;
 }
 
 .item-price {
 	font-size: 1.4rem;
 	font-weight: 700;
+	margin: 4px 0 8px;
 }
 
+/* メタ情報（いいね・コメント） */
 .item-meta {
 	display: flex;
 	align-items: center;
 	gap: 16px;
-	margin: 6px 0 8px;
+	margin: 4px 0 10px;
 }
 
 .meta-item {
@@ -73,11 +94,35 @@
 	line-height: 1;
 }
 
+/* アイコンボタン */
+.icon-button {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 4px;
+	color: #333;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.icon-button img {
+	width: 20px;
+	height: 20px;
+	display: block;
+}
+
+.icon-button[aria-pressed="true"] {
+	color: #ff5a5a;
+}
+
+/* CTA（購入ボタン） */
 .item-summary .button-full {
 	width: 100%;
 }
 
-/* --- 商品情報ブロック --- */
+/* --- 情報ブロック共通 --- */
 .block {
 	margin-top: 16px;
 }
@@ -85,9 +130,10 @@
 .block-title {
 	font-size: 1.2rem;
 	font-weight: 600;
-	margin-bottom: 8px;
+	margin: 0 0 8px;
 }
 
+/* 商品の情報（2列の定義リスト） */
 .info-list {
 	display: grid;
 	row-gap: 8px;
@@ -102,25 +148,29 @@
 }
 
 .info-row dt {
-	color: #666;
+	color: #000000;
+	font-weight: bold;
 }
 
 .tag {
-	display: inline-block;
-	padding: 2px 8px;
-	border: 1px solid #ddd;
+display: inline-block;
+	padding: 4px 10px;
+	background-color: #d6d5d5;
+	color: #000000;
 	border-radius: 999px;
-	font-size: 12px;
+	font-size: 14px;
 	margin: 0 6px 6px 0;
+	line-height: 1.4;
+	border: none;
 }
 
-/* --- 商品説明 --- */
+/* 商品説明 */
 .desc {
 	white-space: pre-wrap;
 	line-height: 1.8;
 }
 
-/* --- コメント関連 --- */
+/* コメント一覧／投稿フォーム */
 .comment-list {
 	list-style: none;
 	padding: 0;
@@ -129,7 +179,7 @@
 }
 
 .comment {
-	border: 1px solid #eee;
+	border: 1px solid var(--line);
 	border-radius: 8px;
 	padding: 12px;
 }

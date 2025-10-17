@@ -6,7 +6,7 @@
 
 @section('content')
 <main class="layout-main">
-	<article class="page-section layout-narrow item-detail"><!-- item-detail はこのページ用のラッパークラス（包む箱） -->
+	<article class="page-section item-detail">
 		<section class="item-grid">
 			{{-- 左：画像 --}}
 			<figure class="item-media">
@@ -17,7 +17,7 @@
 			<div class="item-summary">
 
 				{{-- タイトル・ブランド・価格 --}}
-				<h1 class="page-title item-title">{{ $item->name }}</h1>
+				<h1 class="item-title">{{ $item->name }}</h1>
 				<p class="item-brand">{{ $item->brand ?: '—' }}</p>
 				<p class="item-price">¥{{ number_format($item->price) }}</p>
 
@@ -68,10 +68,6 @@
 					<h2 class="block-title">商品の情報</h2>
 					<dl class="info-list">
 						<div class="info-row">
-							<dt>ブランド</dt>
-							<dd>{{ $item->brand ?: '—' }}</dd>
-						</div>
-						<div class="info-row">
 							<dt>カテゴリー</dt>
 							<dd>
 								@forelse($item->categories as $cat)
@@ -82,7 +78,7 @@
 							</dd>
 						</div>
 						<div class="info-row">
-							<dt>状態</dt>
+							<dt>商品の状態</dt>
 							<dd>{{ \App\Models\Item::CONDITION[$item->condition] ?? '—' }}</dd>
 						</div>
 					</dl>
@@ -96,7 +92,7 @@
 
 				{{-- コメント一覧 --}}
 				<section id="comments" class="item-comments block">
-					<h2 class="block-title">商品へのコメント</h2>
+					<h2 class="block-title">コメント</h2>
 					<ul class="comment-list">
 						@forelse($item->comments as $c)
 						<li class="comment">
@@ -112,7 +108,7 @@
 				{{-- コメント投稿フォーム（ログイン時のみ） --}}
 				@auth
 				<section class="item-comment-form block">
-					<h3 class="block-title">コメントを送信する</h3>
+					<h3 class="block-title">商品へのコメント</h3>
 					<form method="POST" action="{{ route('comments.store', $item) }}" class="form">
 						@csrf
 						<div class="form-row">
