@@ -44,7 +44,7 @@
 		<li class="item-card">
 			<a class="item-card-link" href="{{ route('items.detail', $item) }}">
 
-			<div class="item-thumb">
+				<div class="item-thumb">
 					<img src="{{ $item->image_url }}" alt="{{ $item->name }}">
 					@if ($item->order)
 					<span class="item-badge">SOLD</span>

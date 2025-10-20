@@ -56,12 +56,30 @@
 				</div>
 
 				{{-- 購入ボタン --}}
-				@php $purchaseUrl = route('purchase.confirm', ['item' => $item->id]); @endphp
-				@if(!$isSold && !$isMine)
-				<a href="{{ $purchaseUrl }}" class="button button-primary button-full">購入手続きへ</a>
+				@if (!$isSold && !$isMine)
+				@auth
+				{{-- ログイン済：購入画面へ --}}
+				<a href="{{ route('purchase.confirm', $item) }}" class="button button-primary button-full">
+					購入手続きへ
+				</a>
 				@else
-				<button class="button button-full" disabled>購入できません（売却済み or 自分の商品）</button>
+				{{-- 未ログイン：ログイン画面へ --}}
+				<a href="{{ route('login') }}" class="button button-primary button-full">
+					購入手続きへ
+				</a>
+				@endauth
+				@else
+				{{-- 自分の商品 or 売却済 --}}
+				<button class="button button-full" disabled>
+					購入できません（売却済み or 自分の商品）
+				</button>
 				@endif
+
+				{{-- 商品説明 --}}
+				<section class="item-description block">
+					<h2 class="block-title">商品説明</h2>
+					<p class="desc">{{ $item->description }}</p>
+				</section>
 
 				{{-- 商品情報 --}}
 				<section class="item-info block">
@@ -84,19 +102,18 @@
 					</dl>
 				</section>
 
-				{{-- 商品説明 --}}
-				<section class="item-description block">
-					<h2 class="block-title">商品説明</h2>
-					<p class="desc">{{ $item->description }}</p>
-				</section>
-
 				{{-- コメント一覧 --}}
 				<section id="comments" class="item-comments block">
-					<h2 class="block-title">コメント</h2>
+					<h2 class="block-title">
+						コメント<span class="comment-count">({{ $commentCount }})</span>
+					</h2>
 					<ul class="comment-list">
 						@forelse($item->comments as $c)
 						<li class="comment">
-							<div class="comment-author">{{ $c->user->name }}</div>
+							<div class="comment-head">
+								<img class="avatar" src="{{ $c->user->avatar_url }}" alt="{{ $c->user->name }}のアイコン">
+								<div class="comment-author">{{ $c->user->name }}</div>
+							</div>
 							<p class="comment-body">{{ $c->body }}</p>
 						</li>
 						@empty
@@ -117,7 +134,7 @@
 							@error('body') <p class="error">{{ $message }}</p> @enderror
 						</div>
 						<div class="form-row form-row--actions">
-							<button class="button button-primary">コメントを送信</button>
+							<button class="button button-primary button-full">コメントを送信する</button>
 						</div>
 					</form>
 				</section>

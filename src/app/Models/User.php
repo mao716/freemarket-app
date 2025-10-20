@@ -22,6 +22,22 @@ class User extends Authenticatable
 		'avatar_path',
 	];
 
+	protected $appends = ['avatar_url'];
+
+	public function getAvatarUrlAttribute()
+	{
+		$path = $this->profile_image_path ?? null;
+
+		if (!$path) {
+			// 未設定時のプレースホルダー
+			return asset('images/image-placeholder.png');
+		}
+
+		if (preg_match('#^https?://#', $path)) {
+			return $path;
+		}
+		return Storage::url($path);
+	}
 
 	// ---- リレーション（＝テーブル間のつながり） ----
 

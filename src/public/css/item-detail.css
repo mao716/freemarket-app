@@ -2,17 +2,6 @@
 	商品詳細ページ（左右均等2カラム）
    ========================= */
 
-:root {
-	--detail-max: 980px;
-	/* ページ全体の最大幅 */
-	--col-gap: 48px;
-	/* カラム間の余白 */
-	--muted: #777;
-	/* 補助テキスト色 */
-	--line: #eee;
-	/* 枠線色 */
-}
-
 /* --- 2カラムレイアウト --- */
 .item-grid {
 	display: grid;
@@ -43,7 +32,7 @@
 .item-image {
 	width: 100%;
 	height: auto;
-	border: 1px solid var(--line);
+	border: 1px solid #eee;
 	border-radius: 4px;
 	display: block;
 	background: #fafafa;
@@ -58,19 +47,18 @@
 
 /* タイトル・価格など */
 .item-title {
-	font-size: 2rem;
+	font-size: 2.8rem;
 	font-weight: 700;
 	margin-bottom: 2px;
 }
 
 .item-brand {
 	font-size: 14px;
-	color: var(--muted);
 	margin: 0;
 }
 
 .item-price {
-	font-size: 1.4rem;
+	font-size: 2rem;
 	font-weight: 700;
 	margin: 4px 0 8px;
 }
@@ -128,7 +116,7 @@
 }
 
 .block-title {
-	font-size: 1.2rem;
+	font-size: 1.6rem;
 	font-weight: 600;
 	margin: 0 0 8px;
 }
@@ -170,33 +158,77 @@ display: inline-block;
 	line-height: 1.8;
 }
 
-/* コメント一覧／投稿フォーム */
+/* コメント一覧 */
 .comment-list {
 	list-style: none;
 	padding: 0;
 	display: grid;
-	row-gap: 12px;
+	row-gap: 16px;
 }
 
-.comment {
-	border: 1px solid var(--line);
-	border-radius: 8px;
-	padding: 12px;
-}
-
-.comment-author {
+.comment-count {
+	font-size: 0.95em;
 	font-weight: 600;
+	color: #555;
+	margin-left: 4px;
+}
+
+/* 各コメントカード */
+.comment {
+	background: #f4f4f4;
+	/* コメント背景を薄いグレーに */
+	border-radius: 8px;
+	padding: 12px 16px;
+}
+
+/* コメントのヘッダー（アイコン＋名前） */
+.comment-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 6px;
+}
+
+/* アバター画像 */
+.avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	object-fit: cover;
+	background: #e9e9e9;
+	flex-shrink: 0;
+	display: block;
+}
+
+/* ユーザー名 */
+.comment-author {
+	font-weight: 700;
+	font-size: 14px;
+	color: #000;
+}
+
+/* コメント本文 */
+.comment-body {
+	font-size: 14px;
+	line-height: 1.6;
+	color: #333;
+	margin: 0;
+}
+
+/* コメントがない場合 */
+.comment--empty {
+	color: #777;
 	font-size: 14px;
 }
 
-.comment-body {
-	margin: 6px 0 0;
-}
-
-.comment--empty {
-	color: #777;
-}
-
+/* コメント投稿フォーム */
 .item-comment-form {
-	margin: 16px 0 32px;
+	margin: 24px 0 40px;
+}
+
+/* コメント送信ボタン(少し小さめ) */
+.item-comment-form .button {
+	font-size: 16px;
+	padding: 8px 14px;
+	border-radius: 6px;
 }
