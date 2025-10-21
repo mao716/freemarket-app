@@ -13,3 +13,11 @@ App\Models\User::create([
     'building' => 'テストマンション101',
 ]);
 exit
+app()->environment();
+app()->isLocal();
+config('dev.autologin');
+config('dev.autologin_user_id')
+\App\Models\User::find(1)?->id;
+App\Models\Item::first()->categories
+App\Models\Category::all(['id', 'name'])
+App\Models\Category::orderBy('id')->get(['id', 'name'])

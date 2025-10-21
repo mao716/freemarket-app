@@ -41,7 +41,7 @@ Route::get('/dev/login-as/{id}', function (Request $request, int $id) {
 })->name('dev.loginAs');
 
 
-// =================== 認証：ログイン/ログアウト（自前実装） ＆ 会員登録 ===================
+// =================== 認証：ログイン ＆ 会員登録 ===================
 
 // guest（= 未ログインの人だけ入れる）
 Route::middleware('guest')->group(function () {
@@ -60,13 +60,6 @@ Route::middleware('guest')->group(function () {
 		->middleware('throttle:6,1') // （throttle=一定時間の回数制限）
 		->name('register.perform');
 });
-
-// auth（= ログイン済の人だけ入れる）
-Route::middleware('auth')->group(function () {
-	// ログアウト処理（POST）
-	Route::post('/logout', [AuthLoginController::class, 'logout'])->name('logout');
-});
-
 
 // =================== 認証必須（ログインが必要） ===================
 
@@ -95,6 +88,9 @@ Route::middleware(['auth'])->group(function () {
 	// いいね（トグル：追加/解除）
 	Route::post('/item/{item}/like',  [LikeController::class, 'like'])->name('like.add');
 	Route::delete('/item/{item}/like', [LikeController::class, 'unlike'])->name('like.remove');
+
+	// ログアウト処理（POST）
+	Route::post('/logout', [AuthLoginController::class, 'logout'])->name('logout');
 });
 
 // Stripe Webhook（CSRF除外）ルート

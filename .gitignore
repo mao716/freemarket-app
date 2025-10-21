@@ -7,6 +7,7 @@
 /src/.phpunit.result.cache
 /src/Homestead.yaml
 /src/Homestead.json
+/src/.config/psysh/
 
 # Docker関連
 docker/mysql/data/
