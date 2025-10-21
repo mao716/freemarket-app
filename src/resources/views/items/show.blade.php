@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/item-detail.css') }}">
+<link rel="stylesheet" href="{{ asset('css/item-detail.css') }}?v={{ time() }}">
 @endpush
 
 @section('content')
@@ -48,8 +48,7 @@
 					</a>
 					@endauth
 
-					{{-- コメントアイコン＋件数 --}}
-					<a href="#comments" class="meta-item icon-button" aria-label="コメント一覧へ">
+					<a href="#comments" class="meta-item icon-button is-comment" aria-label="コメント一覧へ">
 						<img src="{{ asset('images/icons/icon-comment.svg') }}" alt="" aria-hidden="true">
 						<span class="count">{{ $commentCount }}</span>
 					</a>

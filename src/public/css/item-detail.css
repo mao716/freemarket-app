@@ -1,32 +1,32 @@
 /* =========================
-	商品詳細ページ（左右均等2カラム）
+   商品詳細（左右2カラム）
    ========================= */
 
-/* --- 2カラムレイアウト --- */
+/* レイアウト */
 .item-grid {
 	display: grid;
+	/* グリッド（CSSの格子レイアウト） */
 	align-items: start;
+	/* 各セルの縦位置は上寄せ */
 	max-width: 980px;
 	margin: 0 auto 40px;
 	padding: 0 16px;
 	row-gap: 24px;
-	column-gap: 0;
 }
 
-/* PC幅で2カラムにする */
 @media (min-width: 768px) {
 	.item-grid {
 		grid-template-columns: 1fr 1fr;
+		/* 左右同幅2カラム */
 		column-gap: 48px;
 		row-gap: 0;
 	}
 }
 
-/* --- 左：商品画像 --- */
+/* 左：商品画像 */
 .item-media {
 	width: 100%;
 	margin: 0;
-	align-self: start;
 }
 
 .item-image {
@@ -36,10 +36,9 @@
 	border-radius: 4px;
 	display: block;
 	background: #fafafa;
-	object-fit: contain;
 }
 
-/* --- 右：商品情報 --- */
+/* 右：商品情報 */
 .item-summary {
 	display: grid;
 	row-gap: 12px;
@@ -63,7 +62,7 @@
 	margin: 4px 0 8px;
 }
 
-/* メタ情報（いいね・コメント） */
+/* メタ（いいね・コメント） */
 .item-meta {
 	display: flex;
 	align-items: center;
@@ -71,18 +70,7 @@
 	margin: 4px 0 10px;
 }
 
-.meta-item {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-}
-
-.meta-item .count {
-	font-size: 12px;
-	line-height: 1;
-}
-
-/* アイコンボタン */
+/* アイコンボタン（画像＋数字の横並び） */
 .icon-button {
 	background: none;
 	border: none;
@@ -91,8 +79,13 @@
 	color: #333;
 	text-decoration: none;
 	display: inline-flex;
+	/* アイコンと数字を横並び */
 	align-items: center;
+	/* 縦中央 */
 	gap: 6px;
+	/* アイコンと数字の間隔 */
+	line-height: 1;
+	/* 余白（行の高さ）を詰める */
 }
 
 .icon-button img {
@@ -101,8 +94,25 @@
 	display: block;
 }
 
-.icon-button[aria-pressed="true"] {
-	color: #ff5a5a;
+/* 件数（数字）をアイコン高さに合わせてセンタリング */
+.icon-button .count {
+	font-size: 12px;
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+}
+
+/* コメント側だけ微調整（フォントの沈み対策） */
+.icon-button.is-comment img {
+	position: relative;
+	top: -1px;
+	/* -1〜-2で調整OK */
+}
+
+.icon-button.is-comment .count {
+	position: relative;
+	top: -2px;
+	/* -1〜-3で調整OK */
 }
 
 /* CTA（購入ボタン） */
@@ -110,7 +120,7 @@
 	width: 100%;
 }
 
-/* --- 情報ブロック共通 --- */
+/* 情報ブロック共通 */
 .block {
 	margin-top: 16px;
 }
@@ -121,7 +131,7 @@
 	margin: 0 0 8px;
 }
 
-/* 商品の情報（2列の定義リスト） */
+/* 商品の情報（2列DL） */
 .info-list {
 	display: grid;
 	row-gap: 8px;
@@ -133,19 +143,22 @@
 	grid-template-columns: 120px 1fr;
 	column-gap: 12px;
 	align-items: baseline;
+	/* ラベルと値のベースライン（文字下端）を揃える */
 }
 
 .info-row dt {
-	color: #000000;
+	color: #000;
 	font-weight: bold;
 }
 
+/* カテゴリタグ */
 .tag {
-display: inline-block;
+	display: inline-block;
 	padding: 4px 10px;
 	background-color: #d6d5d5;
-	color: #000000;
+	color: #000;
 	border-radius: 999px;
+	/* 丸 pill 形状 */
 	font-size: 14px;
 	margin: 0 6px 6px 0;
 	line-height: 1.4;
@@ -155,6 +168,7 @@ display: inline-block;
 /* 商品説明 */
 .desc {
 	white-space: pre-wrap;
+	/* 改行（改行コード）を維持して表示 */
 	line-height: 1.8;
 }
 
@@ -176,12 +190,11 @@ display: inline-block;
 /* 各コメントカード */
 .comment {
 	background: #f4f4f4;
-	/* コメント背景を薄いグレーに */
 	border-radius: 8px;
 	padding: 12px 16px;
 }
 
-/* コメントのヘッダー（アイコン＋名前） */
+/* コメントヘッダー（アバター＋名前） */
 .comment-head {
 	display: flex;
 	align-items: center;
@@ -189,7 +202,7 @@ display: inline-block;
 	margin-bottom: 6px;
 }
 
-/* アバター画像 */
+/* アバター */
 .avatar {
 	width: 40px;
 	height: 40px;
@@ -221,12 +234,30 @@ display: inline-block;
 	font-size: 14px;
 }
 
+/* コメントフォーム見出し */
+.item-comment-form .block-title {
+	font-size: 1.4rem;
+	font-weight: 600;
+	margin-bottom: 6px;
+}
+
 /* コメント投稿フォーム */
 .item-comment-form {
 	margin: 24px 0 40px;
 }
 
-/* コメント送信ボタン(少し小さめ) */
+/* フォームの行間（行と行のすき間）を詰める */
+.item-comment-form .form {
+	row-gap: 8px;
+	/* 共通は28px → ここだけ8pxに */
+}
+
+/* ボタン行の余白（共通の30pxを打ち消し） */
+.item-comment-form .form-row--actions {
+	margin-top: 0;
+}
+
+/* コメント送信ボタン（少し小さめに） */
 .item-comment-form .button {
 	font-size: 16px;
 	padding: 8px 14px;

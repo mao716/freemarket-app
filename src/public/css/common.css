@@ -1,3 +1,16 @@
+/* ===== レイアウト ===== */
+.layout-main {
+	max-width: 1040px;
+	margin: 24px auto;
+	padding: 0 16px;
+}
+
+.layout-narrow {
+	max-width: 600px;
+	margin: 40px auto;
+	padding: 0 16px;
+}
+
 /* ===== ヘッダー ===== */
 .header {
 	background: #000;
@@ -12,11 +25,11 @@
 	padding: 0 16px;
 	display: grid;
 	grid-template-columns:
-		auto /* ロゴ */
-		80px /* 左の空き */
-		minmax(0, 420px) /* 検索の最大幅 */
-		80px /* 右の空き */
-		auto; /* 右ナビ */
+		auto /* logo */
+		80px /* 空き */
+		minmax(0, 420px) /* search */
+		80px /* 空き */
+		auto; /* nav */
 	grid-template-areas: "logo . search . nav";
 	align-items: center;
 	column-gap: 0;
@@ -151,5 +164,216 @@
 
 	.header-nav {
 		gap: 10px;
+	}
+}
+
+/* リンク風ボタン */
+.logout-form {
+	display: inline;
+	/* formを横並びにする */
+}
+
+.logout-link {
+	background: none;
+	border: none;
+	color: #fff;
+	text-decoration: none;
+	cursor: pointer;
+	font: inherit;
+	padding: 0;
+}
+
+/* ===== スマホ（横幅が狭い時）は2列レイアウトに ===== */
+@media (max-width: 768px) {
+	.header-inner {
+		height: auto;
+		padding: 8px 12px;
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		grid-template-areas:
+			"logo search sell"
+			"nav  nav   nav";
+		column-gap: 12px;
+		row-gap: 8px;
+		align-items: center;
+	}
+}
+
+/* ===== フォーム ===== */
+.page-section {
+	margin-top: 35px;
+	/* ヘッダーとの距離 */
+	display: grid;
+	row-gap: 18px;
+	/* ← タイトル下の空き */
+}
+
+.page-title {
+	font-size: 1.8rem;
+	text-align: center;
+}
+
+.form {
+	display: grid;
+	justify-items: stretch;
+	row-gap: 28px;
+}
+
+.form-row {
+	margin: 0;
+}
+
+.form-label {
+	display: inline-block;
+	margin-bottom: 6px;
+	font-weight: 600;
+}
+
+.input {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid #7a7a7a;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.form-row--actions {
+	margin-top: 30px;
+}
+
+/* ===== エラー文 ===== */
+.error {
+	color: #d4062c;
+	font-size: 12px;
+	margin-top: 6px;
+}
+
+/* ===== リンク ===== */
+.page-note {
+	font-size: 14px;
+}
+
+.page-note-link {
+	display: block;
+	width: 100%;
+	text-align: center;
+	color: #1a73e8;
+	text-decoration: none;
+	padding: 6px 8px;
+	border-radius: 6px;
+}
+
+.page-note-link:visited {
+	color: #1a73e8;
+}
+
+/* ===== 赤塗りボタンの見た目 ===== */
+.button {
+	display: inline-flex;
+	/* ← 中身をフレックス化（flex＝柔軟な配置） */
+	align-items: center;
+	/* ← 縦中央（line-height継承の影響を受けにくくなる） */
+	justify-content: center;
+	/* ← 横中央 */
+	padding: 8px 16px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	margin-top: 0;
+	line-height: 1.2;
+	/* ← 大きなline-height継承を打ち消す（行の高さ） */
+	text-decoration: none;
+	/* ← <a>の場合の下線を消す（任意） */
+}
+
+.button-primary {
+	background: #ff5a5a;
+	border-color: #ff5a5a;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+/* 幅いっぱいボタン（full幅時も中央に） */
+.button-full {
+	display: flex;
+	/* ← block ではなく flex に */
+	width: 100%;
+	box-sizing: border-box;
+	align-items: center;
+	/* ← 念のため明示 */
+	justify-content: center;
+	/* ← 横中央 */
+}
+
+/* ===== 赤枠ボタンの見た目 ===== */
+.button-outline {
+	background: none;
+	border: 1px solid #ff5a5a;
+	color: #ff5a5a;
+	padding: 6px 12px;
+	border-radius: 6px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+/* ---- レスポンシブ対応ヘッダー ---- */
+@media (max-width: 768px) {
+	.header--global .header-inner {
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		grid-template-areas:
+			"logo search sell"
+			"nav nav nav";
+		gap: 12px;
+		align-items: center;
+	}
+
+	.header-logo {
+		grid-area: logo;
+	}
+
+	.header-search {
+		grid-area: search;
+		display: flex;
+		justify-content: center;
+	}
+
+	.header-nav {
+		grid-area: nav;
+		justify-content: flex-end;
+		white-space: nowrap;
+		gap: 12px;
+	}
+
+	.header-button {
+		grid-area: sell;
+	}
+
+	.search-input {
+		width: 100%;
+		padding: 8px 10px;
+	}
+
+	.header-link,
+	.logout-link {
+		font-size: 14px;
+	}
+}
+
+/* ---- 480px以下はさらに余白を詰める ---- */
+@media (max-width: 480px) {
+	.header--global .header-inner {
+		gap: 10px;
+	}
+
+	.header-nav {
+		gap: 10px;
+	}
+
+	.header-button {
+		padding: 6px 12px;
+		border-radius: 4px;
 	}
 }
