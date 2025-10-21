@@ -19,14 +19,8 @@ class PurchaseController extends Controller
 			'building'    => $user->building,
 		];
 
-		$addressView = sprintf(
-			"〒 %s\n%s%s",
-			$shipto['postal_code'] ?? '',
-			$shipto['address'] ?? '',
-			!empty($shipto['building']) ? " {$shipto['building']}" : ''
-		);
-
-		return view('purchase.confirm', compact('item', 'addressView'));
+		$address = $shipto;
+		return view('purchase.confirm', compact('item', 'address'));
 	}
 
 	public function store(PurchaseRequest $request, Item $item)

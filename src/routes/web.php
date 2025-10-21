@@ -67,7 +67,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth'])->group(function () {
 	// 購入フロー（確認→購入実行）
 	Route::get('/purchase/{item}',  [PurchaseController::class, 'confirm'])->name('purchase.confirm');
-	Route::post('/purchase/{item}', [PurchaseController::class, 'purchase'])->name('purchase.perform');
+	Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
 
 	// 住所変更（購入画面から遷移）
 	Route::get('/purchase/address/{item}',  [AddressController::class, 'showAddressForm'])->name('address.show');
