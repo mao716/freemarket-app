@@ -1,13 +1,6 @@
-/* =========================
-   商品詳細（左右2カラム）
-   ========================= */
-
-/* レイアウト */
 .item-grid {
 	display: grid;
-	/* グリッド（CSSの格子レイアウト） */
 	align-items: start;
-	/* 各セルの縦位置は上寄せ */
 	max-width: 980px;
 	margin: 0 auto 40px;
 	padding: 0 16px;
@@ -17,13 +10,11 @@
 @media (min-width: 768px) {
 	.item-grid {
 		grid-template-columns: 1fr 1fr;
-		/* 左右同幅2カラム */
 		column-gap: 48px;
 		row-gap: 0;
 	}
 }
 
-/* 左：商品画像 */
 .item-media {
 	width: 100%;
 	margin: 0;
@@ -38,17 +29,15 @@
 	background: #fafafa;
 }
 
-/* 右：商品情報 */
 .item-summary {
 	display: grid;
 	row-gap: 12px;
 }
 
-/* タイトル・価格など */
 .item-title {
 	font-size: 2.8rem;
 	font-weight: 700;
-	margin-bottom: 2px;
+	margin-bottom: 0px;
 }
 
 .item-brand {
@@ -65,54 +54,44 @@
 /* メタ（いいね・コメント） */
 .item-meta {
 	display: flex;
-	align-items: center;
-	gap: 16px;
+	align-items: flex-start;
+	gap: 24px;
 	margin: 4px 0 10px;
 }
 
-/* アイコンボタン（画像＋数字の横並び） */
+/* ボタン・リンクの共通 */
 .icon-button {
 	background: none;
 	border: none;
 	cursor: pointer;
-	padding: 4px;
+	padding: 0;
 	color: #333;
 	text-decoration: none;
 	display: inline-flex;
-	/* アイコンと数字を横並び */
 	align-items: center;
-	/* 縦中央 */
 	gap: 6px;
-	/* アイコンと数字の間隔 */
-	line-height: 1;
-	/* 余白（行の高さ）を詰める */
+}
+
+/* アイコン＋数を縦並び */
+.icon-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .icon-button img {
-	width: 20px;
-	height: 20px;
+	width: 28px;
+	height: 28px;
 	display: block;
 }
 
-/* 件数（数字）をアイコン高さに合わせてセンタリング */
-.icon-button .count {
-	font-size: 12px;
-	display: inline-block;
-	height: 20px;
-	line-height: 20px;
-}
-
-/* コメント側だけ微調整（フォントの沈み対策） */
-.icon-button.is-comment img {
-	position: relative;
-	top: -1px;
-	/* -1〜-2で調整OK */
-}
-
-.icon-button.is-comment .count {
-	position: relative;
-	top: -2px;
-	/* -1〜-3で調整OK */
+/* 数字の見た目 */
+.icon-wrap .count {
+	font-size: 14px;
+	color: #333;
+	margin-top: 4px;
+	line-height: 1.2;
 }
 
 /* CTA（購入ボタン） */

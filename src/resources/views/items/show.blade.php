@@ -28,29 +28,37 @@
 					<form method="POST" action="{{ route('like.remove', $item) }}" class="inline-form">
 						@csrf @method('DELETE')
 						<button type="submit" class="meta-item icon-button" aria-pressed="true">
-							<img src="{{ asset('images/icons/icon-like-on.svg') }}" alt="いいね済み">
-							<span class="count">{{ $likeCount }}</span>
+							<div class="icon-wrap">
+								<img src="{{ asset('images/icons/icon-like-on.svg') }}" alt="いいね済み">
+								<span class="count">{{ $likeCount }}</span>
+							</div>
 						</button>
 					</form>
 					@else
 					<form method="POST" action="{{ route('like.add', $item) }}" class="inline-form">
 						@csrf
 						<button type="submit" class="meta-item icon-button" aria-pressed="false">
-							<img src="{{ asset('images/icons/icon-like-off.svg') }}" alt="いいね">
-							<span class="count">{{ $likeCount }}</span>
+							<div class="icon-wrap">
+								<img src="{{ asset('images/icons/icon-like-off.svg') }}" alt="いいね">
+								<span class="count">{{ $likeCount }}</span>
+							</div>
 						</button>
 					</form>
 					@endif
 					@else
 					<a href="{{ route('login') }}" class="meta-item icon-button" aria-pressed="false">
-						<img src="{{ asset('images/icons/icon-like-off.svg') }}" alt="いいね（ログインへ）">
-						<span class="count">{{ $likeCount }}</span>
+						<div class="icon-wrap">
+							<img src="{{ asset('images/icons/icon-like-off.svg') }}" alt="いいね（ログインへ）">
+							<span class="count">{{ $likeCount }}</span>
+						</div>
 					</a>
 					@endauth
 
 					<a href="#comments" class="meta-item icon-button is-comment" aria-label="コメント一覧へ">
-						<img src="{{ asset('images/icons/icon-comment.svg') }}" alt="" aria-hidden="true">
-						<span class="count">{{ $commentCount }}</span>
+						<div class="icon-wrap">
+							<img src="{{ asset('images/icons/icon-comment.svg') }}" alt="" aria-hidden="true">
+							<span class="count">{{ $commentCount }}</span>
+						</div>
 					</a>
 				</div>
 
