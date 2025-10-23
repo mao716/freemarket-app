@@ -45,7 +45,7 @@ class PurchaseController extends Controller
 				'quantity' => 1,
 			]],
 			'customer_email' => $user->email,
-			'success_url' => route('items.index'), // Stripe完了画面のあと戻る先
+			'success_url' => route('items.index'),
 			'cancel_url' => route('purchase.confirm', $item),
 		]);
 

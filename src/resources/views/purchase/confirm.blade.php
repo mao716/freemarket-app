@@ -1,16 +1,19 @@
 @extends('layouts.app')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/purchase.css') }}">
+@endpush
+
 @section('content')
 <main class="layout-main">
-	<section class="page-section layout-narrow">
-		<h1 class="page-title">購入内容の確認</h1>
+	<section class="page-section">
 
-		<div class="purchase-grid"><!-- 2カラムレイアウト（左：内容 / 右：サマリー） -->
-			<!-- ===== 左カラム ===== -->
+		<div class="purchase-grid">
+
 			<div class="purchase-left">
-				{{-- 商品カード --}}
+				{{-- 商品情報 --}}
 				<div class="product-card">
-					<div class="product-thumb"></div> {{-- サムネ枠（ダミー） --}}
+					<img class="product-thumb" src="{{ $item->image_url }}" alt="{{ $item->name }}">
 					<div class="product-meta">
 						<div class="product-name">{{ $item->name }}</div>
 						<div class="product-price">¥ {{ number_format($item->price) }}</div>
@@ -19,7 +22,7 @@
 
 				<hr class="divider">
 
-				{{-- 支払い方法（セレクト） --}}
+				{{-- 支払い方法 --}}
 				<form method="POST" action="{{ route('purchase.store', $item) }}" class="form" id="purchaseForm">
 					@csrf
 					<div class="form-row">
@@ -28,7 +31,7 @@
 							<select id="payment" name="payment" class="input input--select">
 								<option value="">選択してください</option>
 								<option value="konbini" {{ old('payment','konbini')==='konbini'?'selected':'' }}>コンビニ払い</option>
-								<option value="card" {{ old('payment')==='card'?'selected':'' }}>カード支払い</option>
+								<option value="card" {{ old('payment')==='card'?'selected':'' }}>カード払い</option>
 							</select>
 						</div>
 						@error('payment') <p class="error">{{ $message }}</p> @enderror
@@ -36,18 +39,16 @@
 
 					<hr class="divider">
 
-					{{-- 配送先（右側に変更リンク） --}}
-					<div class="form-row">
+					{{-- 配送先 --}}
+					<div class="form-row form-row--purchase">
 						<div class="address-row">
 							<div class="address-col">
 								<label class="form-label">配送先</label>
-								<div class="address-lines">
-									<div>〒 {{ $address['postal_code'] ?? '' }}</div>
-									<div>{{ $address['address'] ?? '' }}</div>
-									@if(!empty($address['building']))
-									<div>{{ $address['building'] }}</div>
-									@endif
-								</div>
+								<div>〒 {{ $address['postal_code'] ?? '' }}</div>
+								<div>{{ $address['address'] ?? '' }}</div>
+								@if(!empty($address['building']))
+								<div>{{ $address['building'] }}</div>
+								@endif
 							</div>
 							<div class="address-action">
 								<a class="link-change" href="{{ route('address.show', $item) }}">変更する</a>
@@ -55,7 +56,7 @@
 						</div>
 					</div>
 
-					<hr class="divider divider--last mobile-only"><!-- SPで下も区切りたい時用（任意） -->
+					<hr class="divider divider--last">
 				</form>
 			</div>
 
@@ -81,4 +82,9 @@
 		</div>
 	</section>
 </main>
+
+@push('scripts')
+<script src="{{ asset('js/purchase.js') }}" defer></script>
+@endpush
+
 @endsection

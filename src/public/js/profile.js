@@ -1,4 +1,3 @@
-// public/js/profile.js
 (function () {
   // DOM取得（DOM＝ブラウザ上の要素ツリー）
 	const input = document.getElementById('avatar');

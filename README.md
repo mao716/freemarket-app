@@ -2,16 +2,6 @@
 
 Laravel 11 + Docker
 
----
-
-## 動作環境
-
-- PHP 8.2 (php-fpm)
-- Laravel 11
-- Nginx 1.21
-- MySQL 8.0
-- phpMyAdmin
-- Docker / Docker Compose
 
 ---
 
@@ -24,13 +14,13 @@ git clone https://github.com/mao716/freemarket-app.git
 cd freemarket-app
 ```
 
-### ２. Docker コンテナの起動
+### 2. Docker コンテナの起動
 
 ```bash
 docker compose up -d --build
 ```
 
-### ３. Laravel の依存関係インストール（初回のみ）
+### 3. Laravel の依存関係インストール（初回のみ）
 
 すでに `src/` ディレクトリに Laravel 本体は含まれています。
 クローン後は以下のコマンドで依存関係（vendor/）をインストールしてください。
@@ -42,7 +32,7 @@ composer install
 exit
 ```
 
-### ４. Laravel の環境変数設定
+### 4. Laravel の環境変数設定
 
 Laravel をインストールすると、`src/.env.example` が自動生成されます。
 以下のコマンドで `.env` を作成してください。
@@ -65,7 +55,18 @@ SESSION_DRIVER=file
 SESSION_LIFETIME=120
 ```
 
-### 5. Laravel の初期設定
+### 5. Stripe設定（テストモード）
+
+本アプリは Stripe のテストモードを使用しています。
+決済処理を行うには、Stripeアカウントを作成しテスト用APIキーを取得後、 `.env` に設定してください。
+
+```env
+STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxx
+STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
+```
+※ 現在の実装では Webhook 機能（STRIPE_WEBHOOK_SECRET）は使用していません。
+
+### 6. Laravel の初期設定
 
 ```bash
 docker compose exec php bash
@@ -85,6 +86,24 @@ php artisan db:seed
 
 exit
 ```
+---
+
+## 動作環境
+
+- PHP 8.2 (php-fpm)
+- Laravel 11
+- Nginx 1.21
+- MySQL 8.0
+- phpMyAdmin
+- Docker / Docker Compose
+
+---
+
+## 使用技術
+
+- fortify
+- form request
+- stripe
 
 ---
 
@@ -100,14 +119,6 @@ exit
 ## ER 図
 
 ![ER図](./er_diagram.png)
-
----
-
-## 使用技術
-
-- fortify
-- form request
-- stripe
 
 ---
 
