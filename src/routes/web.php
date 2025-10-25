@@ -63,11 +63,12 @@ Route::middleware('guest')->group(function () {
 
 // =================== 認証必須（ログインが必要） ===================
 
-// ★ローカル開発だけ“自動ログイン→auth”の順で適用
+// ローカル開発だけ“自動ログイン→auth”の順で適用
 Route::middleware(['auth'])->group(function () {
 	// 購入フロー（確認→購入実行）
 	Route::get('/purchase/{item}',  [PurchaseController::class, 'confirm'])->name('purchase.confirm');
 	Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
+	Route::get('/purchase/complete', [PurchaseController::class, 'complete'])->name('purchase.complete');
 
 	// 住所変更（購入画面から遷移）
 	Route::get('/purchase/address/{item}',  [AddressController::class, 'showAddressForm'])->name('address.show');
