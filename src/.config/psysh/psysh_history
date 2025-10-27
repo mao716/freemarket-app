@@ -21,3 +21,6 @@ config('dev.autologin_user_id')
 App\Models\Item::first()->categories
 App\Models\Category::all(['id', 'name'])
 App\Models\Category::orderBy('id')->get(['id', 'name'])
+route('purchase.complete', [], true)
+\App\Models\Order::where('item_id', 123)->exists();
+\App\Models\Order::latest()->first();

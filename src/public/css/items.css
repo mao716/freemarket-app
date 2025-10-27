@@ -97,7 +97,6 @@
 	display: block;
 }
 
-/* SOLD（使う場合はそのまま表示。不要なら削ってOK） */
 .items .item-badge {
 	position: absolute;
 	top: 8px;
@@ -107,7 +106,7 @@
 	padding: 3px 7px;
 	border-radius: 6px;
 	font-weight: 700;
-	font-size: 11px;
+	font-size: 14px;
 }
 
 .items .item-body {

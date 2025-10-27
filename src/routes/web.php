@@ -27,6 +27,8 @@ Route::get('/', [ItemController::class, 'index'])->name('items.index');
 // 商品詳細: /item/{item}
 Route::get('/item/{item}', [ItemController::class, 'detail'])->name('items.detail');
 
+Route::get('/purchase/complete', [PurchaseController::class, 'complete'])->name('purchase.complete');
+
 
 // =================== ローカル限定：開発用ログインショートカット ===================
 // URLを叩くだけで指定ユーザーでログイン（セッション=ログイン状態を保存）
@@ -46,11 +48,11 @@ Route::get('/dev/login-as/{id}', function (Request $request, int $id) {
 // guest（= 未ログインの人だけ入れる）
 Route::middleware('guest')->group(function () {
 	// ログイン画面（GET）
-	Route::get('/login', [AuthLoginController::class, 'showLoginForm'])->name('login.show');
+	Route::get('/login', [AuthLoginController::class, 'showLoginForm'])->name('login');
 	// ログイン処理（POST） throttle（= 一定時間内の回数制限）で総当たり対策
 	Route::post('/login', [AuthLoginController::class, 'authenticate'])
 		->middleware('throttle:6,1')
-		->name('login');
+		->name('login.perform');
 
 	// 会員登録画面表示（GET）
 	Route::get('/register', [AuthRegisterController::class, 'showRegisterForm'])

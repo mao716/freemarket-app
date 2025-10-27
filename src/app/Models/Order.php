@@ -26,6 +26,10 @@ class Order extends Model
 		'status',
 	];
 
+	protected $attributes = [
+		'status' => self::STATUS_PENDING,
+	];
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);

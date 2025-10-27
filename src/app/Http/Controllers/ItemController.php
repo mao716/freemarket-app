@@ -52,7 +52,7 @@ class ItemController extends Controller
 			? $item->likes->contains('user_id', Auth::id())
 			: false;
 
-		$isSold = $item->order !== null;                 // 売却済み判定（ordersに1件あれば売却済み）
+		$isSold = $item->order !== null;
 		$isMine = Auth::id() === optional($item->user)->id; // 自分の出品かどうか
 
 		return view('items.show', [
