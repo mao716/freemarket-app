@@ -5,14 +5,38 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use App\Models\Item;
 use App\Http\Requests\ProfileRequest; // フォームリクエスト（バリデーション専用クラス）
 
 class UserController extends Controller
 {
 	/** マイページのダッシュボード（お好みで） */
-	public function profile(): View
+	public function profile(Request $request): View
 	{
-		return view('mypage.profile'); // あるなら
+		$user = $request->user();
+
+		// ★初期タブは 'sell'（= 出品した商品）
+		$tab = $request->query('page', 'sell');
+
+		// 出品した商品（自分が出した Item 一覧）
+		// ※ order（売却情報）も一緒に取得しておくと SOLD 判定に使える
+		$sellingItems = $user->items()
+			->with('order')          // ← hasOne(order) 前提
+			->latest()
+			->get();
+
+		// 購入した商品（自分が購入した Item 一覧）
+		$purchasedItems = Item::with('order')
+			->whereHas('order', fn($q) => $q->where('user_id', $user->id))
+			->latest()
+			->get();
+
+		return view('mypage.profile', [
+			'user'            => $user,
+			'tab'             => $tab,           // ★Blade にも渡す
+			'sellingItems'    => $sellingItems,
+			'purchasedItems'  => $purchasedItems,
+		]);
 	}
 
 	/** プロフィール編集の表示（初回／通常共通） */
