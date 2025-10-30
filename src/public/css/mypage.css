@@ -1,0 +1,119 @@
+.profile-head {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 24px;
+	margin-bottom: 32px;
+	text-align: center;
+}
+
+.profile-head .avatar {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	object-fit: cover;
+	background: #e9e9e9;
+}
+
+.profile-head .comment-author {
+	font-weight: 700;
+	font-size: 1.3rem;
+	color: #000;
+	margin-right: 50px;
+}
+
+/* 編集ボタン */
+.profile-edit {
+	white-space: nowrap;
+	font-size: 0.9rem;
+	padding: 6px 14px;
+}
+
+@media (min-width:480px) {
+	.profile-head .avatar {
+		width: 80px;
+		height: 80px
+	}
+
+	.profile-head .comment-author {
+		font-size: 1.25rem
+	}
+}
+
+/* 2) タブ（.items の外に置く） */
+.mypage .page-tabs {
+	display: flex;
+	gap: 32px;
+	align-items: flex-end;
+	justify-content: flex-start;
+	padding-bottom: 8px;
+	margin-bottom: 24px;
+	/* full-bleed：横幅いっぱいの黒線 */
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	padding-left: calc(50vw - 50% + 16px);
+	padding-right: calc(50vw - 50% + 16px);
+	border-bottom: 1px solid #000
+}
+
+.mypage .page-tab {
+	background: transparent;
+	color: #666;
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 1rem;
+	transition: color .2s
+}
+
+.mypage .page-tab:hover {
+	color: #000
+}
+
+.mypage .page-tab.is-active {
+	color: #e53935
+}
+
+/* items.css の“赤い下線”を念のため無効化（保険）*/
+.mypage .items .page-tab.is-active::after {
+	content: none
+}
+
+/* 3) 商品カード（一覧と完全一致）
+   ※ item-grid に“箱（max-width/padding）”は持たせない！ */
+.mypage .items .item-grid {
+	/* 箱サイズは .layout-main に任せる（= 余白/幅を触らない） */
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	display: grid;
+	gap: 24px;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width:1024px) {
+	.mypage .items .item-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr))
+	}
+}
+
+@media (max-width:640px) {
+	.mypage .items .item-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr))
+	}
+}
+
+/* 画像の比率・トリミング（一覧と同じ） */
+.mypage .items .item-thumb {
+	position: relative;
+	aspect-ratio: 1/1;
+	background: #eee;
+	overflow: hidden
+}
+
+.mypage .items .item-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block
+}
