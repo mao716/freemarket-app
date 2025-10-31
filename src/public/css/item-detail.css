@@ -156,7 +156,7 @@
 	list-style: none;
 	padding: 0;
 	display: grid;
-	row-gap: 16px;
+	row-gap: 24px;
 }
 
 .comment-count {
@@ -168,17 +168,16 @@
 
 /* 各コメントカード */
 .comment {
-	background: #f4f4f4;
-	border-radius: 8px;
-	padding: 12px 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 }
-
 /* コメントヘッダー（アバター＋名前） */
 .comment-head {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-bottom: 6px;
+	margin: 0 0 4px;
 }
 
 /* アバター */
@@ -197,6 +196,12 @@
 	font-weight: 700;
 	font-size: 14px;
 	color: #000;
+}
+
+.comment-body-wrap {
+	background: #f4f4f4;
+	border-radius: 8px;
+	padding: 12px 16px;
 }
 
 /* コメント本文 */

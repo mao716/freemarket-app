@@ -121,7 +121,10 @@
 								<img class="avatar" src="{{ $c->user->avatar_url }}" alt="{{ $c->user->name }}のアイコン">
 								<div class="comment-author">{{ $c->user->name }}</div>
 							</div>
-							<p class="comment-body">{{ $c->body }}</p>
+							{{-- アイコンの下に本文（枠）を出す --}}
+							<div class="comment-body-wrap">
+								<p class="comment-body">{{ $c->body }}</p>
+							</div>
 						</li>
 						@empty
 						<li class="comment comment--empty">まだコメントはありません。</li>
@@ -136,8 +139,7 @@
 					<form method="POST" action="{{ route('comments.store', $item) }}" class="form">
 						@csrf
 						<div class="form-row">
-							<label class="form-label" for="body">コメント（必須・255文字まで）</label>
-							<textarea id="body" name="body" class="input" rows="3" maxlength="255">{{ old('body') }}</textarea>
+							<textarea id="body" name="body" class="input" rows="7" maxlength="255">{{ old('body') }}</textarea>
 							@error('body') <p class="error">{{ $message }}</p> @enderror
 						</div>
 						<div class="form-row form-row--actions">
@@ -146,6 +148,22 @@
 					</form>
 				</section>
 				@endauth
+
+				{{-- 未ログインでもフォームの見た目は出す。押したらログインへ --}}
+				@guest
+				<section class="item-comment-form block">
+					<h3 class="block-title">商品へのコメント</h3>
+					<form action="{{ route('login') }}" method="GET" class="form">
+						<div class="form-row">
+							<textarea class="input" rows="7" maxlength="255"></textarea>
+						</div>
+						<div class="form-row form-row--actions">
+							<button class="button button-primary button-full">コメントを送信する</button>
+						</div>
+					</form>
+				</section>
+				@endguest
+
 			</div>
 		</section>
 	</article>
