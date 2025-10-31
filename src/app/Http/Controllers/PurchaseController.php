@@ -66,7 +66,7 @@ class PurchaseController extends Controller
 		$address = $this->shiptoText($ship);
 
 		/* -----------------------------
-           コンビニ払い：Stripe使わず即確定
+			コンビニ払い：Stripe使わず即確定
         ------------------------------*/
 		if ($request->payment === Order::PAYMENT_KONBINI) {
 			try {

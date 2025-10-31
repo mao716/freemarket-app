@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddressRequest;
 use App\Models\Item;
+use Illuminate\Support\Facades\Auth;
+
 
 class AddressController extends Controller
 {
 	public function showAddressForm(Item $item)
 	{
-		$user = auth()->user();
+		$user = Auth::user();
 		$sessionKey = "shipto.item_{$item->id}";
 		$seed = session($sessionKey) ?? [
 			'postal_code' => $user->postal_code,
