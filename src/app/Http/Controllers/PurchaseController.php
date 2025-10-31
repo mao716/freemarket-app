@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;   // ← 解析ツールが型を追える
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\PurchaseRequest;
@@ -13,16 +14,16 @@ use Stripe\Checkout\Session as StripeSession;
 
 class PurchaseController extends Controller
 {
-	/** 共通: その商品は売却済み？ */
+	/** その商品は売却済み？（関係メソッドの有無で判定） */
 	private function isSold(Item $item): bool
 	{
 		return $item->order()->exists();
 	}
 
-	/** 共通: 配送先（セッション or プロフィール） */
+	/** 配送先（セッション優先／なければプロフィール） */
 	private function shipto(Item $item): array
 	{
-		$u = auth()->user();
+		$u = Auth::user();
 		return session("shipto.item_{$item->id}") ?? [
 			'postal_code' => $u->postal_code,
 			'address'     => $u->address,
@@ -30,7 +31,7 @@ class PurchaseController extends Controller
 		];
 	}
 
-	/** 共通: 配送先の見出し文字列 */
+	/** 配送先の表示用文字列（orders.address に保存する想定） */
 	private function shiptoText(array $ship): string
 	{
 		return trim(sprintf(
@@ -44,8 +45,8 @@ class PurchaseController extends Controller
 	/** 購入確認画面 */
 	public function confirm(Item $item)
 	{
-		// 売却済み or 自分の商品は詳細へ戻す
-		if ($this->isSold($item) || $item->user_id === auth()->id()) {
+		// 売却済み or 出品者本人なら詳細へ戻す
+		if ($this->isSold($item) || $item->user_id === Auth::id()) {
 			return redirect()->route('items.detail', $item);
 		}
 
@@ -53,25 +54,62 @@ class PurchaseController extends Controller
 		return view('purchase.confirm', compact('item', 'address'));
 	}
 
-	/** Stripe チェックアウト作成 → リダイレクト */
+	/** 購入実行：コンビニは即確定／カードはStripe */
 	public function store(PurchaseRequest $request, Item $item)
 	{
-		// 二重バリデーション（URL直叩き対策）
-		if ($this->isSold($item) || $item->user_id === $request->user()->id) {
+		// URL直叩き対策：売却済み／出品者本人は弾く
+		if ($this->isSold($item) || $item->user_id === Auth::id()) {
 			return redirect()->route('items.detail', $item);
 		}
 
 		$ship    = $this->shipto($item);
 		$address = $this->shiptoText($ship);
 
+		/* -----------------------------
+           コンビニ払い：Stripe使わず即確定
+        ------------------------------*/
+		if ($request->payment === Order::PAYMENT_KONBINI) {
+			try {
+				DB::transaction(function () use ($item, $address) {
+					Order::firstOrCreate(
+						['item_id' => $item->id], // 冪等に作成
+						[
+							'user_id' => Auth::id(),
+							'address' => $address,               // 文字列で保持する設計
+							'payment' => Order::PAYMENT_KONBINI,
+							'status'  => Order::STATUS_PAID,     // 支払済みで確定
+						]
+					);
+				});
+			} catch (\Throwable $e) {
+				Log::error('Konbini order create failed', [
+					'e' => $e->getMessage(),
+					'item_id' => $item->id,
+				]);
+				return redirect()
+					->route('purchase.confirm', $item)
+					->with('error', '購入処理に失敗しました。時間をおいて再度お試しください。');
+			}
+
+			// 一時住所はクリア
+			session()->forget("shipto.item_{$item->id}");
+
+			return redirect()
+				->route('items.index')
+				->with('success', '購入が完了しました（コンビニ払い）');
+		}
+
+		/* -----------------------------
+           カード払い：Stripe Checkout
+        ------------------------------*/
 		Stripe::setApiKey(config('services.stripe.secret'));
 
-		// 成功時の復帰 URL は絶対 URL で（Stripe 要件）
+		// Stripe要件：絶対URLで
 		$successUrl = route('purchase.complete', [], true) . '?session_id={CHECKOUT_SESSION_ID}';
 
 		$checkout = StripeSession::create([
 			'mode'                 => 'payment',
-			'payment_method_types' => [$request->payment],   // 'card' / 'konbini' 等
+			'payment_method_types' => ['card'], // コンビニ分岐済みなのでカード固定
 			'line_items' => [[
 				'price_data' => [
 					'currency'    => 'jpy',
@@ -80,25 +118,25 @@ class PurchaseController extends Controller
 				],
 				'quantity' => 1,
 			]],
-			'customer_email' => $request->user()->email,
+			'customer_email' => Auth::user()->email,
 			'success_url'    => $successUrl,
 			'cancel_url'     => route('purchase.confirm', $item),
-			// complete() で確定に使う情報を埋め込む
+			// 完了ハンドラで使う値
 			'metadata' => [
 				'item_id' => (string) $item->id,
-				'user_id' => (string) $request->user()->id,
+				'user_id' => (string) Auth::id(),
 				'address' => $address,
-				'payment' => (string) $request->payment,
+				'payment' => (string) Order::PAYMENT_CARD,
 			],
 		]);
 
-		// 一時住所は破棄
+		// 一時住所はここで破棄（戻るときは address_edit から再設定できる設計）
 		session()->forget("shipto.item_{$item->id}");
 
 		return redirect()->away($checkout->url);
 	}
 
-	/** 決済完了ハンドラ（即時決済系） */
+	/** 決済完了（カード決済） */
 	public function complete(Request $request)
 	{
 		$sessionId = (string) $request->query('session_id', '');
@@ -111,11 +149,14 @@ class PurchaseController extends Controller
 		try {
 			$session = StripeSession::retrieve($sessionId);
 		} catch (\Throwable $e) {
-			Log::warning('Stripe session retrieve failed', ['e' => $e->getMessage(), 'session_id' => $sessionId]);
+			Log::warning('Stripe session retrieve failed', [
+				'e' => $e->getMessage(),
+				'session_id' => $sessionId,
+			]);
 			return redirect()->route('items.index');
 		}
 
-		// 即時決済のみここで確定（コンビニ等は Webhook で確定させるのが通常）
+		// 即時決済のみここで確定（未決済は弾く）
 		if (($session->payment_status ?? null) !== 'paid') {
 			return redirect()->route('items.index');
 		}
@@ -124,7 +165,7 @@ class PurchaseController extends Controller
 		$itemId  = (int)   ($meta->item_id ?? 0);
 		$userId  = (int)   ($meta->user_id ?? 0);
 		$address = (string)($meta->address ?? '');
-		$payment = (string)($meta->payment ?? '');
+		$payment = (string)($meta->payment ?? Order::PAYMENT_CARD);
 
 		if ($itemId === 0 || $userId === 0) {
 			return redirect()->route('items.index');
@@ -138,13 +179,17 @@ class PurchaseController extends Controller
 					[
 						'user_id' => $userId,
 						'address' => $address,
-						'payment' => $payment !== '' ? $payment : Order::PAYMENT_CARD,
+						'payment' => $payment,
 						'status'  => Order::STATUS_PAID,
 					]
 				);
 			});
 		} catch (\Throwable $e) {
-			Log::error('Order create failed', ['e' => $e->getMessage(), 'item_id' => $itemId, 'user_id' => $userId]);
+			Log::error('Order create failed', [
+				'e' => $e->getMessage(),
+				'item_id' => $itemId,
+				'user_id' => $userId,
+			]);
 		}
 
 		return redirect()->route('items.index');
