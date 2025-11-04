@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PurchaseRequest;
 use App\Models\Item;
 use App\Models\Order;
@@ -22,11 +23,12 @@ class PurchaseController extends Controller
 	/** 共通: 配送先（セッション or プロフィール） */
 	private function shipto(Item $item): array
 	{
-		$u = auth()->user();
+		$user = Auth::user();
+
 		return session("shipto.item_{$item->id}") ?? [
-			'postal_code' => $u->postal_code,
-			'address'     => $u->address,
-			'building'    => $u->building,
+			'postal_code' => $user->postal_code,
+			'address'     => $user->address,
+			'building'    => $user->building,
 		];
 	}
 
@@ -45,7 +47,7 @@ class PurchaseController extends Controller
 	public function confirm(Item $item)
 	{
 		// 売却済み or 自分の商品は詳細へ戻す
-		if ($this->isSold($item) || $item->user_id === auth()->id()) {
+		if ($this->isSold($item) || $item->user_id === Auth::id()) {
 			return redirect()->route('items.detail', $item);
 		}
 
