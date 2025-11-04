@@ -15,11 +15,11 @@
 
 	<form method="POST"
 		action="{{ route('mypage.save') }}"
-		enctype="multipart/form-data" {{-- ファイル送信用（multipart） --}}
+		enctype="multipart/form-data" {{-- ファイル送信用の形式 --}}
 		class="form">
 		@csrf
 
-		{{-- ★ ここをフォームの中に移動！ --}}
+		{{-- ★ 画像ブロックをフォーム内へ！ --}}
 		<div class="form-row">
 			<div class="avatar-wrapper">
 				<div class="avatar">
@@ -35,10 +35,10 @@
 					type="file"
 					class="visually-hidden"
 					accept="image/jpeg,image/png">
+				@error('avatar') <p class="error">{{ $message }}</p> @enderror
 				<p id="avatarError" class="error" style="display:none;"></p>
 			</div>
 		</div>
-		{{-- ★ ここまで --}}
 
 		<div class="form-row">
 			<label class="form-label" for="name">ユーザー名</label>

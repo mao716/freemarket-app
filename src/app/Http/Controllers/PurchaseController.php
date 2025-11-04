@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;   // ← 解析ツールが型を追える
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PurchaseRequest;
 use App\Models\Item;
 use App\Models\Order;
@@ -23,11 +24,16 @@ class PurchaseController extends Controller
 	/** 配送先（セッション優先／なければプロフィール） */
 	private function shipto(Item $item): array
 	{
+<<<<<<< HEAD
 		$u = Auth::user();
+=======
+		$user = Auth::user();
+
+>>>>>>> feature/profile-view
 		return session("shipto.item_{$item->id}") ?? [
-			'postal_code' => $u->postal_code,
-			'address'     => $u->address,
-			'building'    => $u->building,
+			'postal_code' => $user->postal_code,
+			'address'     => $user->address,
+			'building'    => $user->building,
 		];
 	}
 
@@ -45,7 +51,11 @@ class PurchaseController extends Controller
 	/** 購入確認画面 */
 	public function confirm(Item $item)
 	{
+<<<<<<< HEAD
 		// 売却済み or 出品者本人なら詳細へ戻す
+=======
+		// 売却済み or 自分の商品は詳細へ戻す
+>>>>>>> feature/profile-view
 		if ($this->isSold($item) || $item->user_id === Auth::id()) {
 			return redirect()->route('items.detail', $item);
 		}
