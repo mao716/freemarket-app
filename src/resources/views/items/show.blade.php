@@ -78,7 +78,7 @@
 				@else
 				{{-- 自分の商品 or 売却済 --}}
 				<button class="button button-full" disabled>
-					購入できません（売却済み）
+					購入できません
 				</button>
 				@endif
 
