@@ -32,7 +32,7 @@ class ExhibitionRequest extends FormRequest
 			'condition'   => [
 				'required',
 				'integer',
-				Rule::in(array_keys(Item::CONDITION)), // ← 1,2,3,4のみ許可（プルダウン一致）
+				Rule::in(array_keys(Item::CONDITION)),
 			],
 			'price'       => ['required', 'integer', 'min:0'],
 			'brand'       => ['nullable', 'string', 'max:255'],
@@ -49,9 +49,6 @@ class ExhibitionRequest extends FormRequest
 			'image.image'          => '商品画像は画像ファイルを選択してください',
 			'image.mimes'          => '商品画像はjpegまたはpng形式で選択してください',
 			'categories.required'  => 'カテゴリーを選択してください',
-			'categories.array'     => 'カテゴリーの形式が不正です',
-			'categories.min'       => 'カテゴリーを1つ以上選択してください',
-			'categories.*.exists'  => '存在しないカテゴリーが含まれています',
 			'condition.required'   => '商品の状態を選択してください',
 			'price.required'       => '販売価格を入力してください',
 			'price.integer'        => '販売価格は数値で入力してください',
