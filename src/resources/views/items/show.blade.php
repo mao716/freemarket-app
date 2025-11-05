@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.base')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/item-detail.css') }}?v={{ time() }}">
@@ -10,7 +10,7 @@
 		<section class="item-grid">
 			{{-- 左：画像 --}}
 			<figure class="item-media">
-				<img class="item-image" src="{{ $item->image_url }}" alt="{{ $item->name }}">
+				<img class="item-image" src="{{ asset('images/items/' . $item->image_path) }}" alt="{{ $item->name }}">
 			</figure>
 
 			{{-- 右：すべての商品情報ブロック --}}

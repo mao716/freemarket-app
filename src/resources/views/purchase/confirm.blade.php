@@ -1,8 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.base')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/purchase.css') }}">
 @endpush
+
+@section('title', '購入手続き')
 
 @section('content')
 <main class="layout-main">
@@ -13,7 +15,7 @@
 			<div class="purchase-left">
 				{{-- 商品情報 --}}
 				<div class="product-card">
-					<img class="product-thumb" src="{{ $item->image_url }}" alt="{{ $item->name }}">
+					<img class="product-thumb" src="{{ asset('images/items/' . $item->image_path) }}" alt="{{ $item->name }}">
 					<div class="product-meta">
 						<div class="product-name">{{ $item->name }}</div>
 						<div class="product-price">¥ {{ number_format($item->price) }}</div>

@@ -88,17 +88,12 @@ class Item extends Model
 
 	public function getImageUrlAttribute(): string
 	{
-		$p = $this->image_path;
+		$imagePath = $this->image_path;
 
-		if (blank($p)) {
-			return asset('images/image-placeholder.png'); // ダミー
+		if (preg_match('#^https?://#', $imagePath)) {
+			return $imagePath;
 		}
 
-		if (preg_match('#^https?://#', $p)) {
-			return $p;
-		}
-
-		// それ以外は public/images/items にある前提
-		return asset('images/items/' . $p);
+		return asset('storage/' . $imagePath);
 	}
 }

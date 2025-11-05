@@ -5,14 +5,19 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>@yield('title', 'Freemarket')</title>
+
+	{{-- 共通CSS --}}
 	<link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/common.css') }}">
 	@stack('styles')
 </head>
 
 <body>
-	<x-site-header type="global" />
-	<main class="layout-main">@yield('content')</main>
+	@php($headerType = trim($__env->yieldContent('headerType', 'auto')))
+	<x-site-header :type="$headerType === 'auto' ? (auth()->check() ? 'global' : 'simple') : $headerType" />
+
+	@yield('content')
+
 	@stack('scripts')
 </body>
 

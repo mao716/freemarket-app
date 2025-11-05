@@ -1,54 +1,54 @@
-@extends('layouts.guest')
+@extends('layouts.base')
 @section('title', '会員登録')
 
 @section('content')
-<section class="page-section">
-	<h1 class="page-title">会員登録</h1>
+<main class="layout-narrow">
+	<section class="page-section">
+		<h1 class="page-title">会員登録</h1>
 
-	<form method="POST" action="{{ route('register') }}" class="form">
-		@csrf
+		<form method="POST" action="{{ route('register') }}" class="form">
+			@csrf
 
-		<div class="form-row">
-			<label for="name" class="form-label">
-				<span>ユーザー名</span>
-			</label>
-			<input id="name" type="text" name="name" value="{{ old('name') }}" class="input">
-			@error('name') <p class="error">{{ $message }}</p> @enderror
-		</div>
+			<div class="form-row">
+				<label for="name" class="form-label">
+					<span>ユーザー名</span>
+				</label>
+				<input id="name" type="text" name="name" value="{{ old('name') }}" class="input">
+				@error('name') <p class="error">{{ $message }}</p> @enderror
+			</div>
 
-		<div class="form-row">
-			<label for="email" class="form-label">
-				<span>メールアドレス</span>
-			</label>
-			<input id="email" type="email" name="email" value="{{ old('email') }}" class="input">
-			@error('email') <p class="error">{{ $message }}</p> @enderror
-		</div>
+			<div class="form-row">
+				<label for="email" class="form-label">
+					<span>メールアドレス</span>
+				</label>
+				<input id="email" type="email" name="email" value="{{ old('email') }}" class="input">
+				@error('email') <p class="error">{{ $message }}</p> @enderror
+			</div>
 
-		<div class="form-row">
-			<label for="password" class="form-label">
-				<span>パスワード</span>
-			</label>
-			<input id="password" type="password" name="password" class="input">
-			@error('password') <p class="error">{{ $message }}</p> @enderror
-		</div>
+			<div class="form-row">
+				<label for="password" class="form-label">
+					<span>パスワード</span>
+				</label>
+				<input id="password" type="password" name="password" class="input">
+				@error('password') <p class="error">{{ $message }}</p> @enderror
+			</div>
 
-		<div class="form-row">
-			<label for="password_confirmation" class="form-label">
-				<span>確認用パスワード</span>
-			</label>
-			<input id="password_confirmation" type="password" name="password_confirmation" class="input">
-			@error('password_confirmation') <p class="error">{{ $message }}</p> @enderror
-		</div>
+			<div class="form-row">
+				<label for="password_confirmation" class="form-label">
+					<span>確認用パスワード</span>
+				</label>
+				<input id="password_confirmation" type="password" name="password_confirmation" class="input">
+				@error('password_confirmation') <p class="error">{{ $message }}</p> @enderror
+			</div>
 
-		<div class="form-row form-row--actions">
-			<button type="submit" class="button button-primary button-full">登録する</button>
-		</div>
-	</form>
+			<div class="form-row form-row--actions">
+				<button type="submit" class="button button-primary button-full">登録する</button>
+			</div>
+		</form>
 
-
-	<p class="page-note">
-		<a class="page-note-link" href="{{ route('login') }}">ログインはこちら</a>
-	</p>
-
-</section>
+		<p class="page-note">
+			<a class="page-note-link" href="{{ route('login') }}">ログインはこちら</a>
+		</p>
+	</section>
+</main>
 @endsection

@@ -1,9 +1,10 @@
-{{-- resources/views/purchase/address_edit.blade.php --}}
-@extends('layouts.app')
+@extends('layouts.base')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/purchase.css') }}">
 @endpush
+
+@section('title', '送付先住所変更')
 
 @section('content')
 <main class="layout-narrow">

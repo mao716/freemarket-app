@@ -5,53 +5,41 @@
 
 .sell-form {
 	row-gap: 24px;
-	/* 行間（row-gap＝縦の余白） */
 }
 
-/* 2カラム（グリッド＝格子状レイアウト） */
+/* 2カラム（grid＝格子レイアウト） */
 .sell-grid-2 {
 	display: grid;
-	/* grid（グリッド＝行列レイアウト） */
 	grid-template-columns: 1fr 1fr;
 	gap: 16px;
-	/* カード間の余白 */
 }
 
 @media (max-width: 768px) {
 	.sell-grid-2 {
 		grid-template-columns: 1fr;
-		/* スマホは1列（レスポンシブ＝画面幅に応じて切替） */
 	}
 }
 
-/* ===== 画像アップローダ ===== */
+/* ===== 画像アップローダ（ドラッグ＆ドロップ風） ===== */
 .uploader {
 	position: relative;
 }
 
 .uploader-input {
-	/* ネイティブinputは隠して、見た目はドロップ領域に委ねる */
 	position: absolute;
 	inset: 0;
 	opacity: 0;
-	/* 透明化 */
 	cursor: pointer;
 }
 
 .uploader-drop {
-	border: 2px dashed #c9c9c9;
-	/* 破線枠（ドラッグ&ドロップの“的”） */
+	border: 1px dashed #7a7a7a;
 	border-radius: 8px;
 	padding: 28px 16px;
 	text-align: center;
-	background: #fafafa;
-	transition: border-color 0.2s, background 0.2s;
-	/* ホバー時のなめらかな変化（トランジション＝徐々に変わる演出） */
-}
-
-.uploader:hover .uploader-drop {
-	border-color: #999;
-	background: #f7f7f7;
+	background: #ffffff;
+	transition: border-color .2s, background .2s;
+	/* transition＝徐々に変化する効果 */
 }
 
 .uploader-icon {
@@ -71,7 +59,7 @@
 	color: #666;
 }
 
-/* プレビュー（複数可） */
+/* プレビュー（thumb＝サムネイル） */
 .uploader-preview {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
@@ -99,45 +87,56 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	/* 余白なくトリミング（object-fit＝はみ出し時の収め方） */
+	/* object-fit＝はみ出し時の収め方 */
 }
 
-/* ===== カテゴリ（複数選択UIのタグ表示） ===== */
-.category-select {
-	display: grid;
-	row-gap: 10px;
+.sell-subtitle {
+	font-size: 18px;
+	font-weight: 700;
+	margin: 24px 0 8px;
 }
 
-.category-chips {
+.sell-hr {
+	border: 0;
+	border-top: 1px solid #7a7a7a;
+	margin: 0 0 16px;
+}
+
+.chip-list {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 8px;
+	gap: 10px;
 }
 
-.category-chip {
+.chip-input {
+	display: none;
+	/* 本体は隠してラベルで見せる */
+}
+
+.chip {
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
-	padding: 6px 10px;
-	border: 1px solid #ddd;
+	padding: 6px 12px;
+	border: 1px solid #ff5a5a;
 	border-radius: 999px;
 	/* pill形状 */
-	background: #fff;
-	font-size: 13px;
-}
-
-.category-chip-remove {
-	border: none;
-	background: none;
+	color: #ff5a5a;
+	font-size: 14px;
 	cursor: pointer;
-	font-size: 16px;
-	line-height: 1;
+	user-select: none;
+	transition: background .15s, color .15s, border-color .15s;
 }
 
-/* ===== セレクトの見た目微調整 ===== */
+/* チェック時に“赤塗り”に切り替え */
+.chip-input:checked+.chip {
+	background: #ff5a5a;
+	border-color: #ff5a5a;
+	color: #ffffff
+}
+
+/* セレクトの矢印簡易カスタム（appearance＝標準見た目の無効化） */
 .select {
 	appearance: none;
-	/* OS標準の矢印隠し（appearance＝見た目のプリセット） */
 	background-image:
 		linear-gradient(45deg, transparent 50%, #666 50%),
 		linear-gradient(135deg, #666 50%, transparent 50%);
@@ -147,39 +146,35 @@
 	background-size: 6px 6px, 6px 6px;
 	background-repeat: no-repeat;
 	padding-right: 32px;
-	/* 疑似矢印ぶんの余白 */
 }
 
-/* ===== テキストエリア ===== */
-.textarea {
-	resize: vertical;
-	/* 縦方向だけリサイズ可（resize＝サイズ変更ハンドル） */
-}
-
-/* ===== 価格入力（¥プリフィックス） ===== */
+/* 価格入力（¥プリフィックス） */
 .price-input {
-	display: grid;
-	grid-template-columns: auto 1fr;
-	align-items: center;
-	gap: 8px;
+	position: relative;
 }
 
-.price-prefix {
-	display: inline-block;
-	min-width: 24px;
-	text-align: center;
-	color: #444;
+.price-input::before {
+	content: '¥';
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 18px;
+	font-weight: 700;
+	color: #333;
+	pointer-events: none;
 }
 
+/* プレフィックス分だけ左に余白を増やす */
 .price-field {
-	/* 既存 .input をベースにするので追加は最小限 */
+	padding-left: 28px;
+	/* ← ¥の幅ぶん（お好みで微調整OK） */
 }
 
-/* ===== エラー状態（共通エラー色はcommon.cssの .error） ===== */
+/* エラー時の赤枠（共通 .error は common.css にあり） */
 .input.is-error,
 .select.is-error,
 .textarea.is-error,
 .price-field.is-error {
 	border-color: #d4062c;
-	/* 赤（バリデーション＝入力チェック） */
 }
