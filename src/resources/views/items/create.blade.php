@@ -7,7 +7,7 @@
 @section('title', '商品の出品')
 
 @section('content')
-<main class="layout-narrow">
+<main class="layout-narrow sell-page">
 	<section class="page-section sell">
 		<h1 class="page-title">商品の出品</h1>
 
@@ -20,13 +20,10 @@
 				<div class="uploader">
 					<input id="image" name="image" type="file" accept=".jpg,.jpeg,.png" class="uploader-input">
 					<div class="uploader-drop">
-						<button type="button" class="button-outline uploader-button" aria-hidden="true">
-							画像を選択する
-						</button>
+						<div class="uploader-preview" id="uploader-preview"></div>
+						<label for="image" class="button-outline uploader-button">画像を選択する</label>
 					</div>
-					<div class="uploader-preview" id="uploader-preview"></div>
 				</div>
-				@error('image') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
 			<h2 class="sell-subtitle">商品の詳細</h2>
@@ -111,3 +108,26 @@
 	</section>
 </main>
 @endsection
+
+@push('scripts')
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const input = document.getElementById('image');
+		const preview = document.getElementById('uploader-preview');
+		if (!input || !preview) return;
+
+		input.addEventListener('change', (e) => {
+			const file = e.target.files?.[0];
+			preview.innerHTML = '';
+
+			if (!file || !file.type.startsWith('image/')) return;
+
+			const url = URL.createObjectURL(file);
+			const img = document.createElement('img');
+			img.src = url;
+			img.onload = () => URL.revokeObjectURL(url);
+			preview.appendChild(img);
+		});
+	});
+</script>
+@endpush
