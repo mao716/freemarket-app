@@ -66,11 +66,9 @@ class UserController extends Controller
 
 		// 画像（avatar）の保存処理（multipart必須：ファイル送信用のエンコード形式）
 		if ($request->hasFile('avatar')) {
-			// publicディスク配下に保存（storage/app/public/avatars）
 			$path = $request->file('avatar')->store('avatars', 'public');
 
-			// Webから参照しやすいように 'storage/...' で保存（asset('storage/...') で参照可）
-			$user->avatar_path = 'storage/' . $path;
+			$user->avatar_path = $path;
 		}
 
 		$user->save();

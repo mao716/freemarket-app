@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 // class User extends Authenticatable implements MustVerifyEmail （メール認証を使う時に書き換え）
 class User extends Authenticatable
@@ -26,16 +27,12 @@ class User extends Authenticatable
 
 	public function getAvatarUrlAttribute()
 	{
-		$path = $this->profile_image_path ?? null;
+		$path = $this->avatar_path;
 
-		if (!$path) {
-			// 未設定時のプレースホルダー
+		if (empty($path)) {
 			return asset('images/image-placeholder.png');
 		}
 
-		if (preg_match('#^https?://#', $path)) {
-			return $path;
-		}
 		return Storage::url($path);
 	}
 

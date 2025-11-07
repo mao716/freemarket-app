@@ -44,8 +44,8 @@ class ItemController extends Controller
 	public function detail(Item $item)
 	{
 		// 関連のまとめ取り（Eager Loading＝関連を一気に読む）
-		$item->load(['user', 'categories', 'comments.user', 'likes', 'order'])
-			->loadCount(['likes', 'comments']); // 件数は likes_count / comments_count で使える
+		$item->load(['user', 'categories', 'comments.user:id,name,avatar_path', 'likes', 'order'])
+			->loadCount(['likes', 'comments']);
 
 		// 画面制御用のフラグ（boolean＝真偽値）
 		$isLiked = Auth::check()

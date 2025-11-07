@@ -13,7 +13,7 @@
 		<section class="page-section">
 			<div class="comment-head profile-head">
 				<img class="avatar"
-					src="{{ $user->avatar_path ? asset($user->avatar_path) : asset('images/avatar-placeholder.png') }}"
+					src="{{ $user->avatar_path ? Storage::url($user->avatar_path) : asset('images/avatar-placeholder.png') }}"
 					alt="{{ $user->name }}のアイコン">
 				<div class="comment-author">{{ $user->name }}</div>
 				<a class="button button-outline profile-edit" href="{{ route('mypage.edit') }}">
@@ -45,7 +45,7 @@
 				<li class="item-card">
 					<a class="item-card-link" href="{{ route('items.detail', $item) }}">
 						<div class="item-thumb">
-							<img src="{{ asset('images/items/' . $item->image_path) }}" alt="{{ $item->name }}">
+							<img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}">
 							@if ($item->order)
 							<span class="item-badge">SOLD</span>
 							@endif
@@ -67,7 +67,7 @@
 				<li class="item-card">
 					<a class="item-card-link" href="{{ route('items.detail', $item) }}">
 						<div class="item-thumb">
-							<img src="{{ asset('images/items/' . $item->image_path) }}" alt="{{ $item->name }}">
+							<img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}">
 							@if ($item->order)
 							<span class="item-badge">SOLD</span>
 							@endif

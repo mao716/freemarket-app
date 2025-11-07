@@ -24,3 +24,23 @@ App\Models\Category::orderBy('id')->get(['id', 'name'])
 route('purchase.complete', [], true)
 \App\Models\Order::where('item_id', 123)->exists();
 \App\Models\Order::latest()->first();
+use App\Models\Item;
+Item::where('image_path', 'like', 'items/%')->get()->each(function ($i) {
+    $i->image_path = basename($i->image_path);
+    $i->save();
+});
+exit;
+use App\Models\User;
+use Illuminate\Support\Str;
+User::where('avatar_path', 'like', 'storage/avatars/%')->get()->each(function ($u) {
+    $u->avatar_path = Str::replaceFirst('storage/', '', $u->avatar_path);
+    $u->save();
+});
+exit;
+use App\Models\Item;
+
+Item::where('image_path', 'not like', 'items/%')->get()->each(function ($i) {
+    $i->image_path = 'items/'.ltrim($i->image_path, '/');
+    $i->save();
+});
+exit;

@@ -10,7 +10,7 @@
 		<section class="item-grid">
 			{{-- 左：画像 --}}
 			<figure class="item-media">
-				<img class="item-image" src="{{ asset('images/items/' . $item->image_path) }}" alt="{{ $item->name }}">
+				<img class="item-image" src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}">
 			</figure>
 
 			{{-- 右：すべての商品情報ブロック --}}

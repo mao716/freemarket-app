@@ -28,13 +28,13 @@ class ExhibitionController extends Controller
 	 */
 	public function productRegister(ExhibitionRequest $request): RedirectResponse
 	{
-		// DBトランザクション（transaction＝一連の処理をまとめて失敗時に戻せるようにする）
 		DB::transaction(function () use ($request) {
-			// 画像をstorage/app/public/items に保存
-			// store()は自動でユニークなファイル名を生成してくれる
-			$imagePath = $request->file('image')->store('items', 'public');
+			// 1) 画像を storage/app/public/items に保存（store＝保存＆パスを返す）
+			$storedPath = $request->file('image')->store('items', 'public'); // 例: "items/vaTaNf...k.jpg"
 
-			// 商品を登録（create＝新しいレコードを作成）
+			$imagePath = $storedPath;
+
+			// 3) 商品を登録
 			$item = Item::create([
 				'user_id'     => Auth::id(),
 				'name'        => $request->input('name'),
@@ -42,15 +42,12 @@ class ExhibitionController extends Controller
 				'description' => $request->input('description'),
 				'price'       => $request->input('price'),
 				'condition'   => $request->input('condition'),
-				'image_path'  => $imagePath,
+				'image_path'  => $imagePath, // ★ここをファイル名だけに
 			]);
 
-			// カテゴリの紐付け（多対多＝belongsToMany）
 			$item->categories()->sync($request->input('categories'));
 		});
 
-		// 登録完了後、一覧へリダイレクト（redirect＝ページ移動）
-		return redirect()
-			->route('items.index');
+		return redirect()->route('items.index');
 	}
 }

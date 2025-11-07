@@ -25,9 +25,10 @@
 			<div class="form-row">
 				<div class="avatar-wrapper">
 					<div class="avatar">
-						<img id="avatarPreview"
+						<img
+							id="avatarPreview"
 							class="avatar-img"
-							src="{{ $user?->avatar_path ? asset($user->avatar_path) : asset('images/image-placeholder.png') }}"
+							src="{{ $user?->avatar_path ? Storage::url($user->avatar_path) : asset('images/image-placeholder.png') }}"
 							alt="プロフィール画像のプレビュー">
 					</div>
 
