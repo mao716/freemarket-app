@@ -26,8 +26,10 @@
 				</div>
 			</div>
 
-			<h2 class="sell-subtitle">商品の詳細</h2>
-			<hr class="sell-hr">
+			<div class="form-block">
+				<h2 class="sell-subtitle">商品の詳細</h2>
+				<hr class="sell-hr">
+			</div>
 
 			{{-- カテゴリ（複数選択） --}}
 			<div class="form-row">
@@ -61,9 +63,10 @@
 				@error('condition') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
-
-			<h2 class="sell-subtitle">商品名と説明</h2>
-			<hr class="sell-hr">
+			<div class="form-block">
+				<h2 class="sell-subtitle">商品名と説明</h2>
+				<hr class="sell-hr">
+			</div>
 
 			{{-- 商品名／ブランド名 --}}
 			<div class="form-row">
@@ -73,7 +76,7 @@
 			</div>
 
 			<div class="form-row">
-				<label class="form-label" for="brand">ブランド名（任意）</label>
+				<label class="form-label" for="brand">ブランド名</label>
 				<input id="brand" name="brand" type="text" class="input" value="{{ old('brand') }}" placeholder="任意">
 				@error('brand') <p class="error">{{ $message }}</p> @enderror
 			</div>

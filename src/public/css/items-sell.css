@@ -4,20 +4,7 @@
 }
 
 .sell-form {
-	row-gap: 24px;
-}
-
-/* 2カラム */
-.sell-grid-2 {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 16px;
-}
-
-@media (max-width: 768px) {
-	.sell-grid-2 {
-		grid-template-columns: 1fr;
-	}
+	row-gap: 26px;
 }
 
 /* ===== 画像アップローダ（枠内プレビュー） ===== */
@@ -33,15 +20,12 @@
 	position: relative;
 	display: flex;
 	flex-direction: column;
-	/* 縦に並べる：上がプレビュー、下がボタン */
 	align-items: center;
 	justify-content: center;
 	gap: 12px;
-	/* プレビューとボタンの間の余白 */
 	padding: 20px;
-	min-height: 200px;
+	min-height: 140px;
 	border: 1px dashed #7a7a7a;
-	/* 枠線（復活） */
 	border-radius: 8px;
 	background: #fff;
 	overflow: hidden;
@@ -68,16 +52,21 @@
 }
 
 /* 見出し・区切り線 */
+.form-block {
+	margin-bottom: -16px;
+}
+
 .sell-subtitle {
-	font-size: 18px;
+	color: #646464;
+	font-size: 22px;
 	font-weight: 700;
-	margin: 24px 0 8px;
+	margin: 24px 0 0;
 }
 
 .sell-hr {
 	border: 0;
 	border-top: 1px solid #7a7a7a;
-	margin: 0 0 16px;
+	margin: 2px 0 16px;
 }
 
 /* チップUI */
