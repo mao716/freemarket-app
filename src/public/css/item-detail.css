@@ -2,7 +2,7 @@
 	display: grid;
 	align-items: start;
 	max-width: 980px;
-	margin: 0 auto 40px;
+	margin: 0 auto 0;
 	padding: 0 16px;
 	row-gap: 24px;
 }
@@ -51,7 +51,6 @@
 	margin: 4px 0 8px;
 }
 
-/* メタ（いいね・コメント） */
 .item-meta {
 	display: flex;
 	align-items: flex-start;
@@ -59,7 +58,6 @@
 	margin: 4px 0 10px;
 }
 
-/* ボタン・リンクの共通 */
 .icon-button {
 	background: none;
 	border: none;
@@ -72,7 +70,6 @@
 	gap: 6px;
 }
 
-/* アイコン＋数を縦並び */
 .icon-wrap {
 	display: flex;
 	flex-direction: column;
@@ -86,7 +83,6 @@
 	display: block;
 }
 
-/* 数字の見た目 */
 .icon-wrap .count {
 	font-size: 14px;
 	color: #333;
@@ -94,12 +90,10 @@
 	line-height: 1.2;
 }
 
-/* CTA（購入ボタン） */
 .item-summary .button-full {
 	width: 100%;
 }
 
-/* 情報ブロック共通 */
 .block {
 	margin-top: 16px;
 }
@@ -110,7 +104,6 @@
 	margin: 0 0 8px;
 }
 
-/* 商品の情報（2列DL） */
 .info-list {
 	display: grid;
 	row-gap: 8px;
@@ -122,7 +115,6 @@
 	grid-template-columns: 120px 1fr;
 	column-gap: 12px;
 	align-items: baseline;
-	/* ラベルと値のベースライン（文字下端）を揃える */
 }
 
 .info-row dt {
@@ -130,28 +122,23 @@
 	font-weight: bold;
 }
 
-/* カテゴリタグ */
 .tag {
 	display: inline-block;
 	padding: 4px 10px;
 	background-color: #d6d5d5;
 	color: #000;
 	border-radius: 999px;
-	/* 丸 pill 形状 */
 	font-size: 14px;
 	margin: 0 6px 6px 0;
 	line-height: 1.4;
 	border: none;
 }
 
-/* 商品説明 */
 .desc {
 	white-space: pre-wrap;
-	/* 改行（改行コード）を維持して表示 */
 	line-height: 1.8;
 }
 
-/* コメント一覧 */
 .comment-list {
 	list-style: none;
 	padding: 0;

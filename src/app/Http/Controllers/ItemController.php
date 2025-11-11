@@ -33,7 +33,6 @@ class ItemController extends Controller
 				->latest()->paginate(12)->withQueryString();
 		} else {
 			$items = $base
-				->when(Auth::check(), fn($q) => $q->where('user_id', '!=', Auth::id()))
 				->latest()->paginate(12)->withQueryString();
 		}
 

@@ -1,25 +1,14 @@
 .items .page-tabs {
 	position: relative;
-	/* 擬似要素（=疑似的な要素）配置用 */
 	display: flex;
 	gap: 32px;
 	align-items: flex-end;
 	justify-content: flex-start;
-	/* 左寄せ */
 	padding-bottom: 8px;
 	margin-bottom: 24px;
-
-	/* ここで横いっぱいの黒線位置を調整（full-bleed） */
-	border-bottom: 0;
-	/* 既存の下線は消す */
-	margin-left: calc(50% - 50vw);
-	margin-right: calc(50% - 50vw);
-	padding-left: calc(50vw - 50% + 16px);
-	/* 16px = ページ左右の内側余白に合わせる */
-	padding-right: calc(50vw - 50% + 16px);
+	border-bottom: none;
 }
 
-/* 画面いっぱいの黒線（区切り線） */
 .items .page-tabs::after {
 	content: "";
 	position: absolute;
@@ -28,7 +17,8 @@
 	bottom: 0;
 	height: 1px;
 	background: #000;
-	/* 黒線 */
+	box-shadow: 0 0 0 100vmax #000;
+	clip-path: inset(0 -100vmax);
 }
 
 .items .page-tab {
