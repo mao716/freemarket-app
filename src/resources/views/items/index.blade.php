@@ -62,9 +62,6 @@
 			</li>
 			@endforeach
 		</ul>
-
-		{{-- ページネーション（ページ分割リンク） --}}
-		{{ $items->links() }}
 		@endif
 	</section>
 </main>

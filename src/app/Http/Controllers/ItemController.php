@@ -8,11 +8,11 @@ use App\Models\Item;
 
 class ItemController extends Controller
 {
-	// 商品一覧（トップ）
 	public function index(Request $request)
 	{
 		$tab = $request->string('tab', 'recommend')->toString();
 		$keyword = $request->string('keyword')->toString();
+		$userId = Auth::id();
 
 		$base = Item::query()
 			->with(['order'])
@@ -24,17 +24,17 @@ class ItemController extends Controller
 			);
 
 		if ($tab === 'mylist') {
-			if (!Auth::check()) {
-				return redirect()->route('login');
+			if (!$userId) {
+				$items = collect();
+			} else {
+				$items = $base
+					->whereHas('likes', fn($q) => $q->where('user_id', $userId))
+					->latest()->get();
 			}
-
-			$items = $base
-				->whereHas('likes', fn($q) => $q->where('user_id', Auth::id()))
-				->latest()->paginate(12)->withQueryString();
 		} else {
 			$items = $base
-				->when(Auth::check(), fn($q) => $q->where('user_id', '!=', Auth::id()))
-				->latest()->paginate(12)->withQueryString();
+				->when($userId, fn($q) => $q->where('user_id', '!=', $userId))
+				->latest()->get();
 		}
 
 		return view('items.index', compact('items', 'tab', 'keyword'));
