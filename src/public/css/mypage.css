@@ -37,7 +37,6 @@
 	}
 }
 
-/* 2) タブ（.items の外に置く） */
 .mypage .page-tabs {
 	display: flex;
 	gap: 32px;
@@ -45,7 +44,6 @@
 	justify-content: flex-start;
 	padding-bottom: 8px;
 	margin-bottom: 24px;
-	/* full-bleed：横幅いっぱいの黒線 */
 	margin-left: calc(50% - 50vw);
 	margin-right: calc(50% - 50vw);
 	padding-left: calc(50vw - 50% + 16px);

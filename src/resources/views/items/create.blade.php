@@ -7,7 +7,7 @@
 @section('title', '商品の出品')
 
 @section('content')
-<main class="layout-narrow sell-page">
+<main class="layout-narrow">
 	<section class="page-section sell">
 		<h1 class="page-title">商品の出品</h1>
 
