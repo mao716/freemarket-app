@@ -36,25 +36,23 @@ class User extends Authenticatable
 		return Storage::url($path);
 	}
 
-	// ---- リレーション（＝テーブル間のつながり） ----
-
 	public function items()
-	{  // 1対多（hasMany：1ユーザーが複数商品を出品）
+	{
 		return $this->hasMany(Item::class);
 	}
 
 	public function likes()
-	{  // 1対多（hasMany：1ユーザーが複数いいね）
+	{
 		return $this->hasMany(Like::class);
 	}
 
 	public function comments()
-	{  // 1対多（hasMany：1ユーザーが複数コメント）
+	{
 		return $this->hasMany(Comment::class);
 	}
 
 	public function orders()
-	{   // 1対多（hasMany：1ユーザーが複数注文を持つ）
+	{
 		return $this->hasMany(Order::class);
 	}
 }
