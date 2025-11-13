@@ -1,27 +1,28 @@
 @extends('layouts.base')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/item-detail.css') }}?v={{ time() }}">
+<link rel="stylesheet" href="{{ asset('css/item-detail.css') }}">
 @endpush
+
+@section('title', '商品詳細画面')
+
+@section('headerType', 'global')
 
 @section('content')
 <main class="layout-main">
 	<article class="page-section item-detail">
 		<section class="item-grid">
-			{{-- 左：画像 --}}
+
 			<figure class="item-media">
 				<img class="item-image" src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}">
 			</figure>
 
-			{{-- 右：すべての商品情報ブロック --}}
 			<div class="item-summary">
 
-				{{-- タイトル・ブランド・価格 --}}
 				<h1 class="item-title">{{ $item->name }}</h1>
 				<p class="item-brand">{{ $item->brand ?: '—' }}</p>
 				<p class="item-price">¥{{ number_format($item->price) }}</p>
 
-				{{-- メタ行（いいね／コメント件数） --}}
 				<div class="item-meta">
 					@auth
 					@if($isLiked)
@@ -62,33 +63,27 @@
 					</a>
 				</div>
 
-				{{-- 購入ボタン --}}
 				@if (!$isSold && !$isMine)
 				@auth
-				{{-- ログイン済：購入画面へ --}}
 				<a href="{{ route('purchase.confirm', $item) }}" class="button button-primary button-full">
 					購入手続きへ
 				</a>
 				@else
-				{{-- 未ログイン：ログイン画面へ --}}
 				<a href="{{ route('login') }}" class="button button-primary button-full">
 					購入手続きへ
 				</a>
 				@endauth
 				@else
-				{{-- 自分の商品 or 売却済 --}}
 				<button class="button button-full" disabled>
 					購入できません
 				</button>
 				@endif
 
-				{{-- 商品説明 --}}
 				<section class="item-description block">
 					<h2 class="block-title">商品説明</h2>
 					<p class="desc">{{ $item->description }}</p>
 				</section>
 
-				{{-- 商品情報 --}}
 				<section class="item-info block">
 					<h2 class="block-title">商品の情報</h2>
 					<dl class="info-list">
@@ -109,7 +104,6 @@
 					</dl>
 				</section>
 
-				{{-- コメント一覧 --}}
 				<section id="comments" class="item-comments block">
 					<h2 class="block-title">
 						コメント<span class="comment-count">({{ $commentCount }})</span>
@@ -121,7 +115,7 @@
 								<img class="avatar" src="{{ $c->user->avatar_url }}" alt="{{ $c->user->name }}のアイコン">
 								<div class="comment-author">{{ $c->user->name }}</div>
 							</div>
-							{{-- アイコンの下に本文（枠）を出す --}}
+
 							<div class="comment-body-wrap">
 								<p class="comment-body">{{ $c->body }}</p>
 							</div>
@@ -132,7 +126,6 @@
 					</ul>
 				</section>
 
-				{{-- コメント投稿フォーム（ログイン時のみ） --}}
 				@auth
 				<section class="item-comment-form block">
 					<h3 class="block-title">商品へのコメント</h3>
@@ -149,7 +142,6 @@
 				</section>
 				@endauth
 
-				{{-- 未ログインでもフォームの見た目は出す。押したらログインへ --}}
 				@guest
 				<section class="item-comment-form block">
 					<h3 class="block-title">商品へのコメント</h3>
