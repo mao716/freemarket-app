@@ -132,7 +132,7 @@
 					<form method="POST" action="{{ route('comments.store', $item) }}" class="form">
 						@csrf
 						<div class="form-row">
-							<textarea id="body" name="body" class="input" rows="7" maxlength="255">{{ old('body') }}</textarea>
+							<textarea id="body" name="body" class="input" rows="7">{{ old('body') }}</textarea>
 							@error('body') <p class="error">{{ $message }}</p> @enderror
 						</div>
 						<div class="form-row form-row--actions">
