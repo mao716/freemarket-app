@@ -13,7 +13,7 @@
 		<section class="page-section">
 			<div class="comment-head profile-head">
 				<img class="avatar"
-					src="{{ $user->avatar_path ? Storage::url($user->avatar_path) : asset('images/avatar-placeholder.png') }}"
+					src="{{ $user->avatar_path ? Storage::url($user->avatar_path) : asset('images/image-placeholder.png') }}"
 					alt="{{ $user->name }}のアイコン">
 				<div class="comment-author">{{ $user->name }}</div>
 				<a class="button button-outline profile-edit" href="{{ route('mypage.edit') }}">
@@ -21,7 +21,6 @@
 				</a>
 			</div>
 
-			{{-- タブ（出品 / 購入） --}}
 			<nav class="page-tabs" aria-label="表示切替（タブ）">
 				<a class="page-tab {{ $tab === 'sell' ? 'is-active' : '' }}"
 					href="{{ route('mypage.profile', ['page' => 'sell']) }}">
@@ -34,7 +33,6 @@
 			</nav>
 		</section>
 
-		{{-- ====== リスト本体 ====== --}}
 		<section class="page-section items">
 			@if ($tab === 'buy')
 			@if ($purchasedItems->isEmpty())
