@@ -8,28 +8,24 @@ use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
-	// いいね追加
 	public function like(Item $item)
 	{
-		// すでにいいね済みなら何もしない
-		$exists = Like::where('item_id', $item->id)
-			->where('user_id', Auth::id())
-			->exists();
-		if ($exists) return back();
+		$userId = Auth::id();
 
-		Like::create([
+		Like::firstOrCreate([
 			'item_id' => $item->id,
-			'user_id' => Auth::id(),
+			'user_id' => $userId,
 		]);
 
 		return back();
 	}
 
-	// いいね解除
 	public function unlike(Item $item)
 	{
+		$userId = Auth::id();
+
 		Like::where('item_id', $item->id)
-			->where('user_id', Auth::id())
+			->where('user_id', $userId)
 			->delete();
 
 		return back();

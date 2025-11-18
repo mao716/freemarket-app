@@ -17,7 +17,7 @@
 
 		<form method="POST"
 			action="{{ route('mypage.save') }}"
-			enctype="multipart/form-data" {{-- ファイル送信用の形式 --}}
+			enctype="multipart/form-data"
 			class="form">
 			@csrf
 			<div class="form-row">

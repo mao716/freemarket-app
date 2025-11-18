@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AuthLoginController extends Controller
 {
@@ -27,11 +28,12 @@ class AuthLoginController extends Controller
 			->onlyInput('email');
 	}
 
-	public function logout()
+	public function logout(Request $request)
 	{
 		Auth::logout();
-		request()->session()->invalidate();
-		request()->session()->regenerateToken();
+		$request->session()->invalidate();
+		$request->session()->regenerateToken();
+
 		return redirect('/login');
 	}
 }
