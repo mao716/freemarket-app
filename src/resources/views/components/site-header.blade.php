@@ -14,7 +14,6 @@
 		</form>
 
 		<nav class="header-nav" aria-label="グローバル">
-			{{-- ① ログイン/ログアウト --}}
 			@auth
 			<form action="{{ route('logout') }}" method="POST" class="inline-form">
 				@csrf
@@ -24,10 +23,8 @@
 			<a href="{{ route('login') }}" class="header-link">ログイン</a>
 			@endauth
 
-			{{-- ② マイページ（未ログインはログインへ） --}}
 			<a href="{{ auth()->check() ? route('mypage.profile') : route('login') }}" class="header-link">マイページ</a>
 
-			{{-- ③ 出品（未ログインはログインへ） --}}
 			<a href="{{ auth()->check() ? route('sell.show') : route('login') }}" class="header-button">出品</a>
 		</nav>
 		@endif

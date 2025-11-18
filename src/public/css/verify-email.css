@@ -1,0 +1,51 @@
+.verify-email-page {
+	padding-top: 40px;
+}
+
+.verify-email-page .main-message {
+	font-weight: bold;
+	font-size: 16px;
+	text-align: center;
+	line-height: 1.8;
+	margin: 40px 0 32px;
+	color: #333;
+}
+
+.verify-button {
+	display: block;
+	width: 240px;
+	margin: 0 auto;
+	padding: 12px 0;
+	background-color: #e0e0e0;
+	border: 1px solid #999;
+	border-radius: 6px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	text-align: center;
+}
+
+.verify-button:disabled {
+	opacity: 1;
+	cursor: default;
+}
+
+.link-resend {
+	display: block;
+	margin: 24px auto 0;
+	background: none;
+	border: none;
+	color: #007bff;
+	font-size: 14px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.resend-form {
+	text-align: center;
+}
+
+.logout-form {
+	text-align: center;
+	margin-top: 32px;
+}
