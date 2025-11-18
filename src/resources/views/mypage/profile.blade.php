@@ -13,8 +13,7 @@
 		<section class="page-section">
 			<div class="comment-head profile-head">
 				<img class="avatar"
-					src="{{ $user->avatar_path ? Storage::url($user->avatar_path) : asset('images/image-placeholder.png') }}"
-					alt="{{ $user->name }}のアイコン">
+					src="{{ $user->avatar_path ? Storage::url($user->avatar_path) : asset('images/image-placeholder.png') }}">
 				<div class="comment-author">{{ $user->name }}</div>
 				<a class="button button-outline profile-edit" href="{{ route('mypage.edit') }}">
 					プロフィールを編集
