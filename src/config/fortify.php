@@ -115,8 +115,8 @@ return [
     */
 
     'limiters' => [
-        'login' => 'login',
-        'two-factor' => 'two-factor',
+        'login' => null,
+        'two-factor' => null,
     ],
 
     /*
@@ -144,14 +144,15 @@ return [
     */
 
     'features' => [
-		// Features::emailVerification(),　（メール認証使う時にONにする）
+		Features::registration(),
+		// Features::emailVerification(),
 		// Features::updateProfileInformation(),
 		// Features::updatePasswords(),
 		// Features::twoFactorAuthentication([
 		// 'confirm' => true,
 		// 'confirmPassword' => true,
 		// 'window' => 0,
-	    // ]),
-    ],
+		// ]),
+	],
 
 ];

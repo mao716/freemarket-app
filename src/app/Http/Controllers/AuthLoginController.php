@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AuthLoginController extends Controller
 {
@@ -13,14 +14,22 @@ class AuthLoginController extends Controller
 		return view('auth.login');
 	}
 
-	public function authenticate(LoginRequest $request)
+	public function authenticate(Request $request)
 	{
-		$credentials = $request->validated();
+		$loginRequest = new LoginRequest();
+
+		Validator::make(
+			$request->all(),
+			$loginRequest->rules(),
+			$loginRequest->messages()
+		)->validate();
+
+		$credentials = $request->only('email', 'password');
 
 		if (Auth::attempt($credentials)) {
 			$request->session()->regenerate();
 
-			return redirect()->intended('/');
+			return redirect()->intended(route('items.index'));
 		}
 
 		return back()
