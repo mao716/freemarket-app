@@ -19,20 +19,33 @@
 	background-color: #e0e0e0;
 	border: 1px solid #999;
 	border-radius: 6px;
+
 	font-size: 16px;
 	font-weight: bold;
-	cursor: pointer;
+	text-align: center;
+
+	color: #000;
+	text-decoration: none;
+}
+
+.verify-button:visited,
+.verify-button:hover,
+.verify-button:active {
+	color: #000;
+	text-decoration: none;
+}
+
+.verify-button:hover {
+	background-color: #d5d5d5;
+}
+
+.resend-form {
 	text-align: center;
 }
 
-.verify-button:disabled {
-	opacity: 1;
-	cursor: default;
-}
-
 .link-resend {
-	display: block;
-	margin: 24px auto 0;
+	display: inline-block;
+	margin-top: 24px;
 	background: none;
 	border: none;
 	color: #007bff;
@@ -41,11 +54,6 @@
 	cursor: pointer;
 }
 
-.resend-form {
-	text-align: center;
-}
-
-.logout-form {
-	text-align: center;
-	margin-top: 32px;
+.link-resend:hover {
+	text-decoration: underline;
 }
