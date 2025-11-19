@@ -53,9 +53,9 @@ class UserController extends Controller
 		$validated = $request->validated();
 
 		$user->name        = $validated['name'];
-		$user->postal_code = $validated['postal_code'];
-		$user->address     = $validated['address'];
-		$user->building    = $validated['building'];
+		$user->postal_code = $validated['postal_code'] ?? null;
+		$user->address     = $validated['address'] ?? null;
+		$user->building    = $validated['building'] ?? null;
 
 		if ($request->hasFile('avatar')) {
 			$path = $request->file('avatar')->store('avatars', 'public');

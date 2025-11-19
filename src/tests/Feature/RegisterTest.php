@@ -21,16 +21,17 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['name']);
     }
 
-    public function test_全項目OKなら登録されてプロフィール設定画面へ遷移する()
+    public function test_全項目OKなら登録されてメール認証画面へ遷移する()
     {
         $response = $this->post('/register', [
-            'name' => 'まお',
-            'email' => 'mao@example.com',
+            'name' => '山田太郎',
+            'email' => 'taro@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ]);
 
-        $this->assertDatabaseHas('users', ['email' => 'mao@example.com']);
-        $response->assertRedirect('/mypage/profile');
+		$this->assertDatabaseHas('users', ['email' => 'taro@example.com']);
+
+		$response->assertRedirect('/email/verify');
     }
 }
