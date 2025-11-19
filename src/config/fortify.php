@@ -145,7 +145,8 @@ return [
 
     'features' => [
 		Features::registration(),
-		// Features::emailVerification(),
+		Features::emailVerification(),
+		// Features::resetPasswords(),
 		// Features::updateProfileInformation(),
 		// Features::updatePasswords(),
 		// Features::twoFactorAuthentication([

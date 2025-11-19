@@ -18,95 +18,99 @@ use App\Http\Controllers\{
 	StripeWebhookController,
 };
 
-// =================== 認証不要 ===================
+/*
+|--------------------------------------------------------------------------
+| 公開（認証不要）
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/', [ItemController::class, 'index'])
-	->name('items.index');
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
+Route::get('/item/{item}', [ItemController::class, 'detail'])->name('items.detail');
 
-Route::get('/item/{item}', [ItemController::class, 'detail'])
-	->name('items.detail');
-
-// =================== 認証：ログイン / 会員登録 ===================
+/*
+|--------------------------------------------------------------------------
+| ログイン・会員登録（未ログインのみ）
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('guest')->group(function () {
-	// ログイン画面
-	Route::get('/login', [AuthLoginController::class, 'showLoginForm'])
-		->name('login');
+	Route::get('/login', [AuthLoginController::class, 'showLoginForm'])->name('login');
+	Route::post('/login', [AuthLoginController::class, 'authenticate'])->name('login.perform');
 
-	// ログイン処理
-	Route::post('/login', [AuthLoginController::class, 'authenticate'])
-		->name('login.perform');
-
-	// 会員登録画面
-	Route::get('/register', [AuthRegisterController::class, 'showRegisterForm'])
-		->name('register');
-
-	// 会員登録処理
-	Route::post('/register', [AuthRegisterController::class, 'register'])
-		->name('register.perform');
+	Route::get('/register', [AuthRegisterController::class, 'showRegisterForm'])->name('register');
+	Route::post('/register', [AuthRegisterController::class, 'register'])->name('register.perform');
 });
 
-// =================== メール認証関連 ===================
+/*
+|--------------------------------------------------------------------------
+| メール認証関連
+|--------------------------------------------------------------------------
+*/
 
-// 認証案内ページ
+// 誘導画面（「メール確認してください」画面）
 Route::get('/email/verify', function () {
-	return view('auth.verify-email');
-})->middleware('auth')
-	->name('verification.notice');
+	return view('auth.verify-email'); // blade は既にあるとのこと
+})->middleware('auth')->name('verification.notice');
 
-// メール内リンクからの本登録
+// メール内リンク（認証完了）
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-	$request->fulfill(); // email_verified_at を埋める
-	return redirect()->route('mypage.edit'); // プロフィール設定画面へ
-})->middleware(['auth'])
-	->name('verification.verify');
+	$request->fulfill(); // email_verified_at をセット
 
+	return redirect()->route('mypage.edit'); // 認証後：プロフィール設定へ
+})->middleware(['auth'])->name('verification.verify');
+
+// 認証メール再送
 Route::post('/email/verification-notification', function (Request $request) {
 	$request->user()->sendEmailVerificationNotification();
+
 	return back()->with('status', 'verification-link-sent');
-})->middleware(['auth'])
-	->name('verification.send');
+})->middleware(['auth'])->name('verification.send');
+
+/*
+|--------------------------------------------------------------------------
+| 認証 & メール認証済みユーザーのみ
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-	Route::get('/purchase/{item}', [PurchaseController::class, 'confirm'])
-		->name('purchase.confirm');
-	Route::get('/purchase/complete', [PurchaseController::class, 'complete'])
-		->name('purchase.complete');
-	Route::post('/purchase/{item}', [PurchaseController::class, 'store'])
-		->name('purchase.store');
+	// 購入フロー
+	Route::get('/purchase/{item}', [PurchaseController::class, 'confirm'])->name('purchase.confirm');
+	Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
+	Route::get('/purchase/complete', [PurchaseController::class, 'complete'])->name('purchase.complete');
 
-	Route::get('/purchase/address/{item}', [AddressController::class, 'showAddressForm'])
-		->name('address.show');
-	Route::post('/purchase/address/{item}', [AddressController::class, 'saveAddress'])
-		->name('address.save');
+	// 購入時の住所変更
+	Route::get('/purchase/address/{item}', [AddressController::class, 'showAddressForm'])->name('address.show');
+	Route::post('/purchase/address/{item}', [AddressController::class, 'saveAddress'])->name('address.save');
 
-	Route::get('/sell', [ExhibitionController::class, 'showSellForm'])
-		->name('sell.show');
-	Route::post('/sell', [ExhibitionController::class, 'productRegister'])
-		->name('sell.perform');
+	// 出品
+	Route::get('/sell', [ExhibitionController::class, 'showSellForm'])->name('sell.show');
+	Route::post('/sell', [ExhibitionController::class, 'productRegister'])->name('sell.perform');
 
-	Route::get('/mypage', [UserController::class, 'profile'])
-		->name('mypage.profile');
-	Route::get('/mypage/profile', [UserController::class, 'editForm'])
-		->name('mypage.edit');
-	Route::post('/mypage/profile', [UserController::class, 'saveProfile'])
-		->name('mypage.save');
+	// マイページ
+	Route::get('/mypage', [UserController::class, 'profile'])->name('mypage.profile');
+	Route::get('/mypage/profile', [UserController::class, 'editForm'])->name('mypage.edit');
+	Route::post('/mypage/profile', [UserController::class, 'saveProfile'])->name('mypage.save');
 
-	Route::post('/item/{item}/comments', [CommentController::class, 'store'])
-		->name('comments.store');
+	// コメント
+	Route::post('/item/{item}/comments', [CommentController::class, 'store'])->name('comments.store');
 
-	Route::post('/item/{item}/like', [LikeController::class, 'like'])
-		->name('like.add');
-	Route::delete('/item/{item}/like', [LikeController::class, 'unlike'])
-		->name('like.remove');
+	// いいね
+	Route::post('/item/{item}/like', [LikeController::class, 'like'])->name('like.add');
+	Route::delete('/item/{item}/like', [LikeController::class, 'unlike'])->name('like.remove');
 
-	Route::post('/logout', [AuthLoginController::class, 'logout'])
-		->name('logout');
+	// ログアウト
+	Route::post('/logout', [AuthLoginController::class, 'logout'])->name('logout');
 });
 
-// =================== Stripe Webhook ===================
+/*
+|--------------------------------------------------------------------------
+| Stripe Webhook（外部サービス用: CSRF除外）
+|--------------------------------------------------------------------------
+*/
 
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook'])
-	->withoutMiddleware([VerifyCsrfToken::class])
+Route::post(
+	'/stripe/webhook',
+	[StripeWebhookController::class, 'handleWebhook']
+)->withoutMiddleware([VerifyCsrfToken::class])
 	->name('stripe.webhook');

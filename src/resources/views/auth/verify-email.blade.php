@@ -7,6 +7,16 @@
 @endpush
 
 @section('content')
+
+@php
+$user = auth()->user();
+
+$verifyUrl = route('verification.verify', [
+'id' => $user->id,
+'hash' => sha1($user->email),
+]);
+@endphp
+
 <main class="layout-narrow verify-email-page">
 	<section class="page-section">
 		<p class="main-message">
@@ -15,22 +25,15 @@
 		</p>
 
 		<div class="verify-actions">
-			<button class="verify-button" disabled>
+			<a href="{{ $verifyUrl }}" class="verify-button">
 				認証はこちらから
-			</button>
+			</a>
 		</div>
 
 		<form method="POST" action="{{ route('verification.send') }}" class="resend-form">
 			@csrf
 			<button type="submit" class="link-resend">
 				認証メールを再送する
-			</button>
-		</form>
-
-		<form method="POST" action="{{ route('logout') }}" class="logout-form">
-			@csrf
-			<button type="submit" class="verify-button">
-				ログアウトする
 			</button>
 		</form>
 	</section>
