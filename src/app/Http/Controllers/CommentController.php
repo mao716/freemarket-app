@@ -9,11 +9,11 @@ class CommentController extends Controller
 {
 	public function store(CommentRequest $request, Item $item)
 	{
-		$body = $request->validated()['body'];
+		$validated = $request->validated();
 
 		$item->comments()->create([
 			'user_id' => $request->user()->id,
-			'body'    => $body,
+			'body'    => $validated['body'],
 		]);
 
 		return redirect()->to(route('items.detail', $item) . '#comments');

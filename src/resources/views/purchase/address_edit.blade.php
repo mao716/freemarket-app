@@ -17,21 +17,21 @@
 			<div class="form-row">
 				<label class="form-label" for="postal_code">郵便番号</label>
 				<input id="postal_code" name="postal_code" type="text" class="input"
-					value="{{ old('postal_code', $seed['postal_code'] ?? '') }}" placeholder="123-4567">
+					value="{{ old('postal_code', $addressData['postal_code'] ?? '') }}">
 				@error('postal_code') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
 			<div class="form-row">
 				<label class="form-label" for="address">住所</label>
 				<input id="address" name="address" type="text" class="input"
-					value="{{ old('address', $seed['address'] ?? '') }}" placeholder="東京都〇〇区〇〇1-2-3">
+					value="{{ old('address', $addressData['address'] ?? '') }}">
 				@error('address') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
 			<div class="form-row">
 				<label class="form-label" for="building">建物名</label>
 				<input id="building" name="building" type="text" class="input"
-					value="{{ old('building', $seed['building'] ?? '') }}" placeholder="マンション名 101号室">
+					value="{{ old('building', $addressData['building'] ?? '') }}">
 				@error('building') <p class="error">{{ $message }}</p> @enderror
 			</div>
 

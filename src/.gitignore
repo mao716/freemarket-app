@@ -22,3 +22,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+.env.testing
+
+!storage/app/public/
+!storage/app/public/**

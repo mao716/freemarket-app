@@ -1,2 +1,6 @@
 *
+!items/
+!items/**
+!avatars/
+!avatars/**
 !.gitignore

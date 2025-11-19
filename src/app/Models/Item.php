@@ -24,13 +24,11 @@ class Item extends Model
 		'image_path',
 	];
 
-	// 商品状態の「定数」追加（Seeder用）
-	public const COND_EXCELLENT  = 1; // 良好
-	public const COND_GOOD       = 2; // 目立った傷や汚れなし
-	public const COND_SCRATCH    = 3; // やや傷や汚れあり
-	public const COND_BAD        = 4; // 状態が悪い
+	public const COND_EXCELLENT  = 1;
+	public const COND_GOOD       = 2;
+	public const COND_SCRATCH    = 3;
+	public const COND_BAD        = 4;
 
-	// 表示用
 	public const CONDITION = [
 		self::COND_EXCELLENT  => '良好',
 		self::COND_GOOD       => '目立った傷や汚れなし',
@@ -38,52 +36,45 @@ class Item extends Model
 		self::COND_BAD        => '状態が悪い',
 	];
 
-	// 出品者
 	public function user()
 	{
 		return $this->belongsTo(User::class);
 	}
 
-	// カテゴリ（多対多）
 	public function categories()
 	{
 		return $this->belongsToMany(Category::class, 'item_category')
 			->withTimestamps();
 	}
 
-	// いいね（1対多）
 	public function likes()
 	{
 		return $this->hasMany(Like::class);
 	}
 
-	// コメント（1対多）
 	public function comments()
 	{
 		return $this->hasMany(Comment::class)->latest();
 	}
 
-	// 売買（1対1：売れたら注文が一つ付く想定）
 	public function order()
 	{
 		return $this->hasOne(Order::class);
 	}
 
-	// 売却済かどうか
 	protected $appends = ['is_sold'];
 	public function getIsSoldAttribute()
 	{
 		return $this->order()->exists();
 	}
 
-	// スコープ（クエリの掃き出し便利関数）
-	public function scopeAvailable($q)
+	public function scopeAvailable($query)
 	{
-		return $q->doesntHave('order');
+		return $query->doesntHave('order');
 	}
-	public function scopeSold($q)
+	public function scopeSold($query)
 	{
-		return $q->has('order');
+		return $query->has('order');
 	}
 
 	public function getImageUrlAttribute(): string

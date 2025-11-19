@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AuthLoginController extends Controller
 {
@@ -12,31 +14,35 @@ class AuthLoginController extends Controller
 		return view('auth.login');
 	}
 
-	public function authenticate(LoginRequest $request)
+	public function authenticate(Request $request)
 	{
-		// ↓ バリデーション済データ（=安全に検証済みの入力）
-		$credentials = $request->validated();
+		$loginRequest = new LoginRequest();
 
-		// ここでログインを試みる（rememberは今回は未対応）
+		Validator::make(
+			$request->all(),
+			$loginRequest->rules(),
+			$loginRequest->messages()
+		)->validate();
+
+		$credentials = $request->only('email', 'password');
+
 		if (Auth::attempt($credentials)) {
-			// 乗っ取り対策（セッションID再発行）
 			$request->session()->regenerate();
 
-			// "/"（トップ）へ
-			return redirect()->intended('/');
+			return redirect()->intended(route('items.index'));
 		}
 
-		// ログイン失敗時：文言は要件どおり・メールのみ保持
 		return back()
 			->withErrors(['email' => 'ログイン情報が登録されていません'])
 			->onlyInput('email');
 	}
 
-	public function logout()
+	public function logout(Request $request)
 	{
 		Auth::logout();
-		request()->session()->invalidate();
-		request()->session()->regenerateToken();
-		return redirect('/'); // トップへ
+		$request->session()->invalidate();
+		$request->session()->regenerateToken();
+
+		return redirect('/login');
 	}
 }

@@ -14,54 +14,59 @@ class ItemController extends Controller
 		$keyword = $request->string('keyword')->toString();
 		$userId = Auth::id();
 
-		$base = Item::query()
+		$itemQuery = Item::query()
 			->with(['order'])
 			->withCount(['likes', 'comments'])
 			->when(
 				$keyword,
-				fn($q) =>
-				$q->where('name', 'like', "%{$keyword}%")
+				fn($query) =>
+				$query->where('name', 'like', "%{$keyword}%")
 			);
 
 		if ($tab === 'mylist') {
 			if (!$userId) {
-				$items = collect();
-			} else {
-				$items = $base
-					->whereHas('likes', fn($q) => $q->where('user_id', $userId))
-					->latest()->get();
+				return view('items.index', [
+					'items' => collect(),
+					'tab' => $tab,
+					'keyword' => $keyword,
+				]);
 			}
-		} else {
-			$items = $base
-				->when($userId, fn($q) => $q->where('user_id', '!=', $userId))
-				->latest()->get();
+
+			$items = $itemQuery
+				->whereHas('likes', fn($query) => $query->where('user_id', $userId))
+				->latest()
+				->get();
+
+			return view('items.index', compact('items', 'tab', 'keyword'));
 		}
+
+		$items = $itemQuery
+			->when($userId, fn($query) => $query->where('user_id', '!=', $userId))
+			->latest()
+			->get();
 
 		return view('items.index', compact('items', 'tab', 'keyword'));
 	}
 
-	// 商品詳細
 	public function detail(Item $item)
 	{
-		// 関連のまとめ取り（Eager Loading＝関連を一気に読む）
 		$item->load(['user', 'categories', 'comments.user:id,name,avatar_path', 'likes', 'order'])
 			->loadCount(['likes', 'comments']);
 
-		// 画面制御用のフラグ（boolean＝真偽値）
 		$isLiked = Auth::check()
 			? $item->likes->contains('user_id', Auth::id())
 			: false;
 
 		$isSold = $item->order !== null;
-		$isMine = Auth::id() === optional($item->user)->id; // 自分の出品かどうか
+		$isMine = Auth::id() === optional($item->user)->id;
 
 		return view('items.show', [
 			'item'         => $item,
 			'isLiked'      => $isLiked,
 			'isSold'       => $isSold,
 			'isMine'       => $isMine,
-			'likeCount'    => $item->likes_count,     // loadCount の結果をそのまま渡す
-			'commentCount' => $item->comments_count,  // 同上
+			'likeCount'    => $item->likes_count,
+			'commentCount' => $item->comments_count,
 		]);
 	}
 }

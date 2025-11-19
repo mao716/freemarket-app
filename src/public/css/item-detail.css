@@ -90,6 +90,11 @@
 	line-height: 1.2;
 }
 
+.icon-button.is-comment .count {
+	position: relative;
+	top: -1px;
+}
+
 .item-summary .button-full {
 	width: 100%;
 }

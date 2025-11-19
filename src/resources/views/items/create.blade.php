@@ -13,8 +13,6 @@
 
 		<form class="form sell-form" method="POST" action="{{ route('sell.perform') }}" enctype="multipart/form-data">
 			@csrf
-
-			{{-- 商品画像（必須） --}}
 			<div class="form-row">
 				<label class="form-label" for="image">商品画像</label>
 				<div class="uploader">
@@ -31,7 +29,6 @@
 				<hr class="sell-hr">
 			</div>
 
-			{{-- カテゴリ（複数選択） --}}
 			<div class="form-row">
 				<label class="form-label">カテゴリ</label>
 				<div class="chip-list">
@@ -50,7 +47,6 @@
 				@error('categories') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
-			{{-- 商品の状態（プルダウン） --}}
 			<div class="form-row">
 				<label class="form-label" for="condition">商品の状態</label>
 				<select id="condition" name="condition" class="input select">
@@ -68,27 +64,26 @@
 				<hr class="sell-hr">
 			</div>
 
-			{{-- 商品名／ブランド名 --}}
 			<div class="form-row">
 				<label class="form-label" for="name">商品名</label>
-				<input id="name" name="name" type="text" class="input" value="{{ old('name') }}" placeholder="例）ショルダーバッグ">
+				<input id="name" name="name" type="text" class="input" value="{{ old('name') }}">
 				@error('name') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
 			<div class="form-row">
 				<label class="form-label" for="brand">ブランド名</label>
-				<input id="brand" name="brand" type="text" class="input" value="{{ old('brand') }}" placeholder="任意">
+				<input id="brand" name="brand" type="text" class="input" value="{{ old('brand') }}">
 				@error('brand') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
-			{{-- 商品説明 --}}
 			<div class="form-row">
 				<label class="form-label" for="description">商品の説明</label>
-				<textarea id="description" name="description" rows="6" class="input textarea" placeholder="特徴・サイズ・注意点など">{{ old('description') }}</textarea>
+				<textarea id="description" name="description" rows="6" class="input textarea">
+					{{ old('description') }}
+				</textarea>
 				@error('description') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
-			{{-- 価格 --}}
 			<div class="form-row">
 				<label class="form-label" for="price">販売価格</label>
 				<div class="price-input">
@@ -98,12 +93,11 @@
 						type="text"
 						class="input price-field"
 						value="{{ old('price') }}"
-						placeholder="0">
+						>
 				</div>
 				@error('price') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
-			{{-- 送信ボタン --}}
 			<div class="form-row form-row--actions">
 				<button class="button button-primary button-full" type="submit">出品する</button>
 			</div>
