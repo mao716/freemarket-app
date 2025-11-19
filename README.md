@@ -1,8 +1,5 @@
 # Freemarket App
 
-Laravel 11 + Docker
-
-
 ---
 
 ## 環境構築手順
@@ -34,7 +31,6 @@ exit
 
 ### 4. Laravel の環境変数設定
 
-Laravel をインストールすると、`src/.env.example` が自動生成されます。
 以下のコマンドで `.env` を作成してください。
 
 ```bash
@@ -66,7 +62,41 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
 ```
 ※ 現在の実装では Webhook 機能（STRIPE_WEBHOOK_SECRET）は使用していません。
 
-### 6. Laravel の初期設定
+
+### 6. メール認証について
+
+本アプリのメール認証機能は、Mailtrap（メールテストサービス）を利用して動作確認しています。
+
+- 想定動作:
+
+1. 会員登録時に確認メールを送信
+2. メール内のリンクをクリックするとメール認証が完了
+3. 認証後はプロフィール設定画面へ遷移
+
+#### Mailtrap 設定方法
+
+1. Mailtrap に無料登録し、Email Testing の Inbox を作成します。
+2. Inbox の「SMTP Settings」から、以下の情報を取得します。
+
+   - Host
+   - Port
+   - Username
+   - Password
+
+3. `src/.env` の `MAIL_〜` を以下のように設定してください。
+
+   ```env
+   MAIL_MAILER=smtp
+   MAIL_HOST=smtp.mailtrap.io
+   MAIL_PORT=2525
+   MAIL_USERNAME=取得した Username
+   MAIL_PASSWORD=取得した Password
+   MAIL_ENCRYPTION=null
+   MAIL_FROM_ADDRESS="no-reply@example.com"
+   MAIL_FROM_NAME="${APP_NAME}"
+   ```
+
+### 7. Laravel の初期設定
 
 ```bash
 docker compose exec php bash
@@ -95,15 +125,16 @@ exit
 - Nginx 1.21
 - MySQL 8.0
 - phpMyAdmin
-- Docker / Docker Compose
+- Docker
 
 ---
 
 ## 使用技術
 
-- fortify
+- Fortify
 - form request
 - stripe
+- Mailtrap
 
 ---
 
@@ -119,11 +150,3 @@ exit
 ## ER 図
 
 ![ER図](./er_diagram.png)
-
----
-
-## 今後の TODO
-
-- モデル・コントローラ・ビューの実装
-- バリデーション、Seeder の実装
-- 最終的に基本設計書・テーブル仕様書との整合性を確認
