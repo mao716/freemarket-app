@@ -24,9 +24,7 @@
 .items .page-tab {
 	background: transparent;
 	color: #666;
-	/* 非アクティブ色 */
 	padding: 0;
-	/* pill（丸ボタン風）解除 */
 	border-radius: 0;
 	text-decoration: none;
 	position: relative;
@@ -42,15 +40,12 @@
 	color: #e53935;
 }
 
-
-/* --- グリッド（4列固定→可変） --- */
 .items .item-grid {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	display: grid;
 	grid-template-columns: repeat(4, minmax(0, 1fr));
-	/* 4列 */
 	gap: 24px;
 }
 
@@ -66,13 +61,11 @@
 	}
 }
 
-/* --- カード（枠なし、画像＋商品名のみ） --- */
 .items .item-card {
 	background: transparent;
 	border: none;
 	border-radius: 0;
 	box-shadow: none;
-	/* 枠＆影なし */
 }
 
 .items .item-card-link {
@@ -109,7 +102,6 @@
 
 .items .item-body {
 	border-top: 1px solid #eaeaea;
-	/* 画像との区切り */
 	padding-top: 10px;
 }
 

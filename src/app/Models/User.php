@@ -24,7 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
 	protected $appends = ['avatar_url'];
 
-	public function getAvatarUrlAttribute()
+	public function getAvatarUrlAttribute(): string
 	{
 		$path = $this->avatar_path;
 

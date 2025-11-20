@@ -6,7 +6,7 @@
 	<section class="page-section">
 		<h1 class="page-title">ログイン</h1>
 
-		<form method="POST" action="{{ route('login') }}" class="form">
+		<form method="POST" action="{{ route('login.perform') }}" class="form">
 			@csrf
 
 			<div class="form-row">

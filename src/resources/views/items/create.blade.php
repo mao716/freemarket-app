@@ -22,6 +22,7 @@
 						<label for="image" class="button-outline uploader-button">画像を選択する</label>
 					</div>
 				</div>
+				@error('image') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
 			<div class="form-block">
@@ -78,9 +79,7 @@
 
 			<div class="form-row">
 				<label class="form-label" for="description">商品の説明</label>
-				<textarea id="description" name="description" rows="6" class="input textarea">
-					{{ old('description') }}
-				</textarea>
+				<textarea id="description" name="description" rows="6" class="input textarea">{{ old('description') }}</textarea>
 				@error('description') <p class="error">{{ $message }}</p> @enderror
 			</div>
 
@@ -92,8 +91,7 @@
 						name="price"
 						type="text"
 						class="input price-field"
-						value="{{ old('price') }}"
-						>
+						value="{{ old('price') }}">
 				</div>
 				@error('price') <p class="error">{{ $message }}</p> @enderror
 			</div>

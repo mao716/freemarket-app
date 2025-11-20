@@ -14,7 +14,7 @@
 		<section class="item-grid">
 
 			<figure class="item-media">
-				<img class="item-image" src="{{ Storage::url($item->image_path) }}" alt="{{ $item->name }}">
+				<img class="item-image" src="{{ $item->image_url }}" alt="{{ $item->name }}">
 			</figure>
 
 			<div class="item-summary">
@@ -90,8 +90,8 @@
 						<div class="info-row">
 							<dt>カテゴリー</dt>
 							<dd>
-								@forelse($item->categories as $cat)
-								<span class="tag">{{ $cat->name }}</span>
+								@forelse($item->categories as $category)
+								<span class="tag">{{ $category->name }}</span>
 								@empty
 								—
 								@endforelse
@@ -109,15 +109,14 @@
 						コメント<span class="comment-count">({{ $commentCount }})</span>
 					</h2>
 					<ul class="comment-list">
-						@forelse($item->comments as $c)
+						@forelse($item->comments as $comment)
 						<li class="comment">
 							<div class="comment-head">
-								<img class="avatar" src="{{ $c->user->avatar_url }}" alt="{{ $c->user->name }}のアイコン">
-								<div class="comment-author">{{ $c->user->name }}</div>
+								<img class="avatar" src="{{ $comment->user->avatar_url }}" alt="{{ $comment->user->name }}のアイコン">
+								<div class="comment-author">{{ $comment->user->name }}</div>
 							</div>
-
 							<div class="comment-body-wrap">
-								<p class="comment-body">{{ $c->body }}</p>
+								<p class="comment-body">{{ $comment->body }}</p>
 							</div>
 						</li>
 						@empty

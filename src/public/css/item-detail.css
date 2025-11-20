@@ -158,13 +158,12 @@
 	margin-left: 4px;
 }
 
-/* 各コメントカード */
 .comment {
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
 }
-/* コメントヘッダー（アバター＋名前） */
+
 .comment-head {
 	display: flex;
 	align-items: center;
@@ -172,14 +171,12 @@
 	margin: 0 0 4px;
 }
 
-/* アバター */
 .comment-head .avatar {
 	width: 40px;
 	height: 40px;
 	flex-shrink: 0;
 }
 
-/* ユーザー名 */
 .comment-author {
 	font-weight: 700;
 	font-size: 14px;
@@ -192,7 +189,6 @@
 	padding: 12px 16px;
 }
 
-/* コメント本文 */
 .comment-body {
 	font-size: 14px;
 	line-height: 1.6;
@@ -200,36 +196,29 @@
 	margin: 0;
 }
 
-/* コメントがない場合 */
 .comment--empty {
 	color: #777;
 	font-size: 14px;
 }
 
-/* コメントフォーム見出し */
 .item-comment-form .block-title {
 	font-size: 1.4rem;
 	font-weight: 600;
 	margin-bottom: 6px;
 }
 
-/* コメント投稿フォーム */
 .item-comment-form {
 	margin: 24px 0 40px;
 }
 
-/* フォームの行間（行と行のすき間）を詰める */
 .item-comment-form .form {
 	row-gap: 8px;
-	/* 共通は28px → ここだけ8pxに */
 }
 
-/* ボタン行の余白（共通の30pxを打ち消し） */
 .item-comment-form .form-row--actions {
 	margin-top: 0;
 }
 
-/* コメント送信ボタン（少し小さめに） */
 .item-comment-form .button {
 	font-size: 16px;
 	padding: 8px 14px;
