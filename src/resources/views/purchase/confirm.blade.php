@@ -14,7 +14,7 @@
 				<div class="product-card">
 					<img
 						class="product-thumb"
-						src="{{ Storage::url($item->image_path) }}"
+						src="{{ $item->image_url }}"
 						alt="{{ $item->name }}">
 					<div class="product-meta">
 						<div class="product-name">{{ $item->name }}</div>

@@ -10,11 +10,6 @@
 <main class="layout-narrow">
 	<section class="page-section">
 		<h1 class="page-title">プロフィール設定</h1>
-
-		@push('scripts')
-		<script src="{{ asset('js/profile.js') }}" defer></script>
-		@endpush
-
 		<form method="POST"
 			action="{{ route('mypage.save') }}"
 			enctype="multipart/form-data"
@@ -76,3 +71,7 @@
 	</section>
 </main>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/profile.js') }}" defer></script>
+@endpush

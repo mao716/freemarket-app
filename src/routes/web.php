@@ -48,9 +48,17 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-	Route::get('/purchase/{item}', [PurchaseController::class, 'confirm'])->name('purchase.confirm');
-	Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchase.store');
 	Route::get('/purchase/complete', [PurchaseController::class, 'complete'])->name('purchase.complete');
+
+	Route::get(
+		'/purchase/{item}',
+		[PurchaseController::class, 'confirm']
+	)->whereNumber('item')->name('purchase.confirm');
+
+	Route::post(
+		'/purchase/{item}',
+		[PurchaseController::class, 'store']
+	)->whereNumber('item')->name('purchase.store');
 
 	Route::get('/purchase/address/{item}', [AddressController::class, 'showAddressForm'])->name('address.show');
 	Route::post('/purchase/address/{item}', [AddressController::class, 'saveAddress'])->name('address.save');

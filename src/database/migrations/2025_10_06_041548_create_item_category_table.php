@@ -6,22 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
 		Schema::create('item_category', function (Blueprint $table) {
 			$table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
 			$table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-			$table->primary(['item_id', 'category_id']); // 重複禁止
+			$table->primary(['item_id', 'category_id']);
 			$table->timestamps();
 		});
 	}
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('item_category');

@@ -6,30 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
 		Schema::create('orders', function (Blueprint $table) {
 			$table->id();
+			$table->foreignId('user_id')->constrained()->cascadeOnDelete();
+			$table->foreignId('item_id')->constrained()->cascadeOnDelete();
 
-			// FK
-			$table->foreignId('user_id')->constrained()->cascadeOnDelete(); // 購入者
-			$table->foreignId('item_id')->constrained()->cascadeOnDelete(); // 対象商品
-
-			$table->text('address'); // 購入後にプロフィールを変更しても、当時の配送先は記録として残す
-			$table->enum('payment', ['card', 'konbini']); // 支払い方法
-			$table->enum('status', ['pending', 'paid', 'canceled'])->default('pending'); // 状態
+			$table->text('address');
+			$table->enum('payment', ['card', 'konbini']);
+			$table->enum('status', ['pending', 'paid', 'canceled'])->default('pending');
 			$table->timestamps();
 
-			$table->unique('item_id'); // 1商品は1回しか売れない（再購入不可）
+			$table->unique('item_id');
 		});
 	}
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('orders');

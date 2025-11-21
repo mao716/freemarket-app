@@ -19,7 +19,6 @@
 	margin-right: 50px;
 }
 
-/* 編集ボタン */
 .profile-edit {
 	white-space: nowrap;
 	font-size: 0.9rem;
@@ -68,15 +67,11 @@
 	color: #e53935
 }
 
-/* items.css の“赤い下線”を念のため無効化（保険）*/
 .mypage .items .page-tab.is-active::after {
 	content: none
 }
 
-/* 3) 商品カード（一覧と完全一致）
-   ※ item-grid に“箱（max-width/padding）”は持たせない！ */
 .mypage .items .item-grid {
-	/* 箱サイズは .layout-main に任せる（= 余白/幅を触らない） */
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -98,7 +93,6 @@
 	}
 }
 
-/* 画像の比率・トリミング（一覧と同じ） */
 .mypage .items .item-thumb {
 	position: relative;
 	aspect-ratio: 1/1;

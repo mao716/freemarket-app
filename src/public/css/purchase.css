@@ -1,4 +1,3 @@
-/* ===== Purchase page layout ===== */
 .purchase-grid {
 	display: grid;
 	grid-template-columns: 1fr 360px;
@@ -47,7 +46,7 @@
 	margin: 24px 0;
 }
 
-.purchase-left form.form {
+.purchase-left .form {
 	gap: 0;
 }
 
