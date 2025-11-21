@@ -67,12 +67,6 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
 
 本アプリのメール認証機能は、Mailtrap（メールテストサービス）を利用して動作確認しています。
 
-- 想定動作:
-
-1. 会員登録時に確認メールを送信
-2. メール内のリンクをクリックするとメール認証が完了
-3. 認証後はプロフィール設定画面へ遷移
-
 #### Mailtrap 設定方法
 
 1. Mailtrap に無料登録し、Email Testing の Inbox を作成します。
@@ -95,6 +89,14 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
    MAIL_FROM_ADDRESS="no-reply@example.com"
    MAIL_FROM_NAME="${APP_NAME}"
    ```
+
+   - 想定動作:
+
+1. 会員登録時に確認メールを送信
+2. メール認証誘導画面の「認証はこちらから」を押下すると、MailtrapのInboxが開く
+3. メール内のリンクをクリックするとメール認証が完了
+4. 認証後はプロフィール設定画面へ遷移
+
 
 ### 7. Laravel の初期設定
 
@@ -120,27 +122,28 @@ exit
 
 ## 動作環境
 
-- PHP 8.2 (php-fpm)
+- PHP 8.2（php-fpm）
 - Laravel 11
-- Nginx 1.21
 - MySQL 8.0
+- Nginx 1.21
+- Docker / Docker Compose
 - phpMyAdmin
-- Docker
 
 ---
 
 ## 使用技術
 
-- Fortify
-- form request
-- stripe
-- Mailtrap
+- Laravel Fortify（認証）
+- Stripe（カード決済・Checkout）
+- Mailtrap（メールテスト、認証メール）
+- FormRequest（入力バリデーション）
 
 ---
 
-## アクセス方法
+## アクセスURL
 
 - アプリケーション: <http://localhost>
+- 会員登録: <http://localhost/register>
 - phpMyAdmin: <http://localhost:8080>
   - ユーザー: `laravel_user`\
   - パスワード: `laravel_pass`
