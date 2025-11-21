@@ -71,9 +71,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 	Route::post('/item/{item}/like', [LikeController::class, 'like'])->name('like.add');
 	Route::delete('/item/{item}/like', [LikeController::class, 'unlike'])->name('like.remove');
-
-	Route::post('/logout', [AuthLoginController::class, 'logout'])->name('logout');
 });
+
+Route::post('/logout', [AuthLoginController::class, 'logout'])
+	->middleware('auth')
+	->name('logout');
 
 /*
 |--------------------------------------------------------------------------
