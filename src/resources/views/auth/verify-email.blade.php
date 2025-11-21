@@ -25,7 +25,10 @@ $verifyUrl = route('verification.verify', [
 		</p>
 
 		<div class="verify-actions">
-			<a href="{{ $verifyUrl }}" class="verify-button">
+			<a href="https://mailtrap.io/inboxes"
+				class="verify-button"
+				target="_blank"
+				rel="noopener">
 				認証はこちらから
 			</a>
 		</div>
