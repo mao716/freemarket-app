@@ -127,11 +127,10 @@ exit
 1. テスト用データベースの作成
 MySQL コンテナに入り、以下を実行してください。
    ```bash
-   docker compose exec mysql bash
-   mysql -u root -p
+   docker compose exec mysql mysql -u root -proot
    ```
 	ログイン後、以下のSQLを実行します。
-	```bash
+	```sql
 	CREATE DATABASE laravel_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 	GRANT ALL ON laravel_test.* TO 'laravel_user'@'%';
 	FLUSH PRIVILEGES;
@@ -162,13 +161,9 @@ src/ ディレクトリ内で `.env.testing` を作成します。
 	cd /var/www
 
 	php artisan migrate:fresh --env=testing
-	exit
 	```
 4. テスト実行
 	```bash
-	docker compose exec php bash
-	cd /var/www
-
 	php artisan test
 	exit
 	```
