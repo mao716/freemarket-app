@@ -8,6 +8,7 @@
 
 @section('content')
 <main class="layout-main">
+	<h1 class="visually-hidden">購入手続き</h1>
 	<section class="page-section">
 		<div class="purchase-grid">
 			<div class="purchase-left">

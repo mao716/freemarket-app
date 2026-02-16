@@ -38,9 +38,14 @@ User::where('avatar_path', 'like', 'storage/avatars/%')->get()->each(function ($
 });
 exit;
 use App\Models\Item;
-
 Item::where('image_path', 'not like', 'items/%')->get()->each(function ($i) {
     $i->image_path = 'items/'.ltrim($i->image_path, '/');
     $i->save();
 });
 exit;
+config('session.cookie')
+exit
+config('session.cookie')
+config('session.driver')
+config('app.key')
+exit

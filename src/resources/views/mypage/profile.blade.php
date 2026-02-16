@@ -10,6 +10,11 @@
 @section('content')
 <main class="layout-main">
 	<div class="mypage">
+
+		<h1 class="visually-hidden">
+			{{ $tab === 'buy' ? '購入した商品一覧' : '出品した商品一覧' }}
+		</h1>
+
 		<section class="page-section">
 			<div class="comment-head profile-head">
 				<img class="avatar"

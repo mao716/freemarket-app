@@ -29,7 +29,7 @@ composer install
 exit
 ```
 
-### 4. Laravel の環境変数設定
+### 4. .envファイルの作成
 
 以下のコマンドで `.env` を作成してください。
 
@@ -37,19 +37,7 @@ exit
 cp src/.env.example src/.env
 ```
 
-その後、 `.env` の該当箇所を以下のように編集し、Docker の MySQL コンテナに接続できるように設定してください。
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=laravel_db
-DB_USERNAME=laravel_user
-DB_PASSWORD=laravel_pass
-
-SESSION_DRIVER=file
-SESSION_LIFETIME=120
-```
+`.env.example` には Docker 環境用の初期設定が記載されています。
 
 ### 5. Stripe設定（テストモード）
 
@@ -60,8 +48,8 @@ SESSION_LIFETIME=120
 STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxx
 STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
 ```
-※ 現在の実装では Webhook 機能（STRIPE_WEBHOOK_SECRET）は使用していません。
 
+※ 現在の実装では Webhook 機能（STRIPE_WEBHOOK_SECRET）は使用していません。
 
 ### 6. メール認証について
 
@@ -71,7 +59,6 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
 
 1. Mailtrap に無料登録し、Email Testing の Inbox を作成します。
 2. Inbox の「SMTP Settings」から、以下の情報を取得します。
-
    - Host
    - Port
    - Username
@@ -91,12 +78,10 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
    ```
 
    - 想定動作:
-
-	1. 会員登録時にメール認証メールがMailtrapに届く
-	2. メール認証誘導画面の「認証はこちらから」を押下すると、MailtrapのInboxが開く
-	3. メール内のリンクをクリックするとメール認証が完了
-	4. 認証後はプロフィール設定画面へ遷移
-
+   1. 会員登録時にメール認証メールがMailtrapに届く
+   2. メール認証誘導画面の「認証はこちらから」を押下すると、MailtrapのInboxが開く
+   3. メール内のリンクをクリックするとメール認証が完了
+   4. 認証後はプロフィール設定画面へ遷移
 
 ### 7. Laravel の初期設定
 
@@ -124,50 +109,55 @@ exit
 本アプリでは PHPUnit を用いた Feature テストを実装しています。
 テスト実行時は、本番用DBとは別に テスト専用データベース を使用します。
 
-1. テスト用データベースの作成
-MySQL コンテナに入り、以下を実行してください。
-   ```bash
-   docker compose exec mysql mysql -u root -proot
-   ```
-	ログイン後、以下のSQLを実行します。
-	```sql
-	CREATE DATABASE laravel_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-	GRANT ALL ON laravel_test.* TO 'laravel_user'@'%';
-	FLUSH PRIVILEGES;
-	EXIT;
-	```
+1.  テスト用データベースの作成
+    MySQL コンテナに入り、以下を実行してください。
+
+    ```bash
+    docker compose exec mysql mysql -u root -proot
+    ```
+
+        ログイン後、以下のSQLを実行します。
+        ```sql
+        CREATE DATABASE laravel_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        GRANT ALL ON laravel_test.* TO 'laravel_user'@'%';
+        FLUSH PRIVILEGES;
+        EXIT;
+        ```
 
 2.  `.env.testing` の作成
-src/ ディレクトリ内で `.env.testing` を作成します。
-	```bash
+    src/ ディレクトリ内で `.env.testing` を作成します。
+    `bash
 	cp src/.env src/.env.testing
-	```
-	`.env.testing` のDB設定を以下のように変更してください。
-	```env
-	APP_ENV=testing
+	`
+    `.env.testing` のDB設定を以下のように変更してください。
+    ```env
+    APP_ENV=testing
 
-	DB_CONNECTION=mysql
-	DB_HOST=mysql
-	DB_PORT=3306
-	DB_DATABASE=laravel_test
-	DB_USERNAME=laravel_user
-	DB_PASSWORD=laravel_pass
-	```
-	※ `.env.testing` はGit管理対象外です。
+        DB_CONNECTION=mysql
+        DB_HOST=mysql
+        DB_PORT=3306
+        DB_DATABASE=laravel_test
+        DB_USERNAME=laravel_user
+        DB_PASSWORD=laravel_pass
+        ```
+        ※ `.env.testing` はGit管理対象外です。
 
-3. テスト用DBのマイグレーション
-	```bash
-	docker compose exec php bash
-	cd /var/www
+3.  テスト用DBのマイグレーション
 
-	php artisan migrate:fresh --env=testing
-	```
-4. テスト実行
-	```bash
-	php artisan test
-	exit
-	```
-	すべてのテストが PASS すれば正常に動作しています。
+    ```bash
+    docker compose exec php bash
+    cd /var/www
+
+    php artisan migrate:fresh --env=testing
+    ```
+
+4.  テスト実行
+    ```bash
+    php artisan test
+    exit
+    ```
+    すべてのテストが PASS すれば正常に動作しています。
+
 ---
 
 ## 動作環境

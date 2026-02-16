@@ -12,6 +12,10 @@
 <main class="layout-main">
 	<section class="page-section items">
 
+		<h1 class="visually-hidden">
+			{{ $tab === 'mylist' ? 'マイリスト' : '商品一覧' }}
+		</h1>
+
 		<nav class="page-tabs" aria-label="表示切替">
 
 			<a class="page-tab {{ $tab !== 'mylist' ? 'is-active' : '' }}"
