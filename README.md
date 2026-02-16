@@ -118,6 +118,61 @@ php artisan db:seed
 
 exit
 ```
+
+### 8. テスト環境構築（PHPUnit）
+
+本アプリでは PHPUnit を用いた Feature テストを実装しています。
+テスト実行時は、本番用DBとは別に テスト専用データベース を使用します。
+
+1. テスト用データベースの作成
+MySQL コンテナに入り、以下を実行してください。
+   ```bash
+   docker compose exec mysql bash
+   mysql -u root -p
+   ```
+	ログイン後、以下のSQLを実行します。
+	```bash
+	CREATE DATABASE laravel_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+	GRANT ALL ON laravel_test.* TO 'laravel_user'@'%';
+	FLUSH PRIVILEGES;
+	EXIT;
+	```
+
+2.  `.env.testing` の作成
+src/ ディレクトリ内で `.env.testing` を作成します。
+	```bash
+	cp src/.env src/.env.testing
+	```
+	`.env.testing` のDB設定を以下のように変更してください。
+	```env
+	APP_ENV=testing
+
+	DB_CONNECTION=mysql
+	DB_HOST=mysql
+	DB_PORT=3306
+	DB_DATABASE=laravel_test
+	DB_USERNAME=laravel_user
+	DB_PASSWORD=laravel_pass
+	```
+	※ `.env.testing` はGit管理対象外です。
+
+3. テスト用DBのマイグレーション
+	```bash
+	docker compose exec php bash
+	cd /var/www
+
+	php artisan migrate:fresh --env=testing
+	exit
+	```
+4. テスト実行
+	```bash
+	docker compose exec php bash
+	cd /var/www
+
+	php artisan test
+	exit
+	```
+	すべてのテストが PASS すれば正常に動作しています。
 ---
 
 ## 動作環境
