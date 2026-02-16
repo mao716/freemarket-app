@@ -10,6 +10,10 @@ class LikeController extends Controller
 {
 	public function like(Item $item)
 	{
+		if ($item->user_id === Auth::id()) {
+			return back();
+		}
+
 		$userId = Auth::id();
 
 		Like::firstOrCreate([

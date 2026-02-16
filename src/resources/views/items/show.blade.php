@@ -25,6 +25,15 @@
 
 				<div class="item-meta">
 					@auth
+					@if ($isMine)
+					{{-- 自分の商品：グレーアウトして押せない --}}
+					<button type="button" class="meta-item icon-button icon-button--disabled" aria-disabled="true" title="自分の商品にはいいねできません" disabled>
+						<div class="icon-wrap">
+							<img src="{{ asset('images/icons/icon-like-off.svg') }}" alt="いいね（自分の商品は不可）">
+							<span class="count">{{ $likeCount }}</span>
+						</div>
+					</button>
+					@else
 					@if($isLiked)
 					<form method="POST" action="{{ route('like.remove', $item) }}" class="inline-form">
 						@csrf @method('DELETE')
@@ -45,6 +54,7 @@
 							</div>
 						</button>
 					</form>
+					@endif
 					@endif
 					@else
 					<a href="{{ route('login') }}" class="meta-item icon-button" aria-pressed="false">

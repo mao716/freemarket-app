@@ -34,6 +34,7 @@ class ItemController extends Controller
 
 			$items = $itemQuery
 				->whereHas('likes', fn($query) => $query->where('user_id', $userId))
+				->where('items.user_id', '!=', $userId)
 				->latest()
 				->get();
 
@@ -41,7 +42,7 @@ class ItemController extends Controller
 		}
 
 		$items = $itemQuery
-			->when($userId, fn($query) => $query->where('user_id', '!=', $userId))
+			->when($userId, fn($query) => $query->where('items.user_id', '!=', $userId))
 			->latest()
 			->get();
 

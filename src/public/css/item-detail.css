@@ -96,6 +96,11 @@
 	top: -1px;
 }
 
+.icon-button--disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
 .item-summary .button-full {
 	width: 100%;
 }
