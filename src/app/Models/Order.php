@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Item;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Order extends Model
 {
@@ -37,5 +38,10 @@ class Order extends Model
 	public function item()
 	{
 		return $this->belongsTo(Item::class);
+	}
+
+	public function trade(): HasOne
+	{
+		return $this->hasOne(Trade::class);
 	}
 }

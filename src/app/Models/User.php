@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -53,5 +54,30 @@ class User extends Authenticatable implements MustVerifyEmail
 	public function orders()
 	{
 		return $this->hasMany(Order::class);
+	}
+
+	public function boughtTrades(): HasMany
+	{
+		return $this->hasMany(Trade::class, 'buyer_id');
+	}
+
+	public function soldTrades(): HasMany
+	{
+		return $this->hasMany(Trade::class, 'seller_id');
+	}
+
+	public function tradeMessages(): HasMany
+	{
+		return $this->hasMany(TradeMessage::class);
+	}
+
+	public function givenTradeReviews(): HasMany
+	{
+		return $this->hasMany(TradeReview::class, 'reviewer_id');
+	}
+
+	public function receivedTradeReviews(): HasMany
+	{
+		return $this->hasMany(TradeReview::class, 'reviewee_id');
 	}
 }
