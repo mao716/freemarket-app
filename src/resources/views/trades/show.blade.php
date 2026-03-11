@@ -1,14 +1,17 @@
 @extends('layouts.base')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/trades.css') }}">
+<link rel="stylesheet" href="{{ asset('css/trade.css') }}">
 @endpush
 
+@section('title', '取引画面')
+
 @section('content')
-<h1>取引画面</h1>
 <div class="trade-page">
+	<h1 class="visually-hidden">取引画面</h1>
+
 	<aside class="trade-sidebar">
-		<h2 class="trade-sidebar__title">その他の取引</h2>
+		<p class="trade-sidebar__title">その他の取引</p>
 
 		<div class="trade-sidebar__list">
 			@foreach ($trades as $sidebarTrade)
@@ -36,7 +39,7 @@
 		<header class="trade-header">
 			<div class="trade-header__user">
 				<div class="trade-header__avatar"></div>
-				<h1 class="trade-header__title">「{{ $partnerName }}」さんとの取引画面</h1>
+				<p class="trade-header__title">「{{ $partnerName }}」さんとの取引画面</p>
 			</div>
 
 			<button class="trade-header__complete-button" type="button">
@@ -48,7 +51,7 @@
 			<div class="trade-product__image-wrap">
 				<img
 					class="trade-product__image"
-					src="{{ asset($trade->order->item->image_path) }}"
+					src="{{ asset('storage/' . $trade->order->item->image_path) }}"
 					alt="{{ $trade->order->item->name }}">
 			</div>
 
@@ -75,12 +78,19 @@
 					@if (!empty($message->body))
 					<p class="trade-message__body">{{ $message->body }}</p>
 					@endif
+
+					@if (!empty($message->image_path))
+					<img
+						class="trade-message__image"
+						src="{{ asset('storage/' . $message->image_path) }}"
+						alt="取引メッセージ画像">
+					@endif
 				</div>
 
 				@if ($message->user_id === $userId)
 				<div class="trade-message__actions">
-					<button type="button">編集</button>
-					<button type="button">削除</button>
+					<button class="trade-message__action" type="button">編集</button>
+					<button class="trade-message__action" type="button">削除</button>
 				</div>
 				@endif
 			</article>
@@ -89,7 +99,7 @@
 			@endforelse
 		</section>
 
-		<section class="trade-form-section">
+		<section class="trade-form-area">
 			<form class="trade-form" method="POST" action="#">
 				@csrf
 
@@ -97,11 +107,16 @@
 					class="trade-form__textarea"
 					name="body"
 					rows="3"
-					placeholder="取引メッセージを記入してください"></textarea>
+					placeholder="取引メッセージを記入してください">{{ old('body') }}</textarea>
 
 				<div class="trade-form__actions">
-					<button class="trade-form__image-button" type="button">画像を追加</button>
-					<button class="trade-form__submit" type="submit">送信</button>
+					<button class="trade-form__image-button" type="button">
+						画像を追加
+					</button>
+
+					<button class="trade-form__submit" type="submit" aria-label="メッセージを送信">
+						➤
+					</button>
 				</div>
 			</form>
 		</section>

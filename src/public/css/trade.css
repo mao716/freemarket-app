@@ -1,3 +1,14 @@
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
 .trade-page {
     display: grid;
     grid-template-columns: 280px 1fr;
@@ -5,8 +16,8 @@
 }
 
 .trade-sidebar {
-    padding: 32px 24px;
-    background: #8f8f8f;
+    padding: 24px 20px;
+    background: #8d8d8d;
 }
 
 .trade-sidebar__title {
@@ -18,15 +29,17 @@
 
 .trade-sidebar__list {
     display: grid;
-    gap: 24px;
+    gap: 40px;
 }
 
 .trade-sidebar__item {
     position: relative;
     display: block;
-    padding: 14px 18px;
+    width: 100%;
+    max-width: 200px;
+    padding: 12px 16px;
     background: #fff;
-    border-radius: 6px;
+    border-radius: 4px;
     color: #333;
     text-align: center;
     text-decoration: none;
@@ -59,7 +72,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 28px;
+    padding: 12px 24px;
     border-bottom: 1px solid #666;
 }
 
@@ -71,22 +84,22 @@
 
 .trade-header__avatar,
 .trade-message__avatar {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: #d9d9d9;
 }
 
 .trade-header__title {
-    font-size: 42px;
+    font-size: 32px;
     font-weight: 700;
 }
 
 .trade-header__complete-button {
-    padding: 14px 24px;
+    padding: 16px 24px;
     border: none;
     border-radius: 999px;
-    background: #ff8b8b;
+    background: #ff8c8c;
     color: #fff;
     font-size: 24px;
     cursor: pointer;
@@ -94,15 +107,10 @@
 
 .trade-product {
     display: grid;
-    grid-template-columns: 240px 1fr;
+    grid-template-columns: 220px 1fr;
     gap: 40px;
-    padding: 28px 40px;
+    padding: 16px 40px;
     border-bottom: 1px solid #666;
-}
-
-.trade-product__image-wrap {
-    width: 100%;
-    max-width: 240px;
 }
 
 .trade-product__image {
@@ -112,7 +120,7 @@
 }
 
 .trade-product__name {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     font-size: 56px;
     font-weight: 700;
 }
@@ -122,17 +130,17 @@
 }
 
 .trade-messages {
-    padding: 24px 24px 120px;
+    padding: 18px 20px 120px;
 }
 
 .trade-message {
-    margin-bottom: 28px;
+    margin-bottom: 36px;
 }
 
 .trade-message__meta {
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 16px;
     margin-bottom: 12px;
 }
 
@@ -141,14 +149,14 @@
 }
 
 .trade-message__user {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
 }
 
 .trade-message__bubble {
-    max-width: 560px;
-    padding: 18px 24px;
-    border-radius: 6px;
+    max-width: 460px;
+    padding: 18px 22px;
+    border-radius: 4px;
     background: #d9d9d9;
 }
 
@@ -160,7 +168,13 @@
     margin: 0;
     white-space: pre-wrap;
     word-break: break-word;
-    font-size: 24px;
+    font-size: 22px;
+}
+
+.trade-message__image {
+    display: block;
+    max-width: 220px;
+    margin-top: 12px;
 }
 
 .trade-message__actions {
@@ -170,29 +184,29 @@
     margin-top: 8px;
 }
 
-.trade-message__actions button {
+.trade-message__action {
     border: none;
     background: transparent;
     color: #666;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
 }
 
 .trade-messages__empty {
-    font-size: 24px;
+    font-size: 22px;
 }
 
-.trade-form-section {
+.trade-form-area {
     position: sticky;
     bottom: 0;
-    padding: 16px 24px;
+    padding: 14px 24px;
     background: #f5f5f5;
 }
 
 .trade-form {
     display: flex;
-    align-items: flex-end;
-    gap: 16px;
+    align-items: center;
+    gap: 18px;
 }
 
 .trade-form__textarea {
@@ -202,60 +216,28 @@
     border: 1px solid #666;
     border-radius: 4px;
     resize: vertical;
-    font-size: 24px;
+    font-size: 22px;
 }
 
 .trade-form__actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 .trade-form__image-button {
     padding: 12px 18px;
     border: 1px solid #ff6b6b;
-    border-radius: 10px;
+    border-radius: 8px;
     background: #fff;
     color: #ff6b6b;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
 }
 
 .trade-form__submit {
-    width: 56px;
-    height: 56px;
     border: none;
     background: transparent;
-    font-size: 24px;
+    font-size: 34px;
     cursor: pointer;
-}
-
-@media (max-width: 1024px) {
-    .trade-page {
-        grid-template-columns: 1fr;
-    }
-
-    .trade-sidebar {
-        display: none;
-    }
-
-    .trade-header__title {
-        font-size: 28px;
-    }
-
-    .trade-product {
-        grid-template-columns: 1fr;
-    }
-
-    .trade-product__name {
-        font-size: 36px;
-    }
-
-    .trade-product__price,
-    .trade-message__user,
-    .trade-message__body,
-    .trade-form__textarea,
-    .trade-form__image-button {
-        font-size: 20px;
-    }
 }
