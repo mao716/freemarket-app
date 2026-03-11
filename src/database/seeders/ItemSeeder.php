@@ -12,7 +12,8 @@ class ItemSeeder extends Seeder
 {
 	public function run(): void
 	{
-		$users = User::get();
+		$sellerA = User::where('email', 'seller@example.com')->firstOrFail();
+		$sellerB = User::where('email', 'seller2@example.com')->firstOrFail();
 
 		$items = [
 			[
@@ -107,11 +108,15 @@ class ItemSeeder extends Seeder
 			],
 		];
 
-		foreach ($items as $i => $data) {
+		foreach ($items as $index => $data) {
 			$categoryIdsForThis = Arr::pull($data, 'categories', []);
 
+			$sellerId = $index < 5
+				? $sellerA->id
+				: $sellerB->id;
+
 			$item = Item::create($data + [
-				'user_id' => $users[$i % $users->count()]->id,
+				'user_id' => $sellerId,
 			]);
 
 			if (!empty($categoryIdsForThis)) {
