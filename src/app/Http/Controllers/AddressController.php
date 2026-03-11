@@ -11,7 +11,7 @@ class AddressController extends Controller
 	public function showAddressForm(Item $item)
 	{
 		$user = Auth::user();
-		$sessionKey = "shipto.item_{$item->id}";
+		$sessionKey = "shipTo.item_{$item->id}";
 		$addressData = session($sessionKey) ?? [
 			'postal_code' => $user->postal_code,
 			'address'     => $user->address,
@@ -23,7 +23,7 @@ class AddressController extends Controller
 
 	public function saveAddress(AddressRequest $request, Item $item)
 	{
-		$sessionKey = "shipto.item_{$item->id}";
+		$sessionKey = "shipTo.item_{$item->id}";
 		session([$sessionKey => $request->only('postal_code', 'address', 'building')]);
 
 		return redirect()->route('purchase.confirm', $item);
