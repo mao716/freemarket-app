@@ -42,7 +42,7 @@
 				<p class="trade-header__title">「{{ $partnerName }}」さんとの取引画面</p>
 			</div>
 
-			<button class="trade-header__complete-button" type="button">
+			<button class="button button-primary trade-header__complete-button" type="button">
 				取引を完了する
 			</button>
 		</header>
@@ -106,16 +106,16 @@
 				<textarea
 					class="trade-form__textarea"
 					name="body"
-					rows="3"
+					rows="1"
 					placeholder="取引メッセージを記入してください">{{ old('body') }}</textarea>
 
 				<div class="trade-form__actions">
-					<button class="trade-form__image-button" type="button">
+					<button class="button-outline trade-form__image-button" type="button">
 						画像を追加
 					</button>
 
 					<button class="trade-form__submit" type="submit" aria-label="メッセージを送信">
-						➤
+						<img src="{{ asset('images/icons/icon-send.svg') }}" alt="送信">
 					</button>
 				</div>
 			</form>
