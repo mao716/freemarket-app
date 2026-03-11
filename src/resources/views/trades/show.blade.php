@@ -1,0 +1,110 @@
+@extends('layouts.base')
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/trades.css') }}">
+@endpush
+
+@section('content')
+<h1>取引画面</h1>
+<div class="trade-page">
+	<aside class="trade-sidebar">
+		<h2 class="trade-sidebar__title">その他の取引</h2>
+
+		<div class="trade-sidebar__list">
+			@foreach ($trades as $sidebarTrade)
+			@php
+			$sidebarItem = $sidebarTrade->order->item;
+			$unreadCount = $userId === $sidebarTrade->buyer_id
+			? $sidebarTrade->buyer_unread_count
+			: $sidebarTrade->seller_unread_count;
+			@endphp
+
+			<a
+				class="trade-sidebar__item {{ $sidebarTrade->id === $trade->id ? 'trade-sidebar__item--active' : '' }}"
+				href="{{ route('trades.show', ['trade' => $sidebarTrade->id]) }}">
+				<span class="trade-sidebar__item-name">{{ $sidebarItem->name }}</span>
+
+				@if ($unreadCount > 0)
+				<span class="trade-sidebar__badge">{{ $unreadCount }}</span>
+				@endif
+			</a>
+			@endforeach
+		</div>
+	</aside>
+
+	<main class="trade-main">
+		<header class="trade-header">
+			<div class="trade-header__user">
+				<div class="trade-header__avatar"></div>
+				<h1 class="trade-header__title">「{{ $partnerName }}」さんとの取引画面</h1>
+			</div>
+
+			<button class="trade-header__complete-button" type="button">
+				取引を完了する
+			</button>
+		</header>
+
+		<section class="trade-product">
+			<div class="trade-product__image-wrap">
+				<img
+					class="trade-product__image"
+					src="{{ asset($trade->order->item->image_path) }}"
+					alt="{{ $trade->order->item->name }}">
+			</div>
+
+			<div class="trade-product__body">
+				<h2 class="trade-product__name">{{ $trade->order->item->name }}</h2>
+				<p class="trade-product__price">¥{{ number_format($trade->order->item->price) }}</p>
+			</div>
+		</section>
+
+		<section class="trade-messages">
+			@forelse ($trade->messages as $message)
+			<article class="trade-message {{ $message->user_id === $userId ? 'trade-message--mine' : '' }}">
+				<div class="trade-message__meta">
+					@if ($message->user_id !== $userId)
+					<div class="trade-message__avatar"></div>
+					<p class="trade-message__user">{{ $message->user->name }}</p>
+					@else
+					<p class="trade-message__user trade-message__user--mine">{{ $message->user->name }}</p>
+					<div class="trade-message__avatar"></div>
+					@endif
+				</div>
+
+				<div class="trade-message__bubble">
+					@if (!empty($message->body))
+					<p class="trade-message__body">{{ $message->body }}</p>
+					@endif
+				</div>
+
+				@if ($message->user_id === $userId)
+				<div class="trade-message__actions">
+					<button type="button">編集</button>
+					<button type="button">削除</button>
+				</div>
+				@endif
+			</article>
+			@empty
+			<p class="trade-messages__empty">まだメッセージはありません。</p>
+			@endforelse
+		</section>
+
+		<section class="trade-form-section">
+			<form class="trade-form" method="POST" action="#">
+				@csrf
+
+				<textarea
+					class="trade-form__textarea"
+					name="body"
+					rows="3"
+					placeholder="取引メッセージを記入してください"></textarea>
+
+				<div class="trade-form__actions">
+					<button class="trade-form__image-button" type="button">画像を追加</button>
+					<button class="trade-form__submit" type="submit">送信</button>
+				</div>
+			</form>
+		</section>
+	</main>
+</div>
+@endsection

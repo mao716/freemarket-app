@@ -16,6 +16,7 @@ use App\Http\Controllers\{
 	PurchaseController,
 	UserController,
 	StripeWebhookController,
+	TradeController
 };
 
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
@@ -71,17 +72,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 	Route::post('/item/{item}/like', [LikeController::class, 'like'])->name('like.add');
 	Route::delete('/item/{item}/like', [LikeController::class, 'unlike'])->name('like.remove');
+
+	Route::get('/trades/{trade}', [TradeController::class, 'show'])->name('trades.show');
 });
 
 Route::post('/logout', [AuthLoginController::class, 'logout'])
 	->middleware('auth')
 	->name('logout');
-
-/*
-|--------------------------------------------------------------------------
-| Stripe Webhook（外部サービス用: CSRF除外）
-|--------------------------------------------------------------------------
-*/
 
 Route::post(
 	'/stripe/webhook',

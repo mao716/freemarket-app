@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Trade extends Model
 {
+	public const STATUS_IN_PROGRESS = 0;
+	public const STATUS_COMPLETED = 1;
+
 	protected $fillable = [
 		'order_id',
 		'buyer_id',
@@ -35,7 +38,7 @@ class Trade extends Model
 
 	public function messages(): HasMany
 	{
-		return $this->hasMany(TradeMessage::class);
+		return $this->hasMany(TradeMessage::class)->latest();
 	}
 
 	public function reviews(): HasMany

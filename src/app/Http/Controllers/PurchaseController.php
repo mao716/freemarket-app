@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\PurchaseRequest;
 use App\Models\Item;
 use App\Models\Order;
+use App\Models\Trade;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
 
@@ -23,7 +24,7 @@ class PurchaseController extends Controller
 	{
 		$user = Auth::user();
 
-		return session("shipto.item_{$item->id}") ?? [
+		return session("shipTo.item_{$item->id}") ?? [
 			'postal_code' => $user->postal_code,
 			'address'     => $user->address,
 			'building'    => $user->building,
@@ -40,13 +41,40 @@ class PurchaseController extends Controller
 		));
 	}
 
+	private function createOrderAndTrade(Item $item, int $userId, string $address, string $payment): void
+	{
+		DB::transaction(function () use ($item, $userId, $address, $payment) {
+			$order = Order::firstOrCreate(
+				['item_id' => $item->id],
+				[
+					'user_id' => $userId,
+					'address' => $address,
+					'payment' => $payment,
+					'status'  => Order::STATUS_PAID,
+				]
+			);
+
+			Trade::firstOrCreate(
+				['order_id' => $order->id],
+				[
+					'buyer_id'            => $userId,
+					'seller_id'           => $item->user_id,
+					'status'              => Trade::STATUS_IN_PROGRESS,
+					'last_message_at'     => null,
+					'buyer_unread_count'  => 0,
+					'seller_unread_count' => 0,
+				]
+			);
+		});
+	}
+
 	public function confirm(Item $item)
 	{
 		if ($this->isSold($item) || $item->user_id === Auth::id()) {
 			return redirect()->route('items.detail', $item);
 		}
 
-		$address = $this->shipto($item);
+		$address = $this->shipTo($item);
 		return view('purchase.confirm', compact('item', 'address'));
 	}
 
@@ -56,33 +84,29 @@ class PurchaseController extends Controller
 			return redirect()->route('items.detail', $item);
 		}
 
-		$ship    = $this->shipto($item);
-		$address = $this->shiptoText($ship);
+		$ship    = $this->shipTo($item);
+		$address = $this->shipToText($ship);
 
 		if ($request->payment === Order::PAYMENT_KONBINI) {
 			try {
-				DB::transaction(function () use ($item, $address) {
-					Order::firstOrCreate(
-						['item_id' => $item->id],
-						[
-							'user_id' => Auth::id(),
-							'address' => $address,
-							'payment' => Order::PAYMENT_KONBINI,
-							'status'  => Order::STATUS_PAID,
-						]
-					);
-				});
+				$this->createOrderAndTrade(
+					$item,
+					Auth::id(),
+					$address,
+					Order::PAYMENT_KONBINI
+				);
 			} catch (\Throwable $e) {
 				Log::error('Konbini order create failed', [
 					'e' => $e->getMessage(),
 					'item_id' => $item->id,
 				]);
+
 				return redirect()
 					->route('purchase.confirm', $item)
 					->with('error', '購入処理に失敗しました。時間をおいて再度お試しください。');
 			}
 
-			session()->forget("shipto.item_{$item->id}");
+			session()->forget("shipTo.item_{$item->id}");
 
 			return redirect()
 				->route('items.index')
@@ -115,14 +139,13 @@ class PurchaseController extends Controller
 			],
 		]);
 
-		session()->forget("shipto.item_{$item->id}");
-
 		return redirect()->away($checkout->url);
 	}
 
 	public function complete(Request $request)
 	{
 		$sessionId = (string) $request->query('session_id', '');
+
 		if ($sessionId === '') {
 			return redirect()->route('items.index');
 		}
@@ -136,6 +159,7 @@ class PurchaseController extends Controller
 				'e' => $e->getMessage(),
 				'session_id' => $sessionId,
 			]);
+
 			return redirect()->route('items.index');
 		}
 
@@ -143,30 +167,29 @@ class PurchaseController extends Controller
 			return redirect()->route('items.index');
 		}
 
-		$meta    = (object) ($session->metadata ?? []);
-		$itemId  = (int)   ($meta->item_id ?? 0);
-		$userId  = (int)   ($meta->user_id ?? 0);
-		$address = (string)($meta->address ?? '');
-		$payment = (string)($meta->payment ?? Order::PAYMENT_CARD);
+		$meta = (object) ($session->metadata ?? []);
+		$itemId = (int) ($meta->item_id ?? 0);
+		$userId = (int) ($meta->user_id ?? 0);
+		$address = (string) ($meta->address ?? '');
+		$payment = (string) ($meta->payment ?? Order::PAYMENT_CARD);
 
 		if ($itemId === 0 || $userId === 0) {
 			return redirect()->route('items.index');
 		}
 
 		try {
-			DB::transaction(function () use ($itemId, $userId, $address, $payment) {
-				Order::firstOrCreate(
-					['item_id' => $itemId],
-					[
-						'user_id' => $userId,
-						'address' => $address,
-						'payment' => $payment,
-						'status'  => Order::STATUS_PAID,
-					]
-				);
-			});
+			$item = Item::findOrFail($itemId);
+
+			$this->createOrderAndTrade(
+				$item,
+				$userId,
+				$address,
+				$payment
+			);
+
+			session()->forget("shipTo.item_{$itemId}");
 		} catch (\Throwable $e) {
-			Log::error('Order create failed', [
+			Log::error('Order and trade create failed', [
 				'e' => $e->getMessage(),
 				'item_id' => $itemId,
 				'user_id' => $userId,
