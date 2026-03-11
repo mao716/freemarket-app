@@ -1,5 +1,26 @@
 # Freemarket App
 
+## 概要
+
+Freemarket App は、ユーザーが商品を出品・購入できるフリマアプリです。
+購入後は出品者と購入者の間で取引チャットを行い、取引完了後に相互評価を行うことができます。
+
+---
+
+## 主な機能
+
+- 会員登録 / ログイン（Laravel Fortify）
+- メール認証（Mailtrap）
+- 商品一覧表示
+- 商品詳細表示
+- 商品出品
+- 商品購入
+- Stripeによるカード決済
+- コンビニ決済
+- 取引チャット機能
+- 取引完了処理
+- 相互評価機能
+
 ---
 
 ## 環境構築手順
@@ -88,21 +109,36 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
 ```bash
 docker compose exec php bash
 cd /var/www
-
-# アプリケーションキーの生成
-php artisan key:generate
-
-# ストレージリンクの作成
-php artisan storage:link
-
-# マイグレーション実行
-php artisan migrate
-
-# シーディング（ダミーデータ投入）
-php artisan db:seed
-
-exit
 ```
+
+1. アプリケーションキーの生成
+```bash
+php artisan key:generate
+```
+2. ストレージリンクの作成
+```bash
+php artisan storage:link
+```
+3. マイグレーション実行
+```bash
+php artisan migrate
+```
+4. シーディング（ダミーデータ投入）
+```bash
+php artisan db:seed
+```
+
+##### ダミーユーザー
+
+Seeder により、以下のテストユーザーが作成されます。
+
+| 名前 | メールアドレス | パスワード |
+|---|---|---|
+| 出品者A | seller@example.com | password |
+| 出品者B | seller2@example.com | password |
+| 出品者C | seller3@example.com | password |
+
+※ これらのユーザーは動作確認用のダミーデータです。
 
 ### 8. テスト環境構築（PHPUnit）
 
