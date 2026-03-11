@@ -100,7 +100,10 @@
 		</section>
 
 		<section class="trade-form-area">
-			<form class="trade-form" method="POST" action="#">
+			<form
+				class="trade-form"
+				method="POST"
+				action="{{ route('trades.messages.store', ['trade' => $trade->id]) }}">
 				@csrf
 
 				<textarea

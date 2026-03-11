@@ -16,7 +16,7 @@ use App\Http\Controllers\{
 	PurchaseController,
 	UserController,
 	StripeWebhookController,
-	TradeController
+	TradeController,
 };
 
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
@@ -74,6 +74,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 	Route::delete('/item/{item}/like', [LikeController::class, 'unlike'])->name('like.remove');
 
 	Route::get('/trades/{trade}', [TradeController::class, 'show'])->name('trades.show');
+	Route::post('/trades/{trade}/messages', [TradeController::class, 'storeMessage'])
+		->name('trades.messages.store');
 });
 
 Route::post('/logout', [AuthLoginController::class, 'logout'])

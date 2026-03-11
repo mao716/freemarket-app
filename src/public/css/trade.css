@@ -91,10 +91,9 @@
     gap: 12px;
 }
 
-.trade-header__avatar,
-.trade-message__avatar {
-    width: 56px;
-    height: 56px;
+.trade-header__avatar {
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     background: #d9d9d9;
 }
@@ -154,15 +153,22 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 }
 
 .trade-message--mine .trade-message__meta {
     justify-content: flex-end;
 }
 
+.trade-message__avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #d9d9d9;
+}
+
 .trade-message__user {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
 }
 
@@ -170,7 +176,7 @@
     max-width: 460px;
     padding: 18px 22px;
     border-radius: 4px;
-    background: #ffffff;
+    background: #d9d9d9;
 }
 
 .trade-message--mine .trade-message__bubble {
@@ -181,7 +187,8 @@
     margin: 0;
     white-space: pre-wrap;
     word-break: break-word;
-    font-size: 22px;
+    font-size: 16px;
+	font-weight: 500;
 }
 
 .trade-message__image {
@@ -194,7 +201,7 @@
     display: flex;
     justify-content: flex-end;
     gap: 16px;
-    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .trade-message__action {

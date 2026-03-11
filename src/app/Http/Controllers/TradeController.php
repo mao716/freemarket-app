@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTradeMessageRequest;
 use App\Models\Trade;
+use App\Models\TradeMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -26,6 +28,14 @@ class TradeController extends Controller
 
 		$this->resetUnreadCount($trade, $userId);
 
+		$trade->load([
+			'buyer',
+			'seller',
+			'order.item',
+			'messages.user',
+			'reviews',
+		]);
+
 		$trades = Trade::with(['order.item'])
 			->where(function ($query) use ($userId) {
 				$query->where('buyer_id', $userId)
@@ -40,13 +50,7 @@ class TradeController extends Controller
 			: $trade->buyer->name;
 
 		return view('trades.show', [
-			'trade' => $trade->fresh([
-				'buyer',
-				'seller',
-				'order.item',
-				'messages.user',
-				'reviews',
-			]),
+			'trade' => $trade,
 			'trades' => $trades,
 			'userId' => $userId,
 			'partnerName' => $partnerName,
@@ -68,5 +72,34 @@ class TradeController extends Controller
 				'seller_unread_count' => 0,
 			]);
 		}
+	}
+
+	public function storeMessage(StoreTradeMessageRequest $request, Trade $trade)
+	{
+		$userId = Auth::id();
+
+		if ($userId !== $trade->buyer_id && $userId !== $trade->seller_id) {
+			abort(403);
+		}
+
+		TradeMessage::create([
+			'trade_id' => $trade->id,
+			'user_id' => $userId,
+			'body' => $request->input('body'),
+		]);
+
+		$updateData = [
+			'last_message_at' => now(),
+		];
+
+		if ($userId === $trade->buyer_id) {
+			$updateData['seller_unread_count'] = $trade->seller_unread_count + 1;
+		} else {
+			$updateData['buyer_unread_count'] = $trade->buyer_unread_count + 1;
+		}
+
+		$trade->update($updateData);
+
+		return redirect()->route('trades.show', $trade);
 	}
 }
