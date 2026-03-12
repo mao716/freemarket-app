@@ -33,7 +33,7 @@
 
 .trade-sidebar__list {
     display: grid;
-    gap: 40px;
+    gap: 26px;
 }
 
 .trade-sidebar__item {
@@ -153,7 +153,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 6px;
+    margin: 12px 0 4px;
 }
 
 .trade-message--mine .trade-message__meta {

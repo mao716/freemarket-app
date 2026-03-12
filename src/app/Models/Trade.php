@@ -38,7 +38,8 @@ class Trade extends Model
 
 	public function messages(): HasMany
 	{
-		return $this->hasMany(TradeMessage::class)->latest();
+		return $this->hasMany(TradeMessage::class)
+			->orderBy('created_at');
 	}
 
 	public function reviews(): HasMany

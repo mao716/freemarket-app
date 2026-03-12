@@ -38,7 +38,20 @@
 	<main class="trade-main">
 		<header class="trade-header">
 			<div class="trade-header__user">
+				@if ($userId === $trade->buyer_id)
+				@php $partner = $trade->seller; @endphp
+				@else
+				@php $partner = $trade->buyer; @endphp
+				@endif
+
+				@if (!empty($partner->avatar_path))
+				<img
+					class="trade-header__avatar avatar-img"
+					src="{{ asset('storage/' . $partner->avatar_path) }}"
+					alt="{{ $partner->name }}">
+				@else
 				<div class="trade-header__avatar"></div>
+				@endif
 				<p class="trade-header__title">「{{ $partnerName }}」さんとの取引画面</p>
 			</div>
 
@@ -61,16 +74,30 @@
 			</div>
 		</section>
 
-		<section class="trade-messages">
+		<section class="trade-messages js-trade-messages">
 			@forelse ($trade->messages as $message)
 			<article class="trade-message {{ $message->user_id === $userId ? 'trade-message--mine' : '' }}">
 				<div class="trade-message__meta">
 					@if ($message->user_id !== $userId)
+					@if (!empty($message->user->avatar_path))
+					<img
+						class="trade-message__avatar avatar-img"
+						src="{{ asset('storage/' . $message->user->avatar_path) }}"
+						alt="{{ $message->user->name }}">
+					@else
 					<div class="trade-message__avatar"></div>
+					@endif
 					<p class="trade-message__user">{{ $message->user->name }}</p>
 					@else
 					<p class="trade-message__user trade-message__user--mine">{{ $message->user->name }}</p>
+					@if (!empty($message->user->avatar_path))
+					<img
+						class="trade-message__avatar avatar-img"
+						src="{{ asset('storage/' . $message->user->avatar_path) }}"
+						alt="{{ $message->user->name }}">
+					@else
 					<div class="trade-message__avatar"></div>
+					@endif
 					@endif
 				</div>
 
@@ -126,3 +153,17 @@
 	</main>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+	window.addEventListener('load', function() {
+		const messageArea = document.querySelector('.js-trade-messages');
+
+		if (!messageArea) {
+			return;
+		}
+
+		messageArea.scrollTop = messageArea.scrollHeight;
+	});
+</script>
+@endpush

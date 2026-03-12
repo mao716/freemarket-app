@@ -18,13 +18,14 @@ class TradeController extends Controller
 			'buyer',
 			'seller',
 			'order.item',
-			'messages.user',
 			'reviews',
+			'messages' => function ($query) {
+				$query->with('user')
+					->orderBy('created_at');
+			},
 		])->findOrFail($tradeId);
 
-		if ($userId !== $trade->buyer_id && $userId !== $trade->seller_id) {
-			abort(403);
-		}
+		$this->authorizeTradeParticipant($trade, $userId);
 
 		$this->resetUnreadCount($trade, $userId);
 
@@ -32,8 +33,11 @@ class TradeController extends Controller
 			'buyer',
 			'seller',
 			'order.item',
-			'messages.user',
 			'reviews',
+			'messages' => function ($query) {
+				$query->with('user')
+					->orderBy('created_at');
+			},
 		]);
 
 		$trades = Trade::with(['order.item'])
@@ -57,30 +61,11 @@ class TradeController extends Controller
 		]);
 	}
 
-	private function resetUnreadCount(Trade $trade, int $userId): void
-	{
-		if ($userId === $trade->buyer_id && $trade->buyer_unread_count > 0) {
-			$trade->update([
-				'buyer_unread_count' => 0,
-			]);
-
-			return;
-		}
-
-		if ($userId === $trade->seller_id && $trade->seller_unread_count > 0) {
-			$trade->update([
-				'seller_unread_count' => 0,
-			]);
-		}
-	}
-
 	public function storeMessage(StoreTradeMessageRequest $request, Trade $trade)
 	{
 		$userId = Auth::id();
 
-		if ($userId !== $trade->buyer_id && $userId !== $trade->seller_id) {
-			abort(403);
-		}
+		$this->authorizeTradeParticipant($trade, $userId);
 
 		TradeMessage::create([
 			'trade_id' => $trade->id,
@@ -101,5 +86,29 @@ class TradeController extends Controller
 		$trade->update($updateData);
 
 		return redirect()->route('trades.show', $trade);
+	}
+
+	private function resetUnreadCount(Trade $trade, int $userId): void
+	{
+		if ($userId === $trade->buyer_id && $trade->buyer_unread_count > 0) {
+			$trade->update([
+				'buyer_unread_count' => 0,
+			]);
+
+			return;
+		}
+
+		if ($userId === $trade->seller_id && $trade->seller_unread_count > 0) {
+			$trade->update([
+				'seller_unread_count' => 0,
+			]);
+		}
+	}
+
+	private function authorizeTradeParticipant(Trade $trade, int $userId): void
+	{
+		if ($userId !== $trade->buyer_id && $userId !== $trade->seller_id) {
+			abort(403);
+		}
 	}
 }
