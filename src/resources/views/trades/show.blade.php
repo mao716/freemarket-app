@@ -130,7 +130,8 @@
 			<form
 				class="trade-form"
 				method="POST"
-				action="{{ route('trades.messages.store', ['trade' => $trade->id]) }}">
+				action="{{ route('trades.messages.store', ['trade' => $trade->id]) }}"
+				enctype="multipart/form-data">
 				@csrf
 
 				<textarea
@@ -139,10 +140,19 @@
 					rows="1"
 					placeholder="取引メッセージを記入してください">{{ old('body') }}</textarea>
 
+				<div class="trade-form__preview"></div>
+
 				<div class="trade-form__actions">
 					<button class="button-outline trade-form__image-button" type="button">
 						画像を追加
 					</button>
+
+					<input
+						type="file"
+						name="image"
+						accept="image/*"
+						class="trade-form__file"
+						hidden>
 
 					<button class="trade-form__submit" type="submit" aria-label="メッセージを送信">
 						<img src="{{ asset('images/icons/icon-send.svg') }}" alt="送信">
@@ -158,12 +168,43 @@
 <script>
 	window.addEventListener('load', function() {
 		const messageArea = document.querySelector('.js-trade-messages');
+		const imageButton = document.querySelector('.trade-form__image-button');
+		const fileInput = document.querySelector('.trade-form__file');
+		const previewArea = document.querySelector('.trade-form__preview');
 
-		if (!messageArea) {
-			return;
+		if (messageArea) {
+			messageArea.scrollTop = messageArea.scrollHeight;
 		}
 
-		messageArea.scrollTop = messageArea.scrollHeight;
+		if (imageButton && fileInput) {
+			imageButton.addEventListener('click', function() {
+				fileInput.click();
+			});
+		}
+
+		if (fileInput && previewArea) {
+			fileInput.addEventListener('change', function() {
+				previewArea.innerHTML = '';
+
+				const file = this.files[0];
+
+				if (!file) {
+					return;
+				}
+
+				const reader = new FileReader();
+
+				reader.onload = function(e) {
+					const img = document.createElement('img');
+					img.src = e.target.result;
+					img.classList.add('trade-form__preview-image');
+
+					previewArea.appendChild(img);
+				};
+
+				reader.readAsDataURL(file);
+			});
+		}
 	});
 </script>
 @endpush

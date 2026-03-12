@@ -246,6 +246,15 @@
 	gap: 10px;
 }
 
+.trade-form__preview {
+    margin-top: 8px;
+}
+
+.trade-form__preview-image {
+    max-width: 120px;
+    border-radius: 6px;
+}
+
 .trade-form__image-button {
 	height: 44px;
 	padding: 0 16px;

@@ -67,10 +67,17 @@ class TradeController extends Controller
 
 		$this->authorizeTradeParticipant($trade, $userId);
 
+		$imagePath = null;
+
+		if ($request->hasFile('image')) {
+			$imagePath = $request->file('image')->store('trade_messages', 'public');
+		}
+
 		TradeMessage::create([
 			'trade_id' => $trade->id,
 			'user_id' => $userId,
 			'body' => $request->input('body'),
+			'image_path' => $imagePath,
 		]);
 
 		$updateData = [
