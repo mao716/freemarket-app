@@ -134,30 +134,36 @@
 				enctype="multipart/form-data">
 				@csrf
 
-				<textarea
-					class="trade-form__textarea"
-					name="body"
-					rows="1"
-					placeholder="取引メッセージを記入してください">{{ old('body') }}</textarea>
+				<div class="trade-form__row">
+					<textarea
+						class="trade-form__textarea"
+						name="body"
+						rows="1"
+						placeholder="取引メッセージを記入してください">{{ old('body') }}</textarea>
+
+					<div class="trade-form__actions">
+						<button class="button-outline trade-form__image-button" type="button">
+							画像を追加
+						</button>
+
+						<input
+							type="file"
+							name="image"
+							accept="image/*"
+							class="trade-form__file"
+							hidden>
+
+						<button class="trade-form__submit" type="submit" aria-label="メッセージを送信">
+							<img src="{{ asset('images/icons/icon-send.svg') }}" alt="送信">
+						</button>
+					</div>
+				</div>
+
+				@error('body')
+				<div class="error">{{ $message }}</div>
+				@enderror
 
 				<div class="trade-form__preview"></div>
-
-				<div class="trade-form__actions">
-					<button class="button-outline trade-form__image-button" type="button">
-						画像を追加
-					</button>
-
-					<input
-						type="file"
-						name="image"
-						accept="image/*"
-						class="trade-form__file"
-						hidden>
-
-					<button class="trade-form__submit" type="submit" aria-label="メッセージを送信">
-						<img src="{{ asset('images/icons/icon-send.svg') }}" alt="送信">
-					</button>
-				</div>
 			</form>
 		</section>
 	</main>
