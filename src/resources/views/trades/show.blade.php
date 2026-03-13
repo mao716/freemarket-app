@@ -76,9 +76,13 @@
 
 		<section class="trade-messages js-trade-messages">
 			@forelse ($trade->messages as $message)
-			<article class="trade-message {{ $message->user_id === $userId ? 'trade-message--mine' : '' }}">
+			@php
+			$isOwnMessage = $message->user_id === $userId;
+			@endphp
+
+			<article class="trade-message {{ $isOwnMessage ? 'trade-message--mine' : '' }}">
 				<div class="trade-message__meta">
-					@if ($message->user_id !== $userId)
+					@if (!$isOwnMessage)
 					@if (!empty($message->user->avatar_path))
 					<img
 						class="trade-message__avatar avatar-img"
@@ -102,22 +106,77 @@
 				</div>
 
 				<div class="trade-message__bubble">
-					@if (!empty($message->body))
-					<p class="trade-message__body">{{ $message->body }}</p>
-					@endif
+					<div class="trade-message__view" data-message-view>
+						@if (!empty($message->body))
+						<p class="trade-message__body">{{ $message->body }}</p>
+						@endif
 
-					@if (!empty($message->image_path))
-					<img
-						class="trade-message__image"
-						src="{{ asset('storage/' . $message->image_path) }}"
-						alt="取引メッセージ画像">
+						@if (!empty($message->image_path))
+						<img
+							class="trade-message__image"
+							src="{{ asset('storage/' . $message->image_path) }}"
+							alt="取引メッセージ画像">
+						@endif
+					</div>
+
+					@if ($isOwnMessage)
+					<form
+						class="trade-message__edit-form"
+						method="POST"
+						action="{{ route('trades.messages.update', ['trade' => $trade->id, 'message' => $message->id]) }}"
+						enctype="multipart/form-data"
+						data-message-edit-form
+						hidden>
+						@csrf
+						@method('PATCH')
+
+						<textarea
+							class="trade-message__edit-textarea"
+							name="body"
+							rows="3">{{ old('body', $message->body) }}</textarea>
+
+						<input
+							type="file"
+							name="image"
+							accept="image/*">
+
+						<div class="trade-message__edit-actions">
+							<button
+								class="trade-message__action"
+								type="button"
+								data-edit-cancel>
+								キャンセル
+							</button>
+							<button
+								class="trade-message__action trade-message__action--save"
+								type="submit">
+								保存
+							</button>
+						</div>
+					</form>
 					@endif
 				</div>
 
-				@if ($message->user_id === $userId)
+				@if ($isOwnMessage)
 				<div class="trade-message__actions">
-					<button class="trade-message__action" type="button">編集</button>
-					<button class="trade-message__action" type="button">削除</button>
+					<button
+						class="trade-message__action"
+						type="button"
+						data-edit-toggle>
+						編集
+					</button>
+
+					<form
+						method="POST"
+						action="{{ route('trades.messages.destroy', ['trade' => $trade->id, 'message' => $message->id]) }}"
+						onsubmit="return confirm('このメッセージを削除しますか？');">
+						@csrf
+						@method('DELETE')
+
+						<button class="trade-message__action" type="submit">
+							削除
+						</button>
+					</form>
 				</div>
 				@endif
 			</article>

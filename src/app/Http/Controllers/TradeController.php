@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTradeMessageRequest;
+use App\Http\Requests\UpdateTradeMessageRequest;
 use App\Models\Trade;
 use App\Models\TradeMessage;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class TradeController extends Controller
@@ -29,17 +32,6 @@ class TradeController extends Controller
 
 		$this->resetUnreadCount($trade, $userId);
 
-		$trade->load([
-			'buyer',
-			'seller',
-			'order.item',
-			'reviews',
-			'messages' => function ($query) {
-				$query->with('user')
-					->orderBy('created_at');
-			},
-		]);
-
 		$trades = Trade::with(['order.item'])
 			->where(function ($query) use ($userId) {
 				$query->where('buyer_id', $userId)
@@ -61,7 +53,7 @@ class TradeController extends Controller
 		]);
 	}
 
-	public function storeMessage(StoreTradeMessageRequest $request, Trade $trade)
+	public function storeMessage(StoreTradeMessageRequest $request, Trade $trade): RedirectResponse
 	{
 		$userId = Auth::id();
 
@@ -93,6 +85,66 @@ class TradeController extends Controller
 		$trade->update($updateData);
 
 		return redirect()->route('trades.show', $trade);
+	}
+
+	public function updateMessage(
+		UpdateTradeMessageRequest $request,
+		Trade $trade,
+		TradeMessage $message
+	): RedirectResponse {
+
+		$userId = Auth::id();
+
+		$this->authorizeTradeParticipant($trade, $userId);
+		$this->ensureMessageBelongsToTrade($trade, $message);
+		$this->authorizeMessageOwner($message, $userId);
+
+		$updateData = [
+			'body' => $request->input('body'),
+		];
+
+		if ($request->hasFile('image')) {
+			if (!empty($message->image_path) && Storage::disk('public')->exists($message->image_path)) {
+				Storage::disk('public')->delete($message->image_path);
+			}
+
+			$updateData['image_path'] = $request->file('image')->store('trade_messages', 'public');
+		}
+
+		$message->update($updateData);
+
+		return redirect()->route('trades.show', $trade);
+	}
+
+	public function destroyMessage(Trade $trade, TradeMessage $message): RedirectResponse
+	{
+		$userId = Auth::id();
+
+		$this->authorizeTradeParticipant($trade, $userId);
+		$this->ensureMessageBelongsToTrade($trade, $message);
+		$this->authorizeMessageOwner($message, $userId);
+
+		if (!empty($message->image_path) && Storage::disk('public')->exists($message->image_path)) {
+			Storage::disk('public')->delete($message->image_path);
+		}
+
+		$message->delete();
+
+		return redirect()->route('trades.show', $trade);
+	}
+
+	private function ensureMessageBelongsToTrade(Trade $trade, TradeMessage $message): void
+	{
+		if ($message->trade_id !== $trade->id) {
+			abort(404);
+		}
+	}
+
+	private function authorizeMessageOwner(TradeMessage $message, int $userId): void
+	{
+		if ($message->user_id !== $userId) {
+			abort(403);
+		}
 	}
 
 	private function resetUnreadCount(Trade $trade, int $userId): void

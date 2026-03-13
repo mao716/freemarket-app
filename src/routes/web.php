@@ -76,6 +76,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 	Route::get('/trades/{trade}', [TradeController::class, 'show'])->name('trades.show');
 	Route::post('/trades/{trade}/messages', [TradeController::class, 'storeMessage'])
 		->name('trades.messages.store');
+
+	Route::patch('/trades/{trade}/messages/{message}', [TradeController::class, 'updateMessage'])
+		->name('trades.messages.update');
+	Route::delete('/trades/{trade}/messages/{message}', [TradeController::class, 'destroyMessage'])
+		->name('trades.messages.destroy');
 });
 
 Route::post('/logout', [AuthLoginController::class, 'logout'])
