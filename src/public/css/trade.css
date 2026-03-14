@@ -376,3 +376,224 @@
     width: 26px;
     height: 26px;
 }
+
+/* =================================
+   レスポンシブ対応
+================================= */
+
+@media screen and (max-width: 850px) {
+    .trade-page {
+        grid-template-columns: 1fr;
+    }
+
+    .trade-sidebar {
+        align-items: stretch;
+        padding: 20px 16px;
+    }
+
+    .trade-sidebar__title {
+        margin-bottom: 20px;
+        font-size: 22px;
+    }
+
+    .trade-sidebar__list {
+        gap: 16px;
+    }
+
+    .trade-sidebar__item {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .trade-main {
+        height: auto;
+        min-height: calc(100vh - 64px);
+    }
+
+    .trade-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 16px 20px;
+    }
+
+    .trade-header__user {
+        width: 100%;
+    }
+
+    .trade-header__title {
+        font-size: 24px;
+        line-height: 1.4;
+    }
+
+    .trade-header__complete-button {
+        align-self: flex-end;
+    }
+
+    .trade-product {
+        gap: 16px;
+        padding: 16px 20px;
+    }
+
+    .trade-product__image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .trade-product__name {
+        font-size: 26px;
+    }
+
+    .trade-product__price {
+        font-size: 18px;
+    }
+
+    .trade-messages {
+        padding: 16px 20px;
+    }
+
+    .trade-message__bubble {
+        max-width: 100%;
+    }
+
+    .trade-form-area {
+        padding: 16px 20px;
+    }
+
+    .trade-form__row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .trade-form__textarea {
+        width: 100%;
+    }
+
+    .trade-form__actions {
+        justify-content: space-between;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .trade-page {
+        min-height: auto;
+    }
+
+    .trade-sidebar {
+        padding: 16px 12px;
+    }
+
+    .trade-sidebar__title {
+        font-size: 20px;
+    }
+
+    .trade-header {
+        padding: 12px 16px;
+    }
+
+    .trade-header__user {
+        gap: 10px;
+    }
+
+    .trade-header__avatar {
+        width: 56px;
+        height: 56px;
+    }
+
+    .trade-header__title {
+        font-size: 20px;
+    }
+
+    .trade-header__complete-button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .trade-product {
+        align-items: flex-start;
+        padding: 12px 16px;
+    }
+
+    .trade-product__image {
+        width: 84px;
+        height: 84px;
+    }
+
+    .trade-product__name {
+        font-size: 22px;
+        line-height: 1.4;
+    }
+
+    .trade-product__price {
+        font-size: 16px;
+    }
+
+    .trade-messages {
+        padding: 12px 16px;
+    }
+
+    .trade-message__meta {
+        gap: 10px;
+    }
+
+    .trade-message__avatar {
+        width: 38px;
+        height: 38px;
+    }
+
+    .trade-message__user {
+        font-size: 16px;
+    }
+
+    .trade-message__bubble {
+        padding: 14px 16px;
+    }
+
+    .trade-message__body {
+        font-size: 15px;
+    }
+
+    .trade-message__image,
+    .trade-message__edit-current-image,
+    .trade-message__edit-preview-image {
+        max-width: 100%;
+    }
+
+    .trade-message__actions {
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    .trade-message__edit-textarea {
+        min-height: 80px;
+    }
+
+    .trade-message__edit-actions {
+        gap: 12px;
+    }
+
+    .trade-form-area {
+        padding: 12px 16px 16px;
+    }
+
+    .trade-form__textarea {
+        min-height: 42px;
+        font-size: 15px;
+    }
+
+    .trade-form__actions {
+        gap: 8px;
+    }
+
+    .trade-form__image-button {
+        height: 40px;
+        padding: 0 12px;
+        font-size: 14px;
+    }
+
+    .trade-form__submit img {
+        width: 24px;
+        height: 24px;
+    }
+}
