@@ -76,11 +76,14 @@
 
 		<section class="trade-messages js-trade-messages">
 			@forelse ($trade->messages as $message)
+
 			@php
 			$isOwnMessage = $message->user_id === $userId;
 			@endphp
 
-			<article class="trade-message {{ $isOwnMessage ? 'trade-message--mine' : '' }}">
+			<article
+				class="trade-message {{ $isOwnMessage ? 'trade-message--mine' : '' }}"
+				data-message-id="{{ $message->id }}">
 				<div class="trade-message__meta">
 					@if (!$isOwnMessage)
 					@if (!empty($message->user->avatar_path))
@@ -135,10 +138,36 @@
 							name="body"
 							rows="3">{{ old('body', $message->body) }}</textarea>
 
-						<input
-							type="file"
-							name="image"
-							accept="image/*">
+						<div class="trade-message__edit-image-area">
+							@if (!empty($message->image_path))
+							<div class="trade-message__edit-current-image-wrap" data-current-image-wrap>
+								<p class="trade-message__edit-image-label">現在の画像</p>
+								<img
+									class="trade-message__edit-current-image"
+									src="{{ asset('storage/' . $message->image_path) }}"
+									alt="現在の取引メッセージ画像">
+							</div>
+							@endif
+
+							<div class="trade-message__edit-preview" data-edit-preview></div>
+						</div>
+
+						<div class="trade-message__edit-upload">
+							<button
+								class="button-outline trade-message__edit-image-button"
+								type="button"
+								data-edit-image-button>
+								画像を変更
+							</button>
+
+							<input
+								class="trade-message__edit-file"
+								type="file"
+								name="image"
+								accept="image/*"
+								data-edit-file
+								hidden>
+						</div>
 
 						<div class="trade-message__edit-actions">
 							<button
