@@ -12,8 +12,8 @@ class ItemSeeder extends Seeder
 {
 	public function run(): void
 	{
-		$sellerA = User::where('email', 'seller@example.com')->firstOrFail();
-		$sellerB = User::where('email', 'seller2@example.com')->firstOrFail();
+		$sellerA = User::where('email', 'taro.yamada@example.com')->firstOrFail();
+		$sellerB = User::where('email', 'hanako.sato@example.com')->firstOrFail();
 
 		$items = [
 			[
