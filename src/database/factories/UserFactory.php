@@ -20,7 +20,7 @@ class UserFactory extends Factory
 			'email' => fake()->unique()->safeEmail(),
 			'email_verified_at' => now(),
 			'password' => static::$password ??= Hash::make('password'),
-			'postal_code' => fake()->postcode(),
+			'postal_code' => fake()->numerify('###-####'),
 			'address' => fake()->address(),
 			'building' => fake()->secondaryAddress(),
 			'avatar_path' => null,
