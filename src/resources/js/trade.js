@@ -81,3 +81,41 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+const reviewOpenButton = document.querySelector("[data-review-open]");
+const reviewModal = document.querySelector("[data-review-modal]");
+const reviewCloseButtons = document.querySelectorAll("[data-review-close]");
+const reviewStarInputs = document.querySelectorAll(
+    ".trade-review-stars__input",
+);
+
+if (reviewOpenButton && reviewModal) {
+    reviewOpenButton.addEventListener("click", function () {
+        reviewModal.hidden = false;
+    });
+}
+
+reviewCloseButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+        reviewModal.hidden = true;
+    });
+});
+
+reviewStarInputs.forEach(function (input) {
+    input.addEventListener("change", function () {
+        reviewStarInputs.forEach(function (currentInput) {
+            const label = currentInput.closest(".trade-review-stars__label");
+
+            if (!label) {
+                return;
+            }
+
+            if (Number(currentInput.value) <= Number(input.value)) {
+                label.classList.add("is-active");
+                return;
+            }
+
+            label.classList.remove("is-active");
+        });
+    });
+});

@@ -55,9 +55,23 @@
 				<p class="trade-header__title">「{{ $partnerName }}」さんとの取引画面</p>
 			</div>
 
-			<button class="button button-primary trade-header__complete-button" type="button">
-				取引を完了する
-			</button>
+			<form
+				method="POST"
+				action="{{ route('trades.complete', ['trade' => $trade->id]) }}"
+				class="trade-header__complete-form">
+
+				@csrf
+
+				@if ($userId === $trade->buyer_id && $trade->status === 0)
+				<button
+					class="button button-primary trade-header__complete-button"
+					type="button"
+					data-review-open>
+					取引を完了する
+				</button>
+				@endif
+
+			</form>
 		</header>
 
 		<section class="trade-product">
@@ -285,6 +299,57 @@
 					<div class="trade-form__preview"></div>
 				</form>
 			</section>
+
+			<div
+				class="trade-review-modal"
+				data-review-modal
+				@if (!($userId===$trade->seller_id && $trade->status === 1)) hidden @endif>
+
+				<div class="trade-review-modal__overlay" data-review-close></div>
+
+				<div class="trade-review-modal__content">
+					<form
+						class="trade-review-modal__form"
+						method="POST"
+						action="{{ route('trades.complete', ['trade' => $trade->id]) }}">
+						@csrf
+
+						<div class="trade-review-modal__header">
+							<p class="trade-review-modal__title">取引が完了しました。</p>
+						</div>
+
+						<div class="trade-review-modal__body">
+							<p class="trade-review-modal__text">今回の取引相手はどうでしたか？</p>
+
+							@error('rating')
+							<p class="error">{{ $message }}</p>
+							@enderror
+
+							<div class="trade-review-stars">
+								@for ($i = 1; $i <= 5; $i++)
+									<label class="trade-review-stars__label">
+									<input
+										class="trade-review-stars__input"
+										type="radio"
+										name="rating"
+										value="{{ $i }}"
+										{{ old('rating') == $i ? 'checked' : '' }}>
+									<span class="trade-review-stars__star">★</span>
+									</label>
+									@endfor
+							</div>
+						</div>
+
+						<div class="trade-review-modal__footer">
+							<button
+								class="button button-primary trade-review-modal__submit"
+								type="submit">
+								送信する
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
 	</main>
 </div>
 @endsection

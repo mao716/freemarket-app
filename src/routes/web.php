@@ -17,6 +17,7 @@ use App\Http\Controllers\{
 	UserController,
 	StripeWebhookController,
 	TradeController,
+	TradeReviewController,
 };
 
 Route::get('/', [ItemController::class, 'index'])->name('items.index');
@@ -81,6 +82,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 		->name('trades.messages.update');
 	Route::delete('/trades/{trade}/messages/{message}', [TradeController::class, 'destroyMessage'])
 		->name('trades.messages.destroy');
+
+	Route::post('/trades/{trade}/complete', [TradeReviewController::class, 'store'])
+		->name('trades.complete');
 });
 
 Route::post('/logout', [AuthLoginController::class, 'logout'])
