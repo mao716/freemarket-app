@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Trade;
 use App\Models\TradeReview;
+use App\Mail\TradeCompletedNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class TradeReviewController extends Controller
 {
 	public function store(Request $request, Trade $trade): RedirectResponse
 	{
 		$userId = Auth::id();
+
+		$trade->load(['seller', 'order.item']);
 
 		if ($userId !== $trade->buyer_id && $userId !== $trade->seller_id) {
 			abort(403);
@@ -52,13 +56,15 @@ class TradeReviewController extends Controller
 				'status' => $trade->status === 2 ? 3 : 1,
 			]);
 
-			return redirect()->route('mypage.profile', ['page' => 'buy']);
+			Mail::to($trade->seller->email)->send(new TradeCompletedNotification($trade));
+
+			return redirect()->route('items.index');
 		}
 
 		$trade->update([
 			'status' => $trade->status === 1 ? 3 : 2,
 		]);
 
-		return redirect()->route('mypage.profile', ['page' => 'sell']);
+		return redirect()->route('items.index');
 	}
 }
