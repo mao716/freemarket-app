@@ -212,6 +212,10 @@
     margin-bottom: 8px;
 }
 
+.trade-message__actions[hidden] {
+	display: none;
+}
+
 .trade-message__action {
     padding: 0;
     border: none;

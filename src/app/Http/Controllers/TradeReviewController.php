@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Trade;
 use App\Models\TradeReview;
 use App\Mail\TradeCompletedNotification;
+use App\Jobs\SendTradeCompletedNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,7 +57,7 @@ class TradeReviewController extends Controller
 				'status' => $trade->status === 2 ? 3 : 1,
 			]);
 
-			Mail::to($trade->seller->email)->send(new TradeCompletedNotification($trade));
+			SendTradeCompletedNotification::dispatch($trade->id)->afterResponse();
 
 			return redirect()->route('items.index');
 		}
