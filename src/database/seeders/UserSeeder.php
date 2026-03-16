@@ -13,8 +13,8 @@ class UserSeeder extends Seeder
 		$plainPassword = 'password';
 
 		User::factory()->create([
-			'name' => '出品者A',
-			'email' => 'seller@example.com',
+			'name' => '山田 太郎',
+			'email' => 'taro.yamada@example.com',
 			'password' => Hash::make($plainPassword),
 			'postal_code' => '123-4567',
 			'address' => '福岡県福岡市XX区YY町1-1-1',
@@ -23,8 +23,8 @@ class UserSeeder extends Seeder
 		]);
 
 		User::factory()->create([
-			'name' => '出品者B',
-			'email' => 'seller2@example.com',
+			'name' => '佐藤 花子',
+			'email' => 'hanako.sato@example.com',
 			'password' => Hash::make($plainPassword),
 			'postal_code' => '123-4567',
 			'address' => '福岡県福岡市XX区YY町1-1-1',
@@ -33,8 +33,8 @@ class UserSeeder extends Seeder
 		]);
 
 		User::factory()->create([
-			'name' => '出品者C',
-			'email' => 'seller3@example.com',
+			'name' => '鈴木 一郎',
+			'email' => 'ichiro.suzuki@example.com',
 			'password' => Hash::make($plainPassword),
 			'postal_code' => '123-4567',
 			'address' => '福岡県福岡市XX区YY町1-1-1',

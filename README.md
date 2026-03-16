@@ -134,9 +134,9 @@ Seeder により、以下のテストユーザーが作成されます。
 
 | 名前 | メールアドレス | パスワード |
 |---|---|---|
-| 出品者A | seller@example.com | password |
-| 出品者B | seller2@example.com | password |
-| 出品者C | seller3@example.com | password |
+| 山田 太郎 | taro.yamada@example.com | password |
+| 佐藤 花子 | hanako.sato@example.com | password |
+| 鈴木 一郎 | ichiro.suzuki@example.com | password |
 
 ※ これらのユーザーは動作確認用のダミーデータです。
 
