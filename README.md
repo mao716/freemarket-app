@@ -69,6 +69,10 @@ cp src/.env.example src/.env
 STRIPE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxxx
 STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
 ```
+※ Stripeのテストカード
+カード番号: 4242 4242 4242 4242
+有効期限: 任意の未来日
+CVC: 任意の3桁
 
 ※ 現在の実装では Webhook 機能（STRIPE_WEBHOOK_SECRET）は使用していません。
 
@@ -141,7 +145,28 @@ Seeder により、以下のテストユーザーが作成されます。
 
 ※ これらのユーザーは動作確認用のダミーデータです。
 
-### 8. テスト環境構築（PHPUnit）
+### 8. フロントエンドアセットのビルドについて
+
+本アプリは Laravel Vite を使用しています。
+初回セットアップ時や Docker コンテナを作り直したあとに、フロントエンドアセットのビルドが必要です。
+事前に Node.js / npm のインストールが必要です。
+#### Node.js インストール例（Mac）
+```bash
+brew install node
+```
+#### フロントエンド依存パッケージのインストール
+フロントエンド関連のコマンドは、Laravel アプリケーション本体がある `src` ディレクトリで実行してください。
+```bash
+cd src
+npm install
+```
+#### Vite 開発サーバー起動
+```bash
+npm run dev
+```
+
+
+### 9. テスト環境構築（PHPUnit）
 
 本アプリでは PHPUnit を用いた Feature テストを実装しています。
 テスト実行時は、本番用DBとは別に テスト専用データベース を使用します。
@@ -153,13 +178,13 @@ Seeder により、以下のテストユーザーが作成されます。
     docker compose exec mysql mysql -u root -proot
     ```
 
-        ログイン後、以下のSQLを実行します。
-        ```sql
-        CREATE DATABASE laravel_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        GRANT ALL ON laravel_test.* TO 'laravel_user'@'%';
-        FLUSH PRIVILEGES;
-        EXIT;
-        ```
+    ログイン後、以下のSQLを実行します。
+    ```sql
+    CREATE DATABASE laravel_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    GRANT ALL ON laravel_test.* TO 'laravel_user'@'%';
+    FLUSH PRIVILEGES;
+    EXIT;
+    ```
 
 2.  `.env.testing` の作成
     src/ ディレクトリ内で `.env.testing` を作成します。
@@ -170,14 +195,14 @@ Seeder により、以下のテストユーザーが作成されます。
     ```env
     APP_ENV=testing
 
-        DB_CONNECTION=mysql
-        DB_HOST=mysql
-        DB_PORT=3306
-        DB_DATABASE=laravel_test
-        DB_USERNAME=laravel_user
-        DB_PASSWORD=laravel_pass
-        ```
-        ※ `.env.testing` はGit管理対象外です。
+    DB_CONNECTION=mysql
+    DB_HOST=mysql
+    DB_PORT=3306
+	DB_DATABASE=laravel_test
+    DB_USERNAME=laravel_user
+    DB_PASSWORD=laravel_pass
+    ```
+    ※ `.env.testing` はGit管理対象外です。
 
 3.  テスト用DBのマイグレーション
 
@@ -200,7 +225,7 @@ Seeder により、以下のテストユーザーが作成されます。
 ## 動作環境
 
 - PHP 8.2（php-fpm）
-- Laravel 11
+- Laravel 12
 - MySQL 8.0
 - Nginx 1.21
 - Docker / Docker Compose
