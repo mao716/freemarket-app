@@ -103,6 +103,7 @@ STRIPE_SECRET=sk_test_xxxxxxxxxxxxxxxxxxxxx
    2. メール認証誘導画面の「認証はこちらから」を押下すると、MailtrapのInboxが開く
    3. メール内のリンクをクリックするとメール認証が完了
    4. 認証後はプロフィール設定画面へ遷移
+   5. 購入者が取引を完了すると、商品出品者宛に取引完了通知メールが Mailtrap に届く
 
 ### 7. Laravel の初期設定
 
