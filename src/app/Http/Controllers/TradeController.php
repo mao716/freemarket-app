@@ -100,20 +100,30 @@ class TradeController extends Controller
 		$this->authorizeMessageOwner($message, $userId);
 
 		$updateData = [
-			'body' => $request->input('body'),
+			'body' => $request->input('edit_body'),
 		];
 
-		if ($request->hasFile('image')) {
+		if ($request->boolean('remove_image')) {
 			if (!empty($message->image_path) && Storage::disk('public')->exists($message->image_path)) {
 				Storage::disk('public')->delete($message->image_path);
 			}
 
-			$updateData['image_path'] = $request->file('image')->store('trade_messages', 'public');
+			$updateData['image_path'] = null;
+		}
+
+		if ($request->hasFile('edit_image')) {
+			if (!empty($message->image_path) && Storage::disk('public')->exists($message->image_path)) {
+				Storage::disk('public')->delete($message->image_path);
+			}
+
+			$updateData['image_path'] = $request->file('edit_image')->store('trade_messages', 'public');
 		}
 
 		$message->update($updateData);
 
-		return redirect()->route('trades.show', $trade);
+		return redirect()
+			->route('trades.show', $trade)
+			->with('updated_message_id', $message->id);
 	}
 
 	public function destroyMessage(Trade $trade, TradeMessage $message): RedirectResponse

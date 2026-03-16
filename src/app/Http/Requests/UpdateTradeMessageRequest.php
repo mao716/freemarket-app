@@ -14,18 +14,18 @@ class UpdateTradeMessageRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'body' => ['required', 'string', 'max:400'],
-			'image' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
+			'edit_body' => ['required', 'string', 'max:400'],
+			'edit_image' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
 		];
 	}
 
 	public function messages(): array
 	{
 		return [
-			'body.required' => '本文を入力してください',
-			'body.max' => '本文は400文字以内で入力してください',
-			'image.mimes' => '画像はjpegまたはpng形式でアップロードしてください',
-			'image.max' => '画像は2MB以内でアップロードしてください',
+			'edit_body.required' => '本文を入力してください',
+			'edit_body.max' => '本文は400文字以内で入力してください',
+			'edit_image.mimes' => '画像はjpegまたはpng形式でアップロードしてください',
+			'edit_image.max' => '画像は2MB以内でアップロードしてください',
 		];
 	}
 }

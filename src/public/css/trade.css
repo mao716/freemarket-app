@@ -282,6 +282,14 @@
     border-radius: 4px;
 }
 
+.trade-message__edit-remove {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #666666;
+    font-size: 14px;
+}
+
 .trade-message__edit-upload {
     display: flex;
     align-items: center;
