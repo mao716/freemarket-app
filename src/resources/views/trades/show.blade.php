@@ -5,6 +5,7 @@
 @endpush
 
 @section('title', '取引画面')
+@section('headerType', 'simple')
 
 @section('content')
 <div class="trade-page">
