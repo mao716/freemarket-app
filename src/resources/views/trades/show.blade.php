@@ -266,9 +266,10 @@
 				enctype="multipart/form-data">
 				@csrf
 
-				<div class="trade-form__row">
+				<div class="trade-form__row" data-trade-id="{{ $trade->id }}">
 					<textarea
 						class="trade-form__textarea"
+						id="trade-message-body"
 						name="body"
 						rows="1"
 						placeholder="取引メッセージを記入してください">{{ old('body') }}</textarea>

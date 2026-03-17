@@ -84,7 +84,9 @@ class TradeController extends Controller
 
 		$trade->update($updateData);
 
-		return redirect()->route('trades.show', $trade);
+		return redirect()
+			->route('trades.show', $trade)
+			->with('messagePosted', true);
 	}
 
 	public function updateMessage(

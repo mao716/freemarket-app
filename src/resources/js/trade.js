@@ -7,27 +7,37 @@ document.addEventListener("DOMContentLoaded", function () {
         const actions = message.querySelector("[data-message-actions]");
         const viewArea = message.querySelector("[data-message-view]");
         const editForm = message.querySelector("[data-message-edit-form]");
-        const editImageButton = message.querySelector("[data-edit-image-button]");
+        const editImageButton = message.querySelector(
+            "[data-edit-image-button]",
+        );
         const editFileInput = message.querySelector("[data-edit-file]");
         const editPreviewArea = message.querySelector("[data-edit-preview]");
-        const currentImageWrap = message.querySelector("[data-current-image-wrap]");
+        const currentImageWrap = message.querySelector(
+            "[data-current-image-wrap]",
+        );
 
         if (!editButton || !viewArea || !editForm) {
             return;
         }
 
         editButton.addEventListener("click", function () {
-            document.querySelectorAll("[data-message-edit-form]").forEach(function (form) {
-                form.hidden = true;
-            });
+            document
+                .querySelectorAll("[data-message-edit-form]")
+                .forEach(function (form) {
+                    form.hidden = true;
+                });
 
-            document.querySelectorAll("[data-message-view]").forEach(function (view) {
-                view.hidden = false;
-            });
+            document
+                .querySelectorAll("[data-message-view]")
+                .forEach(function (view) {
+                    view.hidden = false;
+                });
 
-            document.querySelectorAll("[data-message-actions]").forEach(function (actionArea) {
-                actionArea.hidden = false;
-            });
+            document
+                .querySelectorAll("[data-message-actions]")
+                .forEach(function (actionArea) {
+                    actionArea.hidden = false;
+                });
 
             viewArea.hidden = true;
             editForm.hidden = false;
@@ -101,7 +111,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const reviewOpenButton = document.querySelector("[data-review-open]");
     const reviewModal = document.querySelector("[data-review-modal]");
     const reviewCloseButtons = document.querySelectorAll("[data-review-close]");
-    const reviewStarInputs = document.querySelectorAll(".trade-review-stars__input");
+    const reviewStarInputs = document.querySelectorAll(
+        ".trade-review-stars__input",
+    );
 
     if (reviewOpenButton && reviewModal) {
         reviewOpenButton.addEventListener("click", function () {
@@ -118,7 +130,9 @@ document.addEventListener("DOMContentLoaded", function () {
     reviewStarInputs.forEach(function (input) {
         input.addEventListener("change", function () {
             reviewStarInputs.forEach(function (currentInput) {
-                const label = currentInput.closest(".trade-review-stars__label");
+                const label = currentInput.closest(
+                    ".trade-review-stars__label",
+                );
 
                 if (!label) {
                     return;
@@ -132,5 +146,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 label.classList.remove("is-active");
             });
         });
+    });
+
+    const draftTextarea = document.getElementById("trade-message-body");
+    const draftWrapper = document.querySelector(".trade-form__row");
+
+    if (!draftTextarea || !draftWrapper) {
+        return;
+    }
+
+    const tradeId = draftWrapper.dataset.tradeId;
+    const isMessagePosted = draftWrapper.dataset.messagePosted === "1";
+
+    if (!tradeId) {
+        return;
+    }
+
+    const storageKey = `trade_message_draft_${tradeId}`;
+
+    if (isMessagePosted) {
+        sessionStorage.removeItem(storageKey);
+        return;
+    }
+
+    const savedValue = sessionStorage.getItem(storageKey);
+
+    if (savedValue !== null && draftTextarea.value.trim() === "") {
+        draftTextarea.value = savedValue;
+    }
+
+    draftTextarea.addEventListener("input", function () {
+        sessionStorage.setItem(storageKey, draftTextarea.value);
     });
 });
