@@ -26,7 +26,21 @@
 				<img class="avatar"
 					src="{{ $user->avatar_url }}"
 					alt="{{ $user->name }}のアイコン">
-				<div class="comment-author">{{ $user->name }}</div>
+
+				<div class="profile-user-info">
+					<div class="comment-author">{{ $user->name }}</div>
+
+					<div class="profile-rating" aria-label="取引評価">
+						@if (is_null($roundedRating))
+						<span class="profile-rating__empty">-</span>
+						@else
+						@for ($i = 1; $i <= 5; $i++)
+							<span class="profile-rating__star {{ $i <= $roundedRating ? 'is-active' : '' }}">★</span>
+							@endfor
+							@endif
+					</div>
+				</div>
+
 				<a class="button button-outline profile-edit" href="{{ route('mypage.edit') }}">
 					プロフィールを編集
 				</a>

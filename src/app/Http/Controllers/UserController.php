@@ -14,8 +14,10 @@ class UserController extends Controller
 	public function profile(Request $request): View
 	{
 		$user = $request->user();
-
 		$tab = $request->query('page', 'sell');
+
+		$averageRating = $user->receivedTradeReviews()->avg('rating');
+		$roundedRating = is_null($averageRating) ? null : (int) round($averageRating);
 
 		$tradingItems = Trade::with(['order.item'])
 			->where(function ($query) use ($user) {
@@ -58,6 +60,8 @@ class UserController extends Controller
 			'purchasedItems' => $purchasedItems,
 			'tradingItems' => $tradingItems,
 			'tradeUnreadCount' => $tradeUnreadCount,
+			'averageRating' => $averageRating,
+			'roundedRating' => $roundedRating,
 		]);
 	}
 
