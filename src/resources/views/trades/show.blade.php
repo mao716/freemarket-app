@@ -213,6 +213,10 @@
 								hidden>
 						</div>
 
+						@error('edit_image')
+						<p class="error">{{ $message }}</p>
+						@enderror
+
 						<div class="trade-message__edit-actions">
 							<button
 								class="trade-message__action"
@@ -266,7 +270,10 @@
 				enctype="multipart/form-data">
 				@csrf
 
-				<div class="trade-form__row" data-trade-id="{{ $trade->id }}">
+				<div
+					class="trade-form__row"
+					data-trade-id="{{ $trade->id }}"
+					data-message-posted="{{ session('messagePosted') ? '1' : '0' }}">
 					<textarea
 						class="trade-form__textarea"
 						id="trade-message-body"
@@ -293,6 +300,10 @@
 				</div>
 
 				@error('body')
+				<div class="error">{{ $message }}</div>
+				@enderror
+
+				@error('image')
 				<div class="error">{{ $message }}</div>
 				@enderror
 

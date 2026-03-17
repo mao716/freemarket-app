@@ -166,6 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (isMessagePosted) {
         sessionStorage.removeItem(storageKey);
+        draftTextarea.value = "";
         return;
     }
 

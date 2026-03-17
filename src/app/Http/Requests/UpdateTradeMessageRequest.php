@@ -15,7 +15,7 @@ class UpdateTradeMessageRequest extends FormRequest
 	{
 		return [
 			'edit_body' => ['required', 'string', 'max:400'],
-			'edit_image' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
+			'edit_image' => ['nullable', 'mimes:jpeg,png', 'max:2048'],
 		];
 	}
 
@@ -24,7 +24,7 @@ class UpdateTradeMessageRequest extends FormRequest
 		return [
 			'edit_body.required' => '本文を入力してください',
 			'edit_body.max' => '本文は400文字以内で入力してください',
-			'edit_image.mimes' => '画像はjpegまたはpng形式でアップロードしてください',
+			'edit_image.mimes' => '「.png」または「.jpeg」形式でアップロードしてください',
 			'edit_image.max' => '画像は2MB以内でアップロードしてください',
 		];
 	}
