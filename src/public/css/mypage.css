@@ -3,7 +3,7 @@
 	align-items: center;
 	justify-content: center;
 	gap: 24px;
-	margin-bottom: 32px;
+	margin-bottom: 12px;
 	text-align: center;
 }
 
@@ -21,9 +21,10 @@
 
 .profile-edit {
 	white-space: nowrap;
-	font-size: 0.9rem;
-	padding: 6px 14px;
-	margin-left: 32px;
+	font-size: 1rem;
+	padding: 10px 20px;
+	border-radius: 6px;
+	margin-left: 80px;
 }
 
 .profile-user-info {
@@ -31,7 +32,7 @@
 	flex-direction: column;
 	align-items: center;
 	gap: 8px;
-	margin-right: 56px;
+	margin-right: 80px;
 }
 .profile-rating {
 	display: flex;
@@ -66,35 +67,62 @@
 	}
 }
 
-.mypage .page-tabs {
+.page-tabs-line {
+	border-bottom: 1px solid #000;
+	margin-bottom: 12px;
+}
+
+.page-tabs {
 	display: flex;
-	gap: 50px;
+	gap: 68px;
 	align-items: flex-end;
 	justify-content: flex-start;
 	padding-bottom: 8px;
-	margin-bottom: 24px;
-	margin-left: calc(50% - 50vw);
-	margin-right: calc(50% - 50vw);
-	padding-left: calc(50vw - 50% + 16px);
-	padding-right: calc(50vw - 50% + 16px);
-	border-bottom: 1px solid #000
+	margin-bottom: 0;
 }
 
-.mypage .page-tab {
+.page-tab {
 	background: transparent;
 	color: #666;
 	text-decoration: none;
 	font-weight: 600;
 	font-size: 1rem;
-	transition: color .2s
+	transition: color .2s;
 }
 
-.mypage .page-tab:hover {
-	color: #000
+.page-tab:hover {
+	color: #000;
 }
 
-.mypage .page-tab.is-active {
-	color: #e53935
+.page-tab.is-active {
+	color: #e53935;
+}
+
+.page-tab--trade {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.page-tab__badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 24px;
+	height: 24px;
+	padding: 0 6px;
+	border-radius: 999px;
+	background: #ff0000;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1;
+	box-sizing: border-box;
+}
+
+.page-tab__badge-number {
+	display: block;
+	transform: translateY(-1px);
 }
 
 .mypage .items .page-tab.is-active::after {
@@ -137,33 +165,6 @@
 	display: block
 }
 
-.mypage .page-tab--trade {
-	display: inline-flex;
-	align-items: center;
-	gap: 8px;
-}
-
-.mypage .page-tab__badge {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-width: 24px;
-	height: 24px;
-	padding: 0 6px;
-	border-radius: 999px;
-	background: #ff0000;
-	color: #fff;
-	font-size: 14px;
-	font-weight: 700;
-	line-height: 1;
-	box-sizing: border-box;
-}
-
-.mypage .page-tab__badge-number {
-	display: block;
-	transform: translateY(-1px);
-}
-
 .mypage .items .item-badge--unread {
 	position: absolute;
 	top: 8px;
@@ -182,4 +183,19 @@
 	line-height: 1;
 	box-sizing: border-box;
 	z-index: 1;
+}
+
+.page-tabs-line .layout-main {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.mypage-section-top.layout-main {
+	margin-bottom: 12px;
+	padding-bottom: 20px;
+}
+
+.mypage-section-bottom.layout-main {
+	margin-top: 0;
 }

@@ -8,44 +8,50 @@
 @section('title', 'マイページ')
 
 @section('content')
-<main class="layout-main">
-	<div class="mypage">
+<main>
+	<div class="layout-main mypage-section-top">
+		<div class="mypage">
 
-		<h1 class="visually-hidden">
-			@if ($tab === 'buy')
-			購入した商品一覧
-			@elseif ($tab === 'trade')
-			取引中の商品一覧
-			@else
-			出品した商品一覧
-			@endif
-		</h1>
+			<h1 class="visually-hidden">
+				@if ($tab === 'buy')
+				購入した商品一覧
+				@elseif ($tab === 'trade')
+				取引中の商品一覧
+				@else
+				出品した商品一覧
+				@endif
+			</h1>
 
-		<section class="page-section">
-			<div class="comment-head profile-head">
-				<img class="avatar"
-					src="{{ $user->avatar_url }}"
-					alt="{{ $user->name }}のアイコン">
+			<section class="page-section">
+				<div class="comment-head profile-head">
+					<img class="avatar"
+						src="{{ $user->avatar_url }}"
+						alt="{{ $user->name }}のアイコン">
 
-				<div class="profile-user-info">
-					<div class="comment-author">{{ $user->name }}</div>
+					<div class="profile-user-info">
+						<div class="comment-author">{{ $user->name }}</div>
 
-					<div class="profile-rating" aria-label="取引評価">
-						@if (is_null($roundedRating))
-						<span class="profile-rating__empty">-</span>
-						@else
-						@for ($i = 1; $i <= 5; $i++)
-							<span class="profile-rating__star {{ $i <= $roundedRating ? 'is-active' : '' }}">★</span>
-							@endfor
-							@endif
+						<div class="profile-rating" aria-label="取引評価">
+							@if (is_null($roundedRating))
+							<span class="profile-rating__empty">-</span>
+							@else
+							@for ($i = 1; $i <= 5; $i++)
+								<span class="profile-rating__star {{ $i <= $roundedRating ? 'is-active' : '' }}">★</span>
+								@endfor
+								@endif
+						</div>
 					</div>
+
+					<a class="button button-outline profile-edit" href="{{ route('mypage.edit') }}">
+						プロフィールを編集
+					</a>
 				</div>
+			</section>
+		</div>
+	</div>
 
-				<a class="button button-outline profile-edit" href="{{ route('mypage.edit') }}">
-					プロフィールを編集
-				</a>
-			</div>
-
+	<div class="page-tabs-line">
+		<div class="layout-main">
 			<nav class="page-tabs" aria-label="表示切替（タブ）">
 				<a class="page-tab {{ $tab === 'sell' ? 'is-active' : '' }}"
 					href="{{ route('mypage.profile', ['page' => 'sell']) }}">
@@ -67,84 +73,88 @@
 					@endif
 				</a>
 			</nav>
-		</section>
+		</div>
+	</div>
 
-		<section class="page-section items">
-			@if ($tab === 'buy')
-			@if ($purchasedItems->isEmpty())
-			<p class="page-note">購入した商品はまだありません。</p>
-			@else
-			<ul class="item-grid" aria-live="polite">
-				@foreach ($purchasedItems as $item)
-				<li class="item-card">
-					<a class="item-card-link" href="{{ route('items.detail', $item) }}">
-						<div class="item-thumb">
-							<img src="{{ $item->image_url }}" alt="{{ $item->name }}">
-							@if ($item->order)
-							<span class="item-badge">SOLD</span>
-							@endif
-						</div>
-						<div class="item-body">
-							<h2 class="item-name">{{ $item->name }}</h2>
-						</div>
-					</a>
-				</li>
-				@endforeach
-			</ul>
-			@endif
-			@elseif ($tab === 'trade')
-			@if ($tradingItems->isEmpty())
-			<p class="page-note">取引中の商品はまだありません。</p>
-			@else
-			<ul class="item-grid" aria-live="polite">
-				@foreach ($tradingItems as $trade)
-				@php
-				$item = $trade->order->item;
-				$unreadCount = $user->id === $trade->buyer_id
-				? $trade->buyer_unread_count
-				: $trade->seller_unread_count;
-				@endphp
-				<li class="item-card">
-					<a class="item-card-link" href="{{ route('trades.show', ['trade' => $trade->id]) }}">
-						<div class="item-thumb">
-							<img src="{{ $item->image_url }}" alt="{{ $item->name }}">
-							@if ($unreadCount > 0)
-							<span class="item-badge item-badge--unread">{{ $unreadCount }}</span>
-							@endif
-						</div>
-						<div class="item-body">
-							<h2 class="item-name">{{ $item->name }}</h2>
-						</div>
-					</a>
-				</li>
-				@endforeach
-			</ul>
-			@endif
+	<div class="layout-main mypage-section-top">
+		<div class="mypage">
+			<section class="page-section items">
+				@if ($tab === 'buy')
+				@if ($purchasedItems->isEmpty())
+				<p class="page-note">購入した商品はまだありません。</p>
+				@else
+				<ul class="item-grid" aria-live="polite">
+					@foreach ($purchasedItems as $item)
+					<li class="item-card">
+						<a class="item-card-link" href="{{ route('items.detail', $item) }}">
+							<div class="item-thumb">
+								<img src="{{ $item->image_url }}" alt="{{ $item->name }}">
+								@if ($item->order)
+								<span class="item-badge">SOLD</span>
+								@endif
+							</div>
+							<div class="item-body">
+								<h2 class="item-name">{{ $item->name }}</h2>
+							</div>
+						</a>
+					</li>
+					@endforeach
+				</ul>
+				@endif
+				@elseif ($tab === 'trade')
+				@if ($tradingItems->isEmpty())
+				<p class="page-note">取引中の商品はまだありません。</p>
+				@else
+				<ul class="item-grid" aria-live="polite">
+					@foreach ($tradingItems as $trade)
+					@php
+					$item = $trade->order->item;
+					$unreadCount = $user->id === $trade->buyer_id
+					? $trade->buyer_unread_count
+					: $trade->seller_unread_count;
+					@endphp
+					<li class="item-card">
+						<a class="item-card-link" href="{{ route('trades.show', ['trade' => $trade->id]) }}">
+							<div class="item-thumb">
+								<img src="{{ $item->image_url }}" alt="{{ $item->name }}">
+								@if ($unreadCount > 0)
+								<span class="item-badge item-badge--unread">{{ $unreadCount }}</span>
+								@endif
+							</div>
+							<div class="item-body">
+								<h2 class="item-name">{{ $item->name }}</h2>
+							</div>
+						</a>
+					</li>
+					@endforeach
+				</ul>
+				@endif
 
-			@else
-			@if ($sellingItems->isEmpty())
-			<p class="page-note">出品した商品はまだありません。</p>
-			@else
-			<ul class="item-grid" aria-live="polite">
-				@foreach ($sellingItems as $item)
-				<li class="item-card">
-					<a class="item-card-link" href="{{ route('items.detail', $item) }}">
-						<div class="item-thumb">
-							<img src="{{ $item->image_url }}" alt="{{ $item->name }}">
-							@if ($item->order)
-							<span class="item-badge">SOLD</span>
-							@endif
-						</div>
-						<div class="item-body">
-							<h2 class="item-name">{{ $item->name }}</h2>
-						</div>
-					</a>
-				</li>
-				@endforeach
-			</ul>
-			@endif
-			@endif
-		</section>
+				@else
+				@if ($sellingItems->isEmpty())
+				<p class="page-note">出品した商品はまだありません。</p>
+				@else
+				<ul class="item-grid" aria-live="polite">
+					@foreach ($sellingItems as $item)
+					<li class="item-card">
+						<a class="item-card-link" href="{{ route('items.detail', $item) }}">
+							<div class="item-thumb">
+								<img src="{{ $item->image_url }}" alt="{{ $item->name }}">
+								@if ($item->order)
+								<span class="item-badge">SOLD</span>
+								@endif
+							</div>
+							<div class="item-body">
+								<h2 class="item-name">{{ $item->name }}</h2>
+							</div>
+						</a>
+					</li>
+					@endforeach
+				</ul>
+				@endif
+				@endif
+			</section>
+		</div>
 	</div>
 </main>
 @endsection
